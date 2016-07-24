@@ -1,0 +1,31 @@
+﻿using ExpatMig.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+
+namespace ExpatMig.Data
+{
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole,
+      int, CustomUserLogin, CustomUserRole, CustomUserClaim>
+    {
+        public ApplicationDbContext()
+            : base("DefaultConnection")
+        {
+        }
+
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+
+
+        //  *************       Dbsets  ****************
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Thread> Threads { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+
+    }
+}

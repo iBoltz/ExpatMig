@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using ExpatMig.Data;
 
 namespace ExpatMig.Models
 {
@@ -19,19 +20,7 @@ namespace ExpatMig.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole,
-    int, CustomUserLogin, CustomUserRole, CustomUserClaim>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection")
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-    }
+  
     public class CustomUserRole : IdentityUserRole<int> { }
     public class CustomUserClaim : IdentityUserClaim<int> { }
     public class CustomUserLogin : IdentityUserLogin<int> { }

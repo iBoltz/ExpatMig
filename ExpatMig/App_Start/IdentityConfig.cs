@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using ExpatMig.Models;
+using ExpatMig.Data;
 
 namespace ExpatMig
 {

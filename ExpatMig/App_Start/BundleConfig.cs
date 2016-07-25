@@ -33,7 +33,9 @@ namespace ExpatMig
                       "~/Scripts/angular-resource.js", 
                       "~/Scripts/chat/ChatApp.js",
                       "~/Scripts/chat/ChatService.js",
-                      "~/Scripts/chat/ChatController.js"
+                      "~/Scripts/chat/ChatController.js",
+                      //"~/Scripts/chat/PushServiceWorker.js",
+                      "~/Scripts/chat/ChatPush.js"
                       ));
 
 

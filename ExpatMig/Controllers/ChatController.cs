@@ -1,5 +1,6 @@
 ﻿using ExpatMig.Data;
 using ExpatMig.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ExpatMig.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         private ApplicationDbContext Db = new ApplicationDbContext();
@@ -20,6 +22,7 @@ namespace ExpatMig.Controllers
         // GET: Chat/Details/5
         public ActionResult Details()
         {
+            ViewBag.CurrentUserID = User.Identity.GetUserId();
             return View("ChatDetails");
         }
         [HttpPost]
@@ -27,7 +30,7 @@ namespace ExpatMig.Controllers
         {
             topic.ThreadID = 1;
             topic.SeqNo = 1;
-            topic.CreatedBy = 1;
+            topic.CreatedBy = User.Identity.GetUserId<int>();
             topic.CreatedDate = DateTime.Now;
             topic.ModifiedBy = 1;
             topic.ModifiedDate = DateTime.Now;

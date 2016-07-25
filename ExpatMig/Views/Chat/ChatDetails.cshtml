@@ -1,4 +1,6 @@
-﻿@model ExpatMig.Models.Topic
+﻿ 
+
+@model ExpatMig.Models.Topic
 
 @{
     ViewBag.Title = "ChatDetails";
@@ -15,15 +17,16 @@
         <h4>Topic</h4>
 
 
-        <div ng-controller="ChatController">
+        <div ng-controller="ChatController" id="divChatController">
             <ul>
                 <li ng-repeat="x in Bindable">
-                     {{x.CreatedBy}} Said   {{ x.Description }}
+                    {{x.CreatedBy}} Said   {{ x.Description }}
                 </li>
             </ul>
 
             <input type="text" ng-model="Message" value=" " />
             <input type="button" ng-click="SaveChanges()" value="Post" class="btn btn-danger" />
+            <input type="button" ng-click="ListChat()" value="Post" class="btn btn-danger" id="btnRefresh" />
 
         </div>
 
@@ -40,4 +43,11 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chatng")
 
+}
+
+@section AdditionalJS
+{
+    <script>
+        var CurrentUserID =@ViewBag.CurrentUserID;
+    </script>
 }

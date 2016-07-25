@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ExpatMig.Data;
 using ExpatMig.Models;
+using ExpatMig.Utils;
 
 namespace ExpatMig.Controllers
 {
@@ -20,7 +21,7 @@ namespace ExpatMig.Controllers
         // GET: api/Topics
         public IQueryable<Topic> GetTopics()
         {
-            
+
             return db.Topics;
         }
 
@@ -83,6 +84,17 @@ namespace ExpatMig.Controllers
 
             db.Topics.Add(topic);
             db.SaveChanges();
+
+            foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy ).Distinct())
+            {
+                if (ThatUserID == topic.CreatedBy) continue;
+                var HisDevices = db.UserDevices.Where(x => x.UserID == ThatUserID);
+
+                foreach (var EachDevice in HisDevices)
+                {
+                    PushNotificationsFacade.SendGcmBrowsers(EachDevice.ApiRegistrationID);
+                }
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = topic.TopicID }, topic);
         }

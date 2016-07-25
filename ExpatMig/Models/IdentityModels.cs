@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ExpatMig.Data;
+using System.Collections.Generic;
 
 namespace ExpatMig.Models
 {
@@ -11,6 +12,11 @@ namespace ExpatMig.Models
     public class ApplicationUser : IdentityUser<int, CustomUserLogin, CustomUserRole,
     CustomUserClaim>
     {
+        public virtual ICollection<UserDevice> MyDevices { get; set; }
+
+
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser,int> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

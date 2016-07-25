@@ -7,42 +7,29 @@
 <h2>ChatDetails</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Topic</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
- 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+
+
+        <div ng-controller="ChatController">
+            <ul>
+                <li ng-repeat="x in Bindable">
+                     {{x.CreatedBy}} Said   {{ x.Description }}
+                </li>
+            </ul>
+
+            <input type="text" ng-model="Message" value=" " />
+            <input type="button" ng-click="SaveChanges()" value="Post" class="btn btn-danger" />
+
         </div>
 
-         
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsActive)
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-  
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
+
+
 }
 
 <div>
@@ -51,4 +38,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/chatng")
+
 }

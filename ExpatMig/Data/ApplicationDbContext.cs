@@ -14,6 +14,7 @@ namespace ExpatMig.Data
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
+            Configuration.ProxyCreationEnabled = false;
         }
 
         public static ApplicationDbContext Create()

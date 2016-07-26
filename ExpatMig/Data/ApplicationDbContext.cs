@@ -28,5 +28,6 @@ namespace ExpatMig.Data
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Topic> Topics { get; set; }
 
+        public DbSet<UserDevice> UserDevices { get; set; }
     }
 }

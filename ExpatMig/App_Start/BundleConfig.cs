@@ -29,17 +29,19 @@ namespace ExpatMig
 
 
             bundles.Add(new ScriptBundle("~/bundles/chatng").Include(
-                      "~/Scripts/angular.js",
-                      "~/Scripts/angular-resource.js", 
-                      "~/Scripts/chat/ChatApp.js",
-                      "~/Scripts/chat/ChatService.js",
-                      "~/Scripts/chat/ChatController.js",
+                        "~/Scripts/Global/Utils.js",
+                        "~/Scripts/angular.js",
+                        "~/Scripts/angular-resource.js",
+                        "~/Scripts/chat/ChatScript.js",
+                        "~/Scripts/chat/ChatApp.js",
+                        "~/Scripts/chat/ChatService.js",
+                        "~/Scripts/chat/ChatController.js",
                       //"~/Scripts/chat/PushServiceWorker.js",
-                      "~/Scripts/chat/ChatPush.js"
+                        "~/Scripts/chat/ChatPush.js"
                       ));
 
 
-            
+
 
         }
     }

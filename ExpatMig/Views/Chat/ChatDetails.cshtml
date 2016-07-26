@@ -1,4 +1,4 @@
-﻿ 
+﻿
 
 @model ExpatMig.Models.Topic
 
@@ -8,36 +8,43 @@
 
 <h2>ChatDetails</h2>
 
+<div class="form-horizontal">
+    <h4>Topic</h4>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    @*<div class="btn btn-warning" id="btnTester">
+            Tester
+        </div>*@
+    <div ng-controller="ChatController" id="divChatController">
+        <ul class="list-group">
+            <li ng-repeat="x in Bindable" class="list-group-item">
+                <div class="row">
+                    <div class="col-md-10 ">
+                        <strong>{{x.UserName}}</strong>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <small>{{x.CreatedDate | date:'dd-MMM-yy HH:mm'}}</small>
+                    </div>
 
-    <div class="form-horizontal">
-        <h4>Topic</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ x.Description }}
+                    </div>
+                </div>
 
 
-        <div ng-controller="ChatController" id="divChatController">
-            <ul>
-                <li ng-repeat="x in Bindable">
-                    {{x.CreatedBy}} Said   {{ x.Description }}
-                </li>
-            </ul>
-
-            <input type="text" ng-model="Message" value=" " />
-            <input type="button" ng-click="SaveChanges()" value="Post" class="btn btn-danger" />
-            <input type="button" ng-click="ListChat()" value="Post" class="btn btn-danger" id="btnRefresh" />
+            </li>
+        </ul>
+        <div class="input-group input-group-lg ">
+            <input type="text" ng-model="Message" placeholder="type here ...." ng-keypress="OnEnterPress($event)" class="form-control" />
+            <div ng-click="SaveChanges()" class="glyphicon glyphicon-send input-group-addon"></div>
 
         </div>
-
     </div>
 
-
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -48,6 +55,8 @@
 @section AdditionalJS
 {
     <script>
-        var CurrentUserID =@ViewBag.CurrentUserID;
+        var CurrentUserID = @ViewBag.CurrentUserID;
+
+        var CurrentUserName =@Html.Raw( string.Format("\"{0}\"", User.Identity.Name)) ;
     </script>
 }

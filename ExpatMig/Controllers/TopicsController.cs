@@ -18,11 +18,41 @@ namespace ExpatMig.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Topics
-        public IQueryable<Topic> GetTopics()
+        [HttpGet, Route("api/Topics/AllTopicsForThisThread/{ThreadID}")]
+        public IQueryable AllTopicsForThisThread(int ThreadID)
         {
+            var Output = from EachTopic in db.Topics
+                         join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         select new
+                         {
+                             EachUser.UserName,
+                             EachTopic.TopicID,
+                             EachTopic.ThreadID,
+                             EachTopic.Description,
+                             EachTopic.CreatedBy,
+                             EachTopic.CreatedDate
+                         };
+            return Output;
+        }
 
-            return db.Topics;
+
+        [Route("api/Topics/GetLatest/{id}")]
+        public IQueryable GetLatest(int id)
+        {
+            var Output = from EachTopic in db.Topics
+                         join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         where EachTopic.TopicID > id
+                         select new
+                         {
+                             EachUser.UserName,
+                             EachTopic.TopicID,
+                             EachTopic.ThreadID,
+                             EachTopic.Description,
+                             EachTopic.CreatedBy,
+                             EachTopic.CreatedDate
+                         };
+
+            return Output;
         }
 
         // GET: api/Topics/5
@@ -37,6 +67,11 @@ namespace ExpatMig.Controllers
 
             return Ok(topic);
         }
+
+        // GET: api/Topics/5
+
+
+
 
         // PUT: api/Topics/5
         [ResponseType(typeof(void))]
@@ -85,7 +120,7 @@ namespace ExpatMig.Controllers
             db.Topics.Add(topic);
             db.SaveChanges();
 
-            foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy ).Distinct())
+            foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
                 if (ThatUserID == topic.CreatedBy) continue;
                 var HisDevices = db.UserDevices.Where(x => x.UserID == ThatUserID);

@@ -196,6 +196,7 @@
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Groups.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\Threads.cs" />
     <Compile Include="Models\Topics.cs" />
@@ -242,7 +243,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chat\ChatPush.js" />
-    <Content Include="Scripts\Chat\PushServiceWorker.js" />
+    <Content Include="PushServiceWorker.js" />
+    <Content Include="Scripts\Chat\ChatScript.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -262,6 +264,7 @@
     <Content Include="Scripts\Chat\ChatApp.js" />
     <Content Include="Scripts\Chat\ChatController.js" />
     <Content Include="Scripts\Chat\ChatService.js" />
+    <Content Include="Scripts\Global\Utils.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />

@@ -13,7 +13,7 @@
 
                         ChatService.GetLatest.query({ id: MaxID }, function (result) {
                             $scope.Bindable = $scope.Bindable.concat(result);
-
+                            ScrollToLastMessage();
                             console.log(result);
                             return result;
                         });
@@ -21,7 +21,9 @@
 
                     $scope.ListChat = function () {
                         $scope.Bindable = ChatService.ListChats.query({ id: 1 }, function (result) {
+
                             return result;
+
                         });
                     };
 
@@ -59,11 +61,16 @@
                         ChatService.PostChat.save(TopicToSave, function () {
 
                             $scope.Bindable.push(TopicToPush);
+                            $scope.Message = "";
+                            angular.element('#txtMessage').trigger('focus');
+                            ScrollToLastMessage();
                         })
                     };
 
-                    $scope.ListChat();
+                    /*****************direct calls********************/
 
+                    $scope.ListChat();
+                    ScrollToLastMessage();
 
 
 

@@ -1,21 +1,12 @@
-﻿
-
-@model ExpatMig.Models.Topic
+﻿@model ExpatMig.Models.Topic
 
 @{
     ViewBag.Title = "ChatDetails";
 }
 
-<h2>ChatDetails</h2>
-
-<div class="form-horizontal">
-    <h4>Topic</h4>
-
-    @*<div class="btn btn-warning" id="btnTester">
-            Tester
-        </div>*@
-    <div ng-controller="ChatController" id="divChatController">
-        <ul class="list-group">
+<div class="form-group">
+     <div ng-controller="ChatController" id="divChatController" class="ChatController">
+        <ul class="list-group" id="ChatHistory">
             <li ng-repeat="x in Bindable" class="list-group-item">
                 <div class="row">
                     <div class="col-md-10 ">
@@ -36,7 +27,7 @@
             </li>
         </ul>
         <div class="input-group input-group-lg ">
-            <input type="text" ng-model="Message" placeholder="type here ...." ng-keypress="OnEnterPress($event)" class="form-control" />
+            <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." ng-keypress="OnEnterPress($event)" class="form-control" />
             <div ng-click="SaveChanges()" class="glyphicon glyphicon-send input-group-addon"></div>
 
         </div>
@@ -44,7 +35,10 @@
 
 </div>
 
-
+@section PageSpecificStyles
+{
+    @Styles.Render("~/bundles/chatstyle")
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

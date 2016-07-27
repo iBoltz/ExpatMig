@@ -4,9 +4,9 @@
     padding-bottom: 20px;
 }
 
-html,body
+html, body
 {
-    height:100%;
+    height: 100%;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -24,17 +24,19 @@ html,body
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea
+.margin-xs-top
 {
-    max-width: 280px;
+    margin-top: 1%;
 }
 
 .margin-s
 {
     margin: 2%;
+}
+
+.margin-horz
+{
+    margin: 0 2%;
 }
 
 .margin-s-left
@@ -87,16 +89,43 @@ textarea
     float: right;
     margin-top: 4%;
 }
-.no-margin-top{
-    margin-top:0px;
+
+.no-margin-top
+{
+    margin-top: 0px;
 }
 
-.divider{
+.divider
+{
     border: 1px solid silver;
     border-left: 0px solid red;
     border-right: 0px solid red;
-     border-bottom: 0px solid red;
-
+    border-bottom: 0px solid red;
 }
 
+.def-height
+{
+    height: 100%;
+}
 
+.Chat-height
+{
+    height: 93%;
+}
+
+.Thread-height
+{
+    height: 70%;
+}
+
+.ThreadDetail-height
+{
+    overflow: auto;
+    height: 85%;
+    width: 100%;
+}
+
+.no-padding-right
+{
+    padding-right: 0px;
+}

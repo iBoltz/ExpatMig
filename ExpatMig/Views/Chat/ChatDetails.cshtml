@@ -5,10 +5,10 @@
 }
 
 
-<div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController" ng-controller="ChatController"  id="divChatController" >
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left">
+<div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" ng-controller="ChatController" id="divChatController">
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height ">
         <div class="form-inline margin-s">
-            <h3 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding">Groups </h3>
+            <h3 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">Groups </h3>
 
             <div class="dropdown pull-left dropWidth">
                 <button class="btn btn-primary dropdown-toggle def-Width" type="button" id="btnSelectedGroup" data-toggle="dropdown">
@@ -29,49 +29,104 @@
         </div>
         <hr />
 
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left Thread-height">
             <h3 class="pull-left no-margin-top">Threads</h3>
             <input type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success pull-right margin-l-bottom" />
+            <div class="ThreadDetail-height">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads">
+                    <h4> <a ng-click="getselectthhread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
 
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads">
-                <h4> <a ng-click="getselectthhread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
+
+        <div class="form-group">
+            <div class="Chat-height">
+                <ul class="list-group" id="ChatHistory">
+                    <li ng-repeat="x in Bindable" class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-10 ">
+                                <strong>{{x.UserName}}</strong>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <small>{{x.CreatedDate | date:'dd-MMM-yy HH:mm'}}</small>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ x.Description }}
+                            </div>
+                        </div>
+
+
+                    </li>
+                </ul>
+
+              
+                <div class="input-group input-group-lg margin-horz">
+                    <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="sizing-addon1" ng-keypress="OnEnterPress($event)" class="form-control" />
+                    <div ng-click="SaveChanges()" id="sizing-addon1" class="input-group-addon">
+                        <span class="glyphicon glyphicon-send"></span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="pnlNewThread" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New Thread</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline">
+                        <div class="form-group dropWidth">
+                            <input type="text" ng-model="ThreadName" placeholder="Type your new thread here.." class="form-control def-textbox pull-left" />
+                            <button type="submit" ng-click="SaveThread()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
 
-        <div class="form-group">
-            <div>
-                <ul class="list-group" id="ChatHistory">
-            <li ng-repeat="x in Bindable" class="list-group-item">
-                <div class="row">
-                    <div class="col-md-10 ">
-                        <strong>{{x.UserName}}</strong>
-                    </div>
-                    <div class="col-md-2 text-right">
-                        <small>{{x.CreatedDate | date:'dd-MMM-yy HH:mm'}}</small>
+    <div id="pnlNewGroup" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New Group</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline">
+                        <div class="form-group dropWidth">
+
+                            <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here" ng-model="GroupName" />
+                            <button type="submit" ng-click="SaveGroup()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
+                        </div>
+
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        {{ x.Description }}
-                    </div>
-                </div>
 
-
-            </li>
-        </ul>
-        <div class="input-group input-group-lg ">
-                    <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." ng-keypress="OnEnterPress($event)" class="form-control" />
-            <div ng-click="SaveChanges()" class="glyphicon glyphicon-send input-group-addon"></div>
+            </div>
 
         </div>
-    </div>
-
-</div>
     </div>
 </div>
 

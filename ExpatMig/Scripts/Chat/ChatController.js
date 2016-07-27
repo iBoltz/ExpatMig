@@ -20,8 +20,8 @@
                             return result;
                         });
                     };
-                    $scope.ListChat = function () {
-                        $scope.Bindable = ChatService.ListChats.query({ id: 1 }, function (result) {
+                    $scope.ListChat = function (SelectedThreadID) {
+                        $scope.Bindable = ChatService.ListChats.query({ id: SelectedThreadID }, function (result) {
                             ScrollToLastMessage();
                             return result;
 
@@ -32,12 +32,14 @@
                     });
                     $scope.getselectgroup = function (SelectedGroup) {
                         $scope.SelectedGroup = SelectedGroup.Description;
-                        $scope.AllThreads = ChatService.GetThreads.query({ id: SelectedGroup.GroupID }, function (result) {
+                        $scope.SelectedGroupID = SelectedGroup.GroupID;
+                        $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID }, function (result) {
                             return result;
                         });
                     }
                     $scope.getselectthhread = function (SelectedID) {
                         $scope.SelectedThreadID = SelectedID;
+                        $scope.ListChat(SelectedID);
                     }
  
                     /*****************  Save routines   ********************/
@@ -53,16 +55,17 @@
 
                         }
                         ChatService.PostThread.save(ThreadToSave, function () {
-                            //alert('Saved!');
-
-                            $scope.AllThreads.push(ThreadToSave);
+                            $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID }, function (result) {
+                                return result;
+                            });
+                          //  $scope.AllThreads.push(ThreadToSave);
                         })
                     };
                     $scope.SaveChanges = function () {
-
+                        if ($scope.SelectedThreadID == null){return}
                         var TopicToSave = {
                             "TopicID": 2,
-                            "ThreadID": 1,
+                            "ThreadID": $scope.SelectedThreadID,
                             "Description": $scope.Message,
                             "Slug": null, "IsActive": true,
                             "SeqNo": 1, "CreatedBy": CurrentUserID,
@@ -99,17 +102,18 @@
 
                         }
                         ChatService.PostGroup.save(GroupToSave, function () {
-                            //alert('Saved!');
-
-                            $scope.AllGroups.push(GroupToSave);
+                            $scope.AllGroups = ChatService.ListGroups.query(function (result) {
+                                return result;
+                            });
+                          //  $scope.AllGroups.push(GroupToSave);
                         })
                     };
 
                     /*****************  direct calls  ********************/
                     
 
-                    console.log('Call ListChat');
-                    $scope.ListChat();
+                  ///  console.log('Call ListChat');
+                   // $scope.ListChat();
                 }
                 catch (ex) {
                     console.log("ChatController", ex);

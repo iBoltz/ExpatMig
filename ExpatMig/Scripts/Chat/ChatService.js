@@ -4,7 +4,8 @@
     angular.module('xMigApp').
         factory('ChatService', ['$resource', '$cacheFactory', function ($resource, $cacheFactory) {
             return {
-                ListChats: $resource('/api/topics/:id'),
+                ListChats: $resource('/api/topics/AllTopicsForThisThread/:id'),
+                GetLatest: $resource('/api/topics/getlatest/:id'),
                 PostChat: $resource('/api/topics'),
                 GetThreads: $resource('/api/Threads/GetThreadsByGroupID/:id'),
                 PostThread: $resource('/api/Threads'),

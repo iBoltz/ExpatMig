@@ -1,0 +1,12 @@
+﻿.container{
+    height:90%;
+}
+.form-group, .ChatController 
+{
+    height:95%;
+}
+
+.list-group{
+    height:95%;
+    overflow:auto;
+}

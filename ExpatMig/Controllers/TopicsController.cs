@@ -23,6 +23,7 @@ namespace ExpatMig.Controllers
         {
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         where EachTopic.ThreadID == ThreadID
                          select new
                          {
                              EachUser.UserName,

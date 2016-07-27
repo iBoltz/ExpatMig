@@ -17,7 +17,7 @@
     <AssemblyName>ExpatMig</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -208,6 +208,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Chat.css" />
     <Content Include="Docs\AndroidFCM.txt" />
     <Content Include="Docs\WebFCM.txt" />
     <Content Include="favicon.ico" />
@@ -1088,7 +1089,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58596</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58596/</IISUrl>
+          <IISUrl>http://192.168.1.105:4004/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

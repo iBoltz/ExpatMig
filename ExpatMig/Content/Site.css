@@ -61,7 +61,7 @@ html, body
 
 .border-silver
 {
-    border: 1px solid Silver;
+    border: 1px solid rgba(237, 237, 237, 1);
 }
 
 .def-textbox
@@ -128,4 +128,8 @@ html, body
 .no-padding-right
 {
     padding-right: 0px;
+}
+.Bg-silver{
+    border-right: 1px solid rgba(237, 237, 237, 1);
+    background: rgba(237, 237, 237, 0.3);
 }

@@ -48,6 +48,15 @@
                     }
 
                     $scope.SaveThread = function () {
+                        if ($scope.SelectedGroupID == undefined) {
+                            alert('Please select group first');
+                            return;
+                        }
+                        if ($scope.ThreadName == undefined) {
+                            alert('Please type new thread name!!');
+                            return;
+                        }
+
                         var ThreadToSave = {
                             "GroupID": $scope.SelectedGroupID,
                             "Description": $scope.ThreadName,
@@ -62,6 +71,10 @@
                         })
                     };
                     $scope.SaveChanges = function () {
+                        if ($scope.Message == undefined) {
+                            alert('Type your message !!');
+                            return;
+                        }
                         if ($scope.SelectedThreadID == null){return}
                         var TopicToSave = {
                             "TopicID": 2,
@@ -96,6 +109,10 @@
                         })
                     };
                     $scope.SaveGroup = function () {
+                        if ($scope.GroupName == undefined) {
+                            alert('Please type new group name!!');
+                            return;
+                        }
                         var GroupToSave = {
                             "Description": $scope.GroupName,
                             "Slug": null, "IsActive": true, "SeqNo": 1, "CreatedBy": 1, "CreatedDate": "2016-07-25T12:48:59.607", "ModifiedBy": 1, "ModifiedDate": "2016-07-25T12:48:59.607", "MyThread": null

@@ -6,7 +6,7 @@
 
 
 <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" ng-controller="ChatController" id="divChatController">
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height ">
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
             <h3 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">Groups </h3>
 
@@ -23,15 +23,19 @@
 
                 </ul>
             </div>
-            <input type="button" value=" + " data-toggle="modal" data-target="#pnlNewGroup" class="btn btn-info margin-s-left" />
-
+            <button type="button"  data-toggle="modal" data-target="#pnlNewGroup" class="btn btn-info margin-s-left" >
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+           
 
         </div>
         <hr />
 
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left Thread-height">
             <h3 class="pull-left no-margin-top">Threads</h3>
-            <input type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success pull-right margin-l-bottom" />
+            <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success pull-right margin-l-bottom">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
             <div class="ThreadDetail-height">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads">
                     <h4> <a ng-click="getselectthhread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
@@ -89,7 +93,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-inline">
-                        <div class="form-group dropWidth">
+                        <div class="form-group def-Width">
                             <input type="text" ng-model="ThreadName" placeholder="Type your new thread here.." class="form-control def-textbox pull-left" />
                             <button type="submit" ng-click="SaveThread()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>
@@ -114,9 +118,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-inline">
-                        <div class="form-group dropWidth">
+                        <div class="form-group def-Width">
 
                             <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here" ng-model="GroupName" />
+                            
                             <button type="submit" ng-click="SaveGroup()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>
 

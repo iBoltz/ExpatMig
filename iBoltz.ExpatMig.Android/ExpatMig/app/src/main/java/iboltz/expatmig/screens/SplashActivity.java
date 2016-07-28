@@ -2,6 +2,7 @@ package iboltz.expatmig.screens;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +46,20 @@ public class SplashActivity extends BaseActivity
         if (CheckAlreadyLoggedIn()) {
             GcmManager gcmManager = new GcmManager((Activity) CurrentContext);
             gcmManager.registerGCM();
+            RedirectToChat();
         }
+    }
+
+    private void RedirectToChat() {
+        try {
+            Intent myIntent = new Intent(getApplicationContext(),
+                    ChatActivity.class);
+
+            startActivity(myIntent);
+        } catch (Exception ex) {
+            LogHelper.HandleException(ex);
+        }
+
     }
 
     private boolean CheckAlreadyLoggedIn() {

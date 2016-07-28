@@ -61,6 +61,10 @@ public class ChatActivity extends BaseActivity {
     }
     private void InitControls() {
         try {
+
+            AppCache.CachedTopics= new ArrayList<TopicsModel>();
+
+
             lvChat = (ListView) findViewById(R.id.lvChat);
             btnSend = (Button) findViewById(R.id.btnSend);
             btnRefresh=(Button) findViewById(R.id.btnRefresh);

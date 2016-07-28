@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import iboltz.expatmig.utils.AppConstants;
+import iboltz.expatmig.utils.UiUtils;
 
 public class GcmNotificationIntentService extends IntentService {
 
@@ -96,13 +97,19 @@ public class GcmNotificationIntentService extends IntentService {
     public void sendNotification(String msg) {
         try {
 
-            java.lang.reflect.Type DataType = (java.lang.reflect.Type) (new TypeToken<NotificationModel>() {
-            }).getType();
 
-            NotificationModel Recvd = new Gson().fromJson(msg,
-                    (java.lang.reflect.Type) DataType);
+            Log.d("MyApp", "Notification - " + msg);
 
-            Log.d("MyApp", "NotificationType" + Recvd.NotificationType);
+//            java.lang.reflect.Type DataType = (java.lang.reflect.Type) (new TypeToken<NotificationModel>() {
+//            }).getType();
+
+
+
+
+//            NotificationModel Recvd = new Gson().fromJson(msg,
+//                    (java.lang.reflect.Type) DataType);
+//
+//            Log.d("MyApp", "NotificationType" + Recvd.NotificationType);
 
 //            switch (Recvd.NotificationType) {
 //                case "Promotions":

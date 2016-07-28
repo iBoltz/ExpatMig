@@ -1,0 +1,66 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <dimen name="small_text_size">5sp</dimen>
+    <dimen name="low_text_size">7sp</dimen>
+    <dimen name="med_text_size">8sp</dimen>
+    <dimen name="default_text_size">9sp</dimen>
+    <dimen name="extra_large_text_size">32sp</dimen>
+    <dimen name="header_text_size">16sp</dimen>
+    <dimen name="dish_text_size">10sp</dimen>
+    <dimen name="cat_text_size">10sp</dimen>
+
+
+
+    <!-- Button Sizes. -->
+
+    <dimen name="order_button_size">60dp</dimen>
+
+    <!--        SmartDineIn Patches          -->
+
+    <dimen name="modifier_hoz_list_height">60dp</dimen>
+    <dimen name="waiter_hoz_list_height">70dp</dimen>
+
+    <!--        iBoltz Text Dimensions          -->
+    <dimen name="text_size_xxs">10sp</dimen>
+    <dimen name="text_size_xs">12sp</dimen>
+    <dimen name="text_size_s">14sp</dimen>
+    <dimen name="text_size_m">20sp</dimen>
+    <dimen name="text_size_l">24sp</dimen>
+    <dimen name="text_size_xl">32sp</dimen>
+    <dimen name="text_size_xxl">48sp</dimen>
+
+
+    <!--        iBoltz Ui Element Custom Height And Widths          -->
+    <dimen name="height_table_item">100dp</dimen>
+
+    <dimen name="padding_s">5dp</dimen>
+    <dimen name="padding_m">10dp</dimen>
+    <dimen name="padding_l">20dp</dimen>
+    <dimen name="padding_checkbox">40dp</dimen>
+
+
+
+
+    <dimen name="margin_s">5dp</dimen>
+    <dimen name="margin_m">10dp</dimen>
+    <dimen name="margin_l">20dp</dimen>
+    <dimen name="margin_xl">25dp</dimen>
+
+
+    <dimen name="circle_size">60dp</dimen>
+    <dimen name="circle_size_s">50dp</dimen>
+
+    <dimen name = "Header_Width_m">200dp</dimen>
+    <dimen name = "Header_Width_s">100dp</dimen>
+    <dimen name = "Header_Width_l">250dp</dimen>
+
+    <dimen name = "Icon_Margin">15dp</dimen>
+    <dimen name = "Icon_Size">35sp</dimen>
+    <dimen name = "Ellip_Size_width_s">50sp</dimen>
+    <dimen name = "Ellip_Size_width_m">75sp</dimen>
+    <dimen name = "Ellip_Size_width_l">100sp</dimen>
+</resources>

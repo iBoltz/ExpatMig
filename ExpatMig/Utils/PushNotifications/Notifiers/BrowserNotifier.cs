@@ -6,11 +6,11 @@ using System.Net;
 using System.Text;
 using System.Web;
 
-namespace ExpatMig.Utils
+namespace ExpatMig.Utils.PushNotifications.Notifiers
 {
-    public class PushNotificationsFacade
+    public class BrowserNotifier : INotifier
     {
-        public static string SendGcmBrowsers(String ApiRegistrationID)
+        public void SendNotifications(string ApiRegistrationID, string SenderID, string Message)
         {
             var sResponseFromServer = "";
 
@@ -37,7 +37,7 @@ namespace ExpatMig.Utils
             dataStream.Close();
             tResponse.Close();
 
-            return sResponseFromServer;
+            //return sResponseFromServer;
         }
     }
 }

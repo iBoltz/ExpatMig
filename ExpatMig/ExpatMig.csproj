@@ -194,8 +194,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\UserDevices.cs" />
-    <Compile Include="Utils\PushNotificationsFacade.cs" />
+    <Compile Include="Utils\AppConstants.cs" />
+    <Compile Include="Utils\PushNotifications\AppConstants.cs" />
+    <Compile Include="Utils\PushNotifications\INotifier.cs" />
+    <Compile Include="Utils\PushNotifications\Notifiers\AndroidNotifier.cs" />
+    <Compile Include="Utils\PushNotifications\Notifiers\BrowserNotifier.cs" />
+    <Compile Include="Utils\PushNotifications\PushNotificationsFacade.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Groups.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -1086,7 +1092,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4501</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

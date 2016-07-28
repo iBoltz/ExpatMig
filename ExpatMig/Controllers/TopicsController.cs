@@ -11,6 +11,8 @@ using System.Web.Http.Description;
 using ExpatMig.Data;
 using ExpatMig.Models;
 using ExpatMig.Utils;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace ExpatMig.Controllers
 {
@@ -121,6 +123,9 @@ namespace ExpatMig.Controllers
             db.Topics.Add(topic);
             db.SaveChanges();
 
+          
+            var Message = new JavaScriptSerializer().Serialize(topic);
+
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
                 if (ThatUserID == topic.CreatedBy) continue;
@@ -128,7 +133,7 @@ namespace ExpatMig.Controllers
 
                 foreach (var EachDevice in HisDevices)
                 {
-                    PushNotificationsFacade.SendGcmBrowsers(EachDevice.ApiRegistrationID);
+                    PushNotificationsFacade.SendNotification(EachDevice, Message);
                 }
             }
 

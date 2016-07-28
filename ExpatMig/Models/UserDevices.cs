@@ -13,6 +13,8 @@ namespace ExpatMig.Models
         public int UserID { get; set; }
         public string ApiRegistrationID { get; set; }
         public string DeviceID { get; set; }
+        public int DeviceTypeID { get; set; }
+
         public string AppVersion { get; set; }
 
         public bool IsActive { get; set; }
@@ -23,6 +25,7 @@ namespace ExpatMig.Models
         public DateTime? ModifiedDate { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+        public virtual DeviceType MyDeviceType { get; set; }
 
 
     }

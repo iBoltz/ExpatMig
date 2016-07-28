@@ -6,7 +6,8 @@
     height:95%;
 }
 
-.list-group{
+.listgroup{
     height:95%;
     overflow:auto;
+    padding-left:0%;
 }

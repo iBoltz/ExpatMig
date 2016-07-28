@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import iboltz.expatmig.models.LocalCache;
+import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.models.UserRolesModel;
 import iboltz.expatmig.models.UsersModel;
 import iboltz.expatmig.utils.DateUtils;
@@ -30,6 +31,7 @@ public class AppCache {
     public static long SleepValue = 0;
     public static String AccessToken;
     public static List<LocalCache> Cached;
+    public static ArrayList<TopicsModel> CachedTopics;
 
     public static Typeface LinearIcons = null;
     public static Typeface IonIcons = null;
@@ -56,6 +58,7 @@ public class AppCache {
     public static String HostPhoneNo = "";
     public static Integer ScreenWidth;
     public static Integer ScreenHeight;
+
 
 
     /*****************************  Start App Specific Cache    **********************************/

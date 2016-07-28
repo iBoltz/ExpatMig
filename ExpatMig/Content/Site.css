@@ -28,6 +28,10 @@ html, body
 {
     margin-top: 1%;
 }
+.margin-s-top
+{
+    margin-top:2.3%;
+}
 
 .margin-s
 {
@@ -115,13 +119,13 @@ html, body
 
 .Thread-height
 {
-    height: 70%;
+    height: 72%;
 }
 
 .ThreadDetail-height
 {
     overflow: auto;
-    height: 85%;
+    height: 92%;
     width: 100%;
 }
 
@@ -132,4 +136,25 @@ html, body
 .Bg-silver{
     border-right: 1px solid rgba(237, 237, 237, 1);
     background: rgba(237, 237, 237, 0.3);
+}
+.margin-s-hoz
+{
+    margin:0% 2%;
+}
+.no-margin-bottom
+{
+    margin-bottom:0px!important;
+}
+
+.header2
+{
+    font-size: 2em;
+}
+.fontcolor-orange
+{
+    color:orangered;
+}
+.txtbox-default-width
+{
+    width:94% !important;
 }

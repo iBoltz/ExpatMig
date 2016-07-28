@@ -31,12 +31,12 @@
         </div>
         <hr />
 
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left Thread-height">
-            <h3 class="pull-left no-margin-top">Threads</h3>
-            <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success pull-right margin-l-bottom">
+        <div class="Thread-height form-inline margin-s ">
+            <h3 class="pull-left no-margin-top dropWidth">Threads</h3>
+            <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success margin-s-left">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
-            <div class="ThreadDetail-height">
+            <div class="ThreadDetail-height  margin-s-top">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads">
                     <h4> <a ng-click="getselectthhread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
 
@@ -46,9 +46,9 @@
     </div>
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
-        <div class="form-group">
+     
             <div class="Chat-height">
-                <ul class="list-group" id="ChatHistory">
+                <ul class="listgroup"  id="ChatHistory">
                     <li ng-repeat="x in Bindable" class="list-group-item">
                         <!--    bindable -->
                         <div class="row">
@@ -70,17 +70,18 @@
                     </li>
                 </ul>
 
-              
-                <div class="input-group input-group-lg margin-horz">
+       
+                <div class="input-group margin-s clear-padding ">
                     <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="sizing-addon1" ng-keypress="OnEnterPress($event)" class="form-control" />
-                    <div ng-click="SaveChanges()" id="sizing-addon1" class="input-group-addon">
-                        <span class="glyphicon glyphicon-send"></span>
+                    <div class="input-group-btn">
+                        <div ng-click="SaveChanges()" id="sizing-addon1" class="btn btn-success">
+                            <span class="glyphicon glyphicon-send "></span>
+                     </div>
                     </div>
-
                 </div>
             </div>
-
-        </div>
+       
+     
     </div>
 
     <div id="pnlNewThread" class="modal fade" role="dialog">

@@ -39,7 +39,7 @@ namespace ExpatMig.Controllers
         }
 
 
-        [Route("api/Topics/GetLatest/{id}")]
+        [HttpGet, Route("api/Topics/GetLatest/{id}")]
         public IQueryable GetLatest(int id)
         {
             var Output = from EachTopic in db.Topics

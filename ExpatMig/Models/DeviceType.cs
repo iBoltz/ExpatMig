@@ -1,21 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace ExpatMig.Models
 {
-    public class UserDevice
+    public class DeviceType
     {
         [Key]
-        public int UserDeviceID { get; set; }
-        public int UserID { get; set; }
-        public string ApiRegistrationID { get; set; }
-        public string DeviceID { get; set; }
         public int DeviceTypeID { get; set; }
-
-        public string AppVersion { get; set; }
+        public string Description { get; set; }
 
         public bool IsActive { get; set; }
         public int SeqNo { get; set; }
@@ -24,9 +18,7 @@ namespace ExpatMig.Models
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
-        public virtual DeviceType MyDeviceType { get; set; }
-
+        public virtual ICollection<UserDevice> UserDevices { get; set; }
 
     }
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import iboltz.expatmig.R;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.models.TopicsModel;
+import iboltz.expatmig.utils.DateUtils;
 
 /**
  * Created by ucfpriya on 26-07-2016.
@@ -51,8 +52,22 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel>
             TopicsModel item = values.get(position);
             TextView lblRightSideMsg = (TextView) rowView
                     .findViewById(R.id.lblRightSideMsg);
+            TextView lblUserName = (TextView) rowView
+                    .findViewById(R.id.lblUserName);
+            TextView lblCreatedDate = (TextView) rowView
+                    .findViewById(R.id.lblCreatedDate);
+
+
             lblRightSideMsg.setText(item.Description);
             lblRightSideMsg.setTypeface(AppCache.FontQuickRegular);
+
+            lblUserName.setText(item.UserName);
+            lblUserName.setTypeface(AppCache.FontQuickRegular);
+
+            lblCreatedDate.setText(DateUtils.DisplayDate( item.CreatedDate));
+            lblCreatedDate.setTypeface(AppCache.FontQuickRegular);
+
+
             return rowView;
         } catch (Exception ex)
         {

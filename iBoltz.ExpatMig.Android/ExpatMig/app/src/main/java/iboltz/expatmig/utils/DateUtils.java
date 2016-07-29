@@ -98,7 +98,7 @@ public class DateUtils {
     public static String DisplayDate(Date InputDate) {
         try
         {
-            return AppConstants.StandardDateFormat
+            return AppConstants.DisplayDateFormat
                     .format(InputDate);
         }
         catch(Exception ex)
@@ -118,7 +118,7 @@ public class DateUtils {
         }
         if (ParsedDate == null) return "";
 
-        return AppConstants.StandardDateFormat
+        return AppConstants.DisplayDateFormat
                 .format(ParsedDate);
     }
 }

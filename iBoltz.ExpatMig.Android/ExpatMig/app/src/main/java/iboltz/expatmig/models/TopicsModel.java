@@ -15,6 +15,6 @@ public class TopicsModel {
     public String CreatedDate;
     public int ModifiedBy;
     public String ModifiedDate;
-
+    public String UserName;
 }
 

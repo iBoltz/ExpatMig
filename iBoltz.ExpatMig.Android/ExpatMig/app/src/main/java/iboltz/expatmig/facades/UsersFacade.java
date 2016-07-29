@@ -267,6 +267,7 @@ public class UsersFacade {
             UserDevicesModel CurrentUserDevice = new UserDevicesModel();
             CurrentUserDevice.UserID=AppCache.HisUserID;
             CurrentUserDevice.DeviceID = AppCache.DeviceId;
+            CurrentUserDevice.DeviceTypeID=1;//1:android
             CurrentUserDevice.ApiRegistrationID = RegID;
             CurrentUserDevice.AppVersion = AppCache.AppCurrentVersion;
             CurrentUserDevice.CreatedBy = AppCache.HisUserID;

@@ -6,8 +6,8 @@ public class AppConstants {
     public static final String APPId = "df4c4287b57f4e1ab7920ca85a106498";
 
     public static final String PrefsStorage = "SDPrefs";
-    public static final String GcmProjectID = "335335578624";
-    public static final String GcmApiKey = "AIzaSyCUTgeDP15tNKtvbI04uo2bNK1BGG2E7mw";
+    public static final String GcmProjectID = "1036409930929";
+    public static final String GcmApiKey = "AIzaSyCZ0J-1Kq2uQYBFejXkQnC-x2bc05WSdsg";
 
     public static final String MessageKey = "message";
 
@@ -16,7 +16,8 @@ public class AppConstants {
             "dd-MMM-yyyy hh:mm aa");
     public static final SimpleDateFormat JsonDateFormat = new SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss");
-
+    public static final SimpleDateFormat DisplayDateFormat = new SimpleDateFormat(
+            "dd-MMM-yy HH:mm");
 
     public enum LocalCacheType {
         Tables(0),

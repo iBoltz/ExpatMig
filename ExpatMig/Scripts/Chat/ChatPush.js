@@ -23,6 +23,7 @@
 function RegisterForPushInServer(DeviceID) {
     var ThisDevice = {
         "UserID": CurrentUserID,
+        "DeviceTypeID":2,//means chrome browser
         "ApiRegistrationID": DeviceID,
         "IsActive": true, "SeqNo": 1, "CreatedBy": CurrentUserID
     };

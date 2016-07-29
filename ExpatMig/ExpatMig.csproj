@@ -197,7 +197,6 @@
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\UserDevices.cs" />
     <Compile Include="Utils\AppConstants.cs" />
-    <Compile Include="Utils\PushNotifications\AppConstants.cs" />
     <Compile Include="Utils\PushNotifications\INotifier.cs" />
     <Compile Include="Utils\PushNotifications\Notifiers\AndroidNotifier.cs" />
     <Compile Include="Utils\PushNotifications\Notifiers\BrowserNotifier.cs" />
@@ -223,6 +222,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\Logo.png" />
+    <Compile Include="Models\NotificationsModel.cs" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />

@@ -112,7 +112,7 @@ public class GcmNotificationIntentService extends IntentService {
             Log.d("MyApp", "NotificationType" + Recvd.NotificationType);
 
             switch (Recvd.NotificationType) {
-                case "Chat":
+                case "topics":
                     ChatNotification(Recvd.NotificationData);
                     break;
 

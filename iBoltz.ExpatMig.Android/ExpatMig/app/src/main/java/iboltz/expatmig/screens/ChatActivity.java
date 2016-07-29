@@ -27,7 +27,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     ListView lvChat;
     EditText txtMsg;
     Button btnSend;
-    Button btnRefresh;
+//    Button btnRefresh;
     ChatMessageAdapter chatMessageAdapter;
     ArrayList<TopicsModel> topic=new ArrayList<TopicsModel>();
     public static Activity CurrentInstance;
@@ -89,10 +89,10 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
             lvChat = (ListView) findViewById(R.id.lvChat);
             btnSend = (Button) findViewById(R.id.btnSend);
-            btnRefresh=(Button) findViewById(R.id.btnRefresh);
+//            btnRefresh=(Button) findViewById(R.id.btnRefresh);
 
             btnSend.setTypeface(AppCache.LinearIcons);
-            btnRefresh.setTypeface(AppCache.LinearIcons);
+//            btnRefresh.setTypeface(AppCache.LinearIcons);
 
             txtMsg = (EditText) findViewById(R.id.txtMsg);
             if(AppCache.CachedTopics!=null)
@@ -109,13 +109,13 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     {
         try
         {
-            btnRefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FetchTopicsFromServer();
-                    LoadTopics();
-                }
-            });
+//            btnRefresh.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    FetchTopicsFromServer();
+//                    LoadTopics();
+//                }
+//            });
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,11 +140,21 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         try {
             chatMessageAdapter = new ChatMessageAdapter(this, AppCache.CachedTopics);
             lvChat.setAdapter(chatMessageAdapter);
+            scrollMyListViewToBottom();
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
+    }
+    private void scrollMyListViewToBottom() {
+        lvChat.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                lvChat.setSelection(chatMessageAdapter.getCount() - 1);
+            }
+        });
     }
     private  TopicsModel FillTopic(String TopicsMessage)
     {

@@ -2,6 +2,7 @@ package iboltz.expatmig.gcmutils;
 
 import iboltz.expatmig.R;
 import iboltz.expatmig.models.NotificationModel;
+import iboltz.expatmig.screens.ChatActivity;
 import iboltz.expatmig.utils.LogHelper;
 
 import android.app.IntentService;
@@ -53,17 +54,17 @@ public class GcmNotificationIntentService extends IntentService {
             if (!extras.isEmpty()) {
                 if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR
                         .equals(messageType)) {
-                    sendNotification("Send error: " + extras.toString());
+                    GetNotification("Send error: " + extras.toString());
                 } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED
                         .equals(messageType)) {
-                    sendNotification("Deleted messages on server: "
+                    GetNotification("Deleted messages on server: "
                             + extras.toString());
                 } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
                         .equals(messageType)) {
                     Object Message = extras.get(AppConstants.MessageKey);
                     if (Message != null) {
                         String MyMessage = Message.toString();
-                        sendNotification(MyMessage);
+                        GetNotification(MyMessage);
                     }
                 }
             }
@@ -94,46 +95,28 @@ public class GcmNotificationIntentService extends IntentService {
     }
 
 
-    public void sendNotification(String msg) {
+    public void GetNotification(String msg) {
         try {
 
 
             Log.d("MyApp", "Notification - " + msg);
 
-//            java.lang.reflect.Type DataType = (java.lang.reflect.Type) (new TypeToken<NotificationModel>() {
-//            }).getType();
+           java.lang.reflect.Type DataType = (java.lang.reflect.Type) (new TypeToken<NotificationModel>() {
+
+           }).getType();
 
 
-
-
-//            NotificationModel Recvd = new Gson().fromJson(msg,
-//                    (java.lang.reflect.Type) DataType);
+            NotificationModel Recvd = new Gson().fromJson(msg,
+                   (java.lang.reflect.Type) DataType);
 //
-//            Log.d("MyApp", "NotificationType" + Recvd.NotificationType);
+            Log.d("MyApp", "NotificationType" + Recvd.NotificationType);
 
-//            switch (Recvd.NotificationType) {
-//                case "Promotions":
-//                    SendPromotionNotification(Recvd.NotificationData);
-//                    break;
-//                case "Orders":
-//                    SendOrderNotification(Recvd.NotificationData);
-//                    break;
-//                case "Ack":
-//                    SendDinnerNotification(Recvd.NotificationData);
-//                    break;
-//                case "Kitchen":
-//                    SendKitchenNotification(Recvd.NotificationData);
-//                    break;
-//                case "RTS":
-//                    SendRTSNotification(Recvd.NotificationData);
-//                    break;
-//                case "Bill":
-//                    SendBillNotification(Recvd.NotificationData);
-//                    break;
-//                case "HandShake":
-//                    HandShakeGCM(Recvd.NotificationData);
-//                    break;
-//            }
+            switch (Recvd.NotificationType) {
+                case "Chat":
+                    ChatNotification(Recvd.NotificationData);
+                    break;
+
+            }
 
             PlayRingTone();
         } catch (Exception ex) {
@@ -142,5 +125,45 @@ public class GcmNotificationIntentService extends IntentService {
 
         }
     }
+    private void ChatNotification(String Message) {
+        try {
+            mNotificationManager = (NotificationManager) this
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
+
+            Intent NotificationIndent = new Intent(this, ChatActivity.class);
+            NotificationIndent.putExtra("Chat", Message);
+
+            if (ChatActivity.IsRunningNow) {
+                iPostStatus Poster = (iPostStatus) ChatActivity.CurrentInstance;
+                if (Poster != null)
+                    ChatActivity.NotificationMessage = Message;
+                Poster.PostStatusToOrder(null, null, null);
+            } else {
+                /// Skip when other screens open
+            }
+
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                    NotificationIndent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                    this)
+                    .setSmallIcon(R.drawable.iboltzlogo)
+                    .setContentTitle("Chat: New Message")
+                    .setStyle(
+                            new NotificationCompat.BigTextStyle().bigText(Message))
+                    .setContentText(Message);
+
+            mBuilder.setContentIntent(contentIntent);
+            Notification ThatNotification = mBuilder.build();
+//            ThatNotification.sound = Uri.parse("file:///sdcard/notification/ringer.mp3");
+            ThatNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+            mNotificationManager.notify(NOTIFICATION_ID, ThatNotification);
+
+        } catch (Exception ex) {
+            LogHelper.HandleException(ex);
+        }
+
+    }
+
 
 }

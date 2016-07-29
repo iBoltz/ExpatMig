@@ -1,5 +1,6 @@
 package iboltz.expatmig.screens;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -22,17 +23,38 @@ import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
 
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
     ListView lvChat;
     EditText txtMsg;
     Button btnSend;
     Button btnRefresh;
     ChatMessageAdapter chatMessageAdapter;
     ArrayList<TopicsModel> topic=new ArrayList<TopicsModel>();
+    public static Activity CurrentInstance;
+    public static boolean IsRunningNow = false;
+    public static String NotificationMessage = "";
+    @Override
+    public void PostStatusToOrder(Integer OrderID, Integer OrderDetailID, Integer StatusID) {
+
+        FetchTopicsFromServer();
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        IsRunningNow = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        IsRunningNow = false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        CurrentInstance = this;
         InitControls();
         ButtonListener();
         FetchTopicsFromServer();

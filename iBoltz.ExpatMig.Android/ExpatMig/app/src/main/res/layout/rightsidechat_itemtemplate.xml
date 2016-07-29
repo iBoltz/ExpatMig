@@ -8,8 +8,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="0dp"
@@ -39,7 +38,6 @@
         android:layout_gravity="right"
         android:text="Hopefully you are fine to see you in the tea break."
         android:padding="@dimen/padding_m"
-        android:layout_margin="@dimen/margin_s"
         android:textColor="#000"
         android:textSize="@dimen/text_size_s" />
 

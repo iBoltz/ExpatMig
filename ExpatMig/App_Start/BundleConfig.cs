@@ -30,17 +30,20 @@ namespace ExpatMig
 
             bundles.Add(new StyleBundle("~/bundles/chatstyle").Include(
                       "~/Content/Chat.css"));
-            
+
 
             bundles.Add(new ScriptBundle("~/bundles/chatng").Include(
                         "~/Scripts/Global/Utils.js",
+                        "~/Scripts/Global/iBoltz.ColorGen.js",
                         "~/Scripts/angular.js",
                         "~/Scripts/angular-resource.js",
                         "~/Scripts/chat/ChatScript.js",
                         "~/Scripts/chat/ChatApp.js",
                         "~/Scripts/chat/ChatService.js",
                         "~/Scripts/chat/ChatController.js",
-                      //"~/Scripts/chat/PushServiceWorker.js",
+                        "~/Scripts/UserProfile/UserProfileService.js",
+                        "~/Scripts/UserProfile/UserProfileController.js",
+                        "~/Scripts/chat/PushServiceWorker.js",
                         "~/Scripts/chat/ChatPush.js"
                       ));
 

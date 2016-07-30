@@ -4,8 +4,8 @@
     ViewBag.Title = "ChatDetails";
 }
 
-
-<div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" ng-controller="ChatController" id="divChatController">
+<!--    Chat Controller    -->
+<div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" >
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
             <h3 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">Groups </h3>
@@ -53,10 +53,10 @@
                         <!--    bindable -->
                         <div class="row">
                             <div class="col-md-10 ">
-                                <strong>{{x.UserName}}</strong>
+                                <span data-toggle="modal" data-target="#divUserProfiler" style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> <strong>{{x.UserName}}</strong></span>
                             </div>
                             <div class="col-md-2 text-right">
-                                <small>{{x.CreatedDate | date:'dd-MMM-yy HH:mm'}}</small>
+                                <small>{{x.CreatedDateString}}</small>
                             </div>
 
                         </div>
@@ -135,6 +135,35 @@
 
         </div>
     </div>
+</div>
+
+<!--    UserProfile Controller    -->
+<div id="divUserProfiler" ng-controller="UserProfileController"  class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">User Profile</h4>
+      </div>
+      <div class="modal-body">
+
+          <h1>User Profile</h1>
+
+          here is what i want to see my photo and profile!
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+   
+
 </div>
 
 

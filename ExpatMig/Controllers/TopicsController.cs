@@ -39,7 +39,7 @@ namespace ExpatMig.Controllers
         }
 
 
-        [Route("api/Topics/GetLatest/{id}")]
+        [HttpGet, Route("api/Topics/GetLatest/{id}")]
         public IQueryable GetLatest(int id)
         {
             var Output = from EachTopic in db.Topics
@@ -124,7 +124,7 @@ namespace ExpatMig.Controllers
             db.SaveChanges();
 
           
-            var Message = new JavaScriptSerializer().Serialize(topic);
+            var TopicMessage = new JavaScriptSerializer().Serialize(topic);
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
@@ -133,7 +133,17 @@ namespace ExpatMig.Controllers
 
                 foreach (var EachDevice in HisDevices)
                 {
-                    PushNotificationsFacade.SendNotification(EachDevice, Message);
+                    var Notification = new NotificationsModel
+                    {
+                        NotificationType = AppConstants.NotificationTypes.Topics,
+                        NotificationDataType="TopicsModel",
+                        NotificationData= TopicMessage,
+                        NotificationCreatedDate =DateTime.Now.ToString()
+                    };
+
+                    var NotifierMessage = new JavaScriptSerializer().Serialize(Notification);
+
+                    PushNotificationsFacade.SendNotification(EachDevice, NotifierMessage);
                 }
             }
 

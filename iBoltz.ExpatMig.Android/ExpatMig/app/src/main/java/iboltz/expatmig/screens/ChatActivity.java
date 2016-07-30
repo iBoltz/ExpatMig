@@ -1,5 +1,6 @@
 package iboltz.expatmig.screens;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -22,17 +23,38 @@ import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
 
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
     ListView lvChat;
     EditText txtMsg;
     Button btnSend;
-    Button btnRefresh;
+//    Button btnRefresh;
     ChatMessageAdapter chatMessageAdapter;
     ArrayList<TopicsModel> topic=new ArrayList<TopicsModel>();
+    public static Activity CurrentInstance;
+    public static boolean IsRunningNow = false;
+    public static String NotificationMessage = "";
+    @Override
+    public void PostStatusToOrder(Integer OrderID, Integer OrderDetailID, Integer StatusID) {
+
+        FetchTopicsFromServer();
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        IsRunningNow = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        IsRunningNow = false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        CurrentInstance = this;
         InitControls();
         ButtonListener();
         FetchTopicsFromServer();
@@ -67,10 +89,10 @@ public class ChatActivity extends BaseActivity {
 
             lvChat = (ListView) findViewById(R.id.lvChat);
             btnSend = (Button) findViewById(R.id.btnSend);
-            btnRefresh=(Button) findViewById(R.id.btnRefresh);
+//            btnRefresh=(Button) findViewById(R.id.btnRefresh);
 
             btnSend.setTypeface(AppCache.LinearIcons);
-            btnRefresh.setTypeface(AppCache.LinearIcons);
+//            btnRefresh.setTypeface(AppCache.LinearIcons);
 
             txtMsg = (EditText) findViewById(R.id.txtMsg);
             if(AppCache.CachedTopics!=null)
@@ -87,13 +109,13 @@ public class ChatActivity extends BaseActivity {
     {
         try
         {
-            btnRefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FetchTopicsFromServer();
-                    LoadTopics();
-                }
-            });
+//            btnRefresh.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    FetchTopicsFromServer();
+//                    LoadTopics();
+//                }
+//            });
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -118,11 +140,21 @@ public class ChatActivity extends BaseActivity {
         try {
             chatMessageAdapter = new ChatMessageAdapter(this, AppCache.CachedTopics);
             lvChat.setAdapter(chatMessageAdapter);
+            scrollMyListViewToBottom();
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
+    }
+    private void scrollMyListViewToBottom() {
+        lvChat.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                lvChat.setSelection(chatMessageAdapter.getCount() - 1);
+            }
+        });
     }
     private  TopicsModel FillTopic(String TopicsMessage)
     {

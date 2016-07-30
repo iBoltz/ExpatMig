@@ -194,10 +194,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Utils\AppConstants.cs" />
-    <Compile Include="Utils\PushNotifications\AppConstants.cs" />
     <Compile Include="Utils\PushNotifications\INotifier.cs" />
     <Compile Include="Utils\PushNotifications\Notifiers\AndroidNotifier.cs" />
     <Compile Include="Utils\PushNotifications\Notifiers\BrowserNotifier.cs" />
@@ -223,6 +225,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\Logo.png" />
+    <Compile Include="Models\NotificationsModel.cs" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -274,6 +277,7 @@
     <Content Include="Scripts\Chat\ChatApp.js" />
     <Content Include="Scripts\Chat\ChatController.js" />
     <Content Include="Scripts\Chat\ChatService.js" />
+    <Content Include="Scripts\Global\iBoltz.ColorGen.js" />
     <Content Include="Scripts\Global\Utils.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1029,6 +1033,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\UserProfile\UserProfileController.js" />
+    <Content Include="Scripts\UserProfile\UserProfileService.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

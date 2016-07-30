@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="actionbar_background">#fFAA00</color>
-
     <color name="appwhite">#fefefe</color>
-
 
     <color name="errortext">#B20D34</color>
 

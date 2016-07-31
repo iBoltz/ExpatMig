@@ -18,3 +18,5 @@ function ScrollToLastMessage()
         scrollTop:height
     }, 2000);
 }
+
+ 

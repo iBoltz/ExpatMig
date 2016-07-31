@@ -10,8 +10,8 @@
         //filters
         //'iBoltzNumberFilters',
         // Directives
-        //'infinite-scroll',
-        //'last-item-loaded', 
+        'upward-infinite-scroll',
+        'last-item-loaded',
         //'ui.bootstrap'
     ]).config(['$httpProvider', function ($httpProvider) {
         //initialize get if not there

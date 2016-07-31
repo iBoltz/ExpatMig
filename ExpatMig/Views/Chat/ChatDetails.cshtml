@@ -8,17 +8,18 @@
 <div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" >
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
-            <h3 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">Groups </h3>
+            <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
+                <i class="ion-person-stalker"></i> Groups </h4>
 
-            <div class="dropdown pull-left dropWidth">
+            <div class="dropdown pull-left dropWidth" id="ddlGroups">
                 <button class="btn btn-primary dropdown-toggle def-Width" type="button" id="btnSelectedGroup" data-toggle="dropdown">
                     <span ng-bind="SelectedGroup"></span>
                     <span class="caret"></span>
                 </button>
 
                 <ul class="dropdown-menu def-Width">
-                    <li ng-repeat="EachGroup in AllGroups">
-                        <a ng-click="getselectgroup(EachGroup)">{{EachGroup.Description}}</a>
+                    <li ng-repeat="EachGroup in AllGroups" last-item-loaded="OnLastGroupLoaded(element)" >
+                        <a ng-click="ListThreadsForGroup(EachGroup)">{{EachGroup.Description}}</a>
                     </li>
 
                 </ul>
@@ -32,13 +33,14 @@
         <hr />
 
         <div class="Thread-height form-inline margin-s ">
-            <h3 class="pull-left no-margin-top dropWidth">Threads</h3>
+            <h4 class="pull-left no-margin-top dropWidth">
+                <i class="ion-android-folder"></i> Threads</h4>
             <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success margin-s-left">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
             <div class="ThreadDetail-height  margin-s-top">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads">
-                    <h4> <a ng-click="getselectthhread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)" >
+                    <h4> <a class="cursor-hand" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
 
                 </div>
             </div>
@@ -47,12 +49,13 @@
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
      
-            <div class="Chat-height">
-                <ul class="listgroup"  id="ChatHistory">
-                    <li ng-repeat="x in Bindable" class="list-group-item">
+            <div class="Chat-height" >
+                <ul class="listgroup"  id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
+                    <li ng-repeat="x in AllTopics" class="list-group-item" last-item-loaded="OnLastTopicLoaded(element)">
                         <!--    bindable -->
                         <div class="row">
                             <div class="col-md-10 ">
+                                <i class="ion-person"></i>
                                 <span data-toggle="modal" data-target="#divUserProfiler" style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> <strong>{{x.UserName}}</strong></span>
                             </div>
                             <div class="col-md-2 text-right">

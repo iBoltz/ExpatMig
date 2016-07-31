@@ -226,6 +226,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\Logo.png" />
     <Compile Include="Models\NotificationsModel.cs" />
+    <Content Include="Images\ps_neutral.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -277,6 +278,7 @@
     <Content Include="Scripts\Chat\ChatApp.js" />
     <Content Include="Scripts\Chat\ChatController.js" />
     <Content Include="Scripts\Chat\ChatService.js" />
+    <Content Include="Scripts\Global\Angular.Directives.js" />
     <Content Include="Scripts\Global\iBoltz.ColorGen.js" />
     <Content Include="Scripts\Global\Utils.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />

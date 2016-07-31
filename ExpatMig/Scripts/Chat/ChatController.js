@@ -4,6 +4,9 @@
     angular
         .module('xMigApp')
             .controller('ChatController', ['$scope', 'ChatService', '$http', 'BridgeService', '$filter', function ($scope, ChatService, $http, BridgeService, $filter) {
+                var TopicPageIndex = 0;
+                var HasReachedTop = false;
+                $scope.AllTopics = [];
                 try {
 
                     function FormatViewModal(Topics) {
@@ -12,8 +15,7 @@
                         });
                         return Topics;
                     }
-                    function FormatTopic(Topic)
-                    {
+                    function FormatTopic(Topic) {
                         Topic.Color = iBoltzColorGen.GetMyColor(Topic.UserName, Topic.CreatedBy);
                         if (IsDateToday(Topic.CreatedDate)) {
                             Topic.CreatedDateString = $filter('date')(Topic.CreatedDate, "hh:mm a");
@@ -22,46 +24,90 @@
                         }
                         return Topic;
                     }
+                    function ListChatPaged(SelectedThreadID, PageIndex) {
+                        var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
+                            //ScrollToLastMessage();
+                            var Formated = FormatViewModal(result);
+                            if (Formated.length <= 0)
+                            {
+                                HasReachedTop = true;
+                                alert('No more new messges');
+                                return;
+                            }
+                            console.log(" Existing data in memory " + $scope.AllTopics.length)
+                            
+                            $scope.AllTopics = Formated.concat($scope.AllTopics);
+                            
+                            return $scope.AllTopics;
+
+                        });
+
+                       // $scope.AllTopics = FullList;
+
+                        console.log(FullList);
+                    };
                     $scope.SelectedGroup = "Select Group";
                     $scope.SelectedThreadID = 0;
+                    $scope.LoadMoreTopics = function () {
+                        TopicPageIndex += 1;
+                        console.log(" fetching page " + TopicPageIndex)
+                        if (HasReachedTop) return;
+                        ListChatPaged($scope.SelectedThreadID, TopicPageIndex);
 
+                    };
                     $scope.GetLatest = function () {
                         console.log('Fetching data');
-                        var MaxID = $($scope.Bindable).max(function () { return this.TopicID });
+                        var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                         MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
 
                         ChatService.GetLatest.query({ id: MaxID }, function (result) {
 
-                            $scope.Bindable = FormatViewModal($scope.Bindable.concat(result));
+                            $scope.AllTopics = FormatViewModal($scope.AllTopics.concat(result));
 
-                            ScrollToLastMessage();
+
                             console.log(FullList);
                             return result;
                         });
                     };
-                    $scope.ListChat = function (SelectedThreadID) {
-                        var FullList = ChatService.ListChats.query({ id: SelectedThreadID }, function (result) {
-                            ScrollToLastMessage();
-                            return FormatViewModal(result);
-
-                        });
-                        $scope.Bindable = FullList;
-                        console.log($scope.Bindable);
-                    };
+                    $scope.ListChat = ListChatPaged;
                     $scope.AllGroups = ChatService.ListGroups.query(function (result) {
                         return result;
                     });
-                    $scope.getselectgroup = function (SelectedGroup) {
+                    $scope.ListThreadsForGroup = function (SelectedGroup) {
                         $scope.SelectedGroup = SelectedGroup.Description;
                         $scope.SelectedGroupID = SelectedGroup.GroupID;
                         $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID }, function (result) {
                             return result;
                         });
                     }
-                    $scope.getselectthhread = function (SelectedID) {
+                    $scope.ListTopicsForThread = function (SelectedID) {
                         $scope.SelectedThreadID = SelectedID;
-                        $scope.ListChat(SelectedID);
+                        $scope.AllTopics = [];
+                        $scope.ListChat(SelectedID, TopicPageIndex);
                     }
+
+                    /*****************  Last Item Loaded  ********************/
+                    $scope.OnLastGroupLoaded = function (element) {
+                        //self.alert("loaded");
+                        //$('#ddlGroups').selectpicker('refresh');
+                        if ($scope.AllGroups.length > 0) {
+                            $scope.SelectedGroup = $scope.AllGroups[0].Description;
+                            $scope.ListThreadsForGroup($scope.AllGroups[0]);
+                        }
+                    };
+
+                    $scope.OnLastThreadLoaded = function (element) {
+                        if ($scope.AllThreads.length > 0) {
+
+                            $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
+                            $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                        }
+                    };
+
+                    $scope.OnLastTopicLoaded = function (element) {
+                        ScrollToLastMessage();
+                    };
+
 
                     /*****************  Save routines   ********************/
                     $scope.OnEnterPress = function (keyEvent) {
@@ -105,7 +151,7 @@
                             "SeqNo": 1, "CreatedBy": CurrentUserID,
                             "CreatedDate": new Date()
                         }
-                        var MaxID = $($scope.Bindable).max(function () { return this.TopicID });
+                        var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                         MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
                         var TopicToPush = {
                             "UserName": CurrentUserName,
@@ -121,8 +167,8 @@
 
                         ChatService.PostChat.save(TopicToSave, function () {
 
-                            $scope.Bindable.push(FormatTopic(TopicToPush));
-                            
+                            $scope.AllTopics.push(FormatTopic(TopicToPush));
+
                             $scope.Message = "";
                             angular.element('#txtMessage').trigger('focus');
                             ScrollToLastMessage();

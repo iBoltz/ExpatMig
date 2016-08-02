@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:divider="@null"
-        android:layout_weight="9"></ListView>
+        android:layout_weight="9"
+        tools:listitem="@layout/rightsidechat_itemtemplate"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             android:id="@+id/txtMsg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.8"
             android:hint="Type a message"/>
 
 
@@ -36,14 +37,8 @@
             android:id="@+id/btnSend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.2"
             android:text="Send"
-            android:textColor="@color/DarkOrange" />
-        <Button
-            android:id="@+id/btnRefresh"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="Fetch" />
+             />
     </LinearLayout>
 </LinearLayout>

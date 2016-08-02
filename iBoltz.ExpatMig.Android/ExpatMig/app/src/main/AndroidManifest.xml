@@ -40,6 +40,22 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <receiver
+            android:name="iboltz.expatmig.gcmutils.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="iboltz.food" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="iboltz.expatmig.gcmutils.GcmNotificationIntentService" />
+
+
+
         <activity
             android:name=".screens.SplashActivity"
             android:label="@string/app_name" >
@@ -53,6 +69,11 @@
             android:name=".screens.ChatActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
+
+        </activity>
+        <activity
+            android:name=".screens.GroupsActivity"
+            android:label="@string/app_name">
 
         </activity>
 

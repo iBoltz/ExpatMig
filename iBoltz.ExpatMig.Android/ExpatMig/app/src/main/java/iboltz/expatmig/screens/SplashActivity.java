@@ -53,7 +53,7 @@ public class SplashActivity extends BaseActivity
     private void RedirectToChat() {
         try {
             Intent myIntent = new Intent(getApplicationContext(),
-                    ChatActivity.class);
+                    GroupsActivity.class);
 
             startActivity(myIntent);
         } catch (Exception ex) {

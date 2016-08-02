@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import iboltz.expatmig.models.GroupsModel;
 import iboltz.expatmig.models.LocalCache;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.models.UserRolesModel;
@@ -32,6 +33,7 @@ public class AppCache {
     public static String AccessToken;
     public static List<LocalCache> Cached;
     public static ArrayList<TopicsModel> CachedTopics;
+    public static ArrayList<GroupsModel> CachedModels;
 
     public static Typeface LinearIcons = null;
     public static Typeface IonIcons = null;

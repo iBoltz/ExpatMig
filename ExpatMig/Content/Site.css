@@ -2,6 +2,14 @@
 {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: Quicksand;
+    font-weight: 400;
+    background: url('../Images/ps_neutral.png');
+}
+
+*, h1, h2, h3, h4, h5, h6
+{
+    font-family: Quicksand;
 }
 
 html, body
@@ -28,9 +36,10 @@ html, body
 {
     margin-top: 1%;
 }
+
 .margin-s-top
 {
-    margin-top:2.3%;
+    margin-top: 2.3%;
 }
 
 .margin-s
@@ -133,28 +142,39 @@ html, body
 {
     padding-right: 0px;
 }
-.Bg-silver{
+
+.Bg-silver
+{
     border-right: 1px solid rgba(237, 237, 237, 1);
     background: rgba(237, 237, 237, 0.3);
 }
+
 .margin-s-hoz
 {
-    margin:0% 2%;
+    margin: 0% 2%;
 }
+
 .no-margin-bottom
 {
-    margin-bottom:0px!important;
+    margin-bottom: 0px !important;
 }
 
 .header2
 {
     font-size: 2em;
 }
+
 .fontcolor-orange
 {
-    color:orangered;
+    color: orangered;
 }
+
 .txtbox-default-width
 {
-    width:94% !important;
+    width: 94% !important;
+}
+
+.cursor-hand
+{
+    cursor: pointer;
 }

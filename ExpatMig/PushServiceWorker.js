@@ -42,6 +42,7 @@ function send_message_to_client(client, msg) {
 }
 
 function send_message_to_all_clients(msg) {
+    
     clients.matchAll().then(clients => {
         clients.forEach(client => {
             send_message_to_client(client, msg).then(m => console.log("SW Received Message: " + m));

@@ -631,3 +631,56 @@ function ArrayRemove(input, ToRemove) {
         input.splice(FoundIndex, 1);
     }
 }
+
+
+/****************************************   Random  *************************************/
+
+function iBoltzRandom(seed) {
+    // LCG using GCC's constants
+    this.m = 0x80000000; // 2**31;
+    this.a = 1103515245;
+    this.c = 12345;
+
+    this.state = seed ? seed : Math.floor(Math.random() * (this.m - 1));
+}
+iBoltzRandom.prototype.nextInt = function () {
+    this.state = (this.a * this.state + this.c) % this.m;
+    return this.state;
+}
+iBoltzRandom.prototype.nextFloat = function () {
+    // returns in range [0,1]
+    return this.nextInt() / (this.m - 1);
+}
+iBoltzRandom.prototype.nextRange = function (start, end) {
+    // returns in range [start, end): including start, excluding end
+    // can't modulu nextInt because of weak randomness in lower bits
+    var rangeSize = end - start;
+    var randomUnder1 = this.nextInt() / this.m;
+    return start + Math.floor(randomUnder1 * rangeSize);
+}
+iBoltzRandom.prototype.choice = function (array) {
+    return array[this.nextRange(0, array.length)];
+}
+
+function GetAlphaIndex(Digit) {
+    var AlphaList = ["a", "b", "c", "d", "e", "f", "g", "h",
+        "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+        "s", "t", "u", "v", "w", "x", "y", "z"];
+    return AlphaList.findIndex(function (DigitInList) { return DigitInList == Digit.toLowerCase() });
+}
+
+
+/********************************** Current Date ******************************/
+
+function IsDateToday(GivenDate) {
+
+    //Get today's date
+    var todaysDate = new Date();
+
+    //call setHours to take the time out of the comparison
+    if (new Date(GivenDate).toDateString() == todaysDate.toDateString()) {
+        return true;
+    }
+    return false;
+}
+

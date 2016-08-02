@@ -13,6 +13,7 @@ using ExpatMig.Models;
 using ExpatMig.Utils;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
+using System.Collections;
 
 namespace ExpatMig.Controllers
 {
@@ -20,12 +21,14 @@ namespace ExpatMig.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [HttpGet, Route("api/Topics/AllTopicsForThisThread/{ThreadID}")]
-        public IQueryable AllTopicsForThisThread(int ThreadID)
+        [HttpGet, Route("api/Topics/AllTopicsForThisThread/{ThreadID}/{StartIndex}")]
+        public IEnumerable AllTopicsForThisThread(int ThreadID, int StartIndex)
         {
+            var PageSize = 15;
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
                          where EachTopic.ThreadID == ThreadID
+                         orderby EachTopic.CreatedDate descending
                          select new
                          {
                              EachUser.UserName,
@@ -35,7 +38,9 @@ namespace ExpatMig.Controllers
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate
                          };
-            return Output;
+
+            var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
+            return ReverseOrdered.OrderBy(x=>x.CreatedDate);
         }
 
 
@@ -45,6 +50,7 @@ namespace ExpatMig.Controllers
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
                          where EachTopic.TopicID > id
+                         orderby EachTopic.CreatedDate descending
                          select new
                          {
                              EachUser.UserName,
@@ -123,7 +129,7 @@ namespace ExpatMig.Controllers
             db.Topics.Add(topic);
             db.SaveChanges();
 
-          
+
             var TopicMessage = new JavaScriptSerializer().Serialize(topic);
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
@@ -136,9 +142,9 @@ namespace ExpatMig.Controllers
                     var Notification = new NotificationsModel
                     {
                         NotificationType = AppConstants.NotificationTypes.Topics,
-                        NotificationDataType="TopicsModel",
-                        NotificationData= TopicMessage,
-                        NotificationCreatedDate =DateTime.Now.ToString()
+                        NotificationDataType = "TopicsModel",
+                        NotificationData = TopicMessage,
+                        NotificationCreatedDate = DateTime.Now.ToString()
                     };
 
                     var NotifierMessage = new JavaScriptSerializer().Serialize(Notification);

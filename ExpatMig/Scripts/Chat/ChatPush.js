@@ -8,7 +8,7 @@
         }).then(function (sub) {
             var DeviceID = sub.endpoint.replace("https://android.googleapis.com/gcm/send/", "");
             //call the register API here
-            console.log('DeviceID:', DeviceID);
+            console.log('DeviceID registerd in iBoltz System:', DeviceID);
 
             RegisterForPushInServer(DeviceID)
 
@@ -43,9 +43,6 @@ function RegisterForPushInServer(DeviceID) {
     });
 }
 
-document.addEventListener('onGcmPushReceived', function () {
-    alert("Success!");
-});
 
 function send_message_to_sw(msg) {
     navigator.serviceWorker.controller.postMessage("Client 1 says '" + msg + "'");

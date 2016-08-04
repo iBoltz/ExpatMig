@@ -178,3 +178,25 @@ html, body
 {
     cursor: pointer;
 }
+
+
+/**************************          Loading panel           ***************************/
+
+.LoadingPanel
+{
+    position: absolute;
+    display: none;
+    background-color: white;
+    text-align:center;
+}
+
+    .LoadingPanel .Image
+    {
+    background: url('../Images//10.gif') no-repeat;
+    margin: 0 auto;
+    width: 120px;
+    position: relative;
+    top: 50%;
+    height: 20px;
+    margin-top: -10px;
+    }

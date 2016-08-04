@@ -97,6 +97,9 @@ Array.prototype.firstOrDefault = function (func) {
 /****************************************          Ensure Loghelper loaded         *******************************************/
 
 $(document).ready(function () {
+    if (typeof IsLogHelperLoaded == 'undefined' || !IsLogHelperLoaded) {
+        self.alert('Log Not Found PLease let administrator know about this issue!');
+    }
 
 
 });
@@ -684,3 +687,18 @@ function IsDateToday(GivenDate) {
     return false;
 }
 
+
+ 
+ 
+
+$(document).ready(function () {
+
+    $('.Loading').click(function () {
+
+        if ($("#LoadingPanel").css('display') == 'block') {
+            $("#txtMessage").HideLoadingPanel();
+        } else {
+            $("#txtMessage").ShowLoadingPanel();
+        }
+    });
+});

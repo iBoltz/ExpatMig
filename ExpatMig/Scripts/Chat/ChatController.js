@@ -6,6 +6,10 @@
             .controller('ChatController', ['$scope', 'ChatService', '$http', 'BridgeService', '$filter', function ($scope, ChatService, $http, BridgeService, $filter) {
                 var TopicPageIndex = 0;
                 var HasReachedTop = false;
+                var FirstTopicItem = null;
+                var LoadedItems = 0;
+                var PageSize = 15;
+                var FreshLoad = true;
                 $scope.AllTopics = [];
                 try {
 
@@ -22,37 +26,48 @@
                         } else {
                             Topic.CreatedDateString = $filter('date')(Topic.CreatedDate, "dd-MMM-yy hh:mm");
                         }
+
+                        Topic.OwnerAlignLeft=Topic.CreatedBy == CurrentUserID ? '18%' : '2%';
+
                         return Topic;
                     }
                     function ListChatPaged(SelectedThreadID, PageIndex) {
+                        $('#ChatHistory').ShowLoadingPanel();
                         var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
                             //ScrollToLastMessage();
                             var Formated = FormatViewModal(result);
-                            if (Formated.length <= 0)
-                            {
+                            if (Formated.length <= 0) {
                                 HasReachedTop = true;
                                 alert('No more new messges');
                                 return;
                             }
                             console.log(" Existing data in memory " + $scope.AllTopics.length)
-                            
-                            $scope.AllTopics = Formated.concat($scope.AllTopics);
-                            
+
+                            if (TopicPageIndex == 0) {
+                                $scope.AllTopics = Formated;//fresh load if pageindex=0;
+                            } else {
+                                $scope.AllTopics = Formated.concat($scope.AllTopics);
+                            }
+
                             return $scope.AllTopics;
 
                         });
 
-                       // $scope.AllTopics = FullList;
+                        // $scope.AllTopics = FullList;
 
                         console.log(FullList);
                     };
                     $scope.SelectedGroup = "Select Group";
                     $scope.SelectedThreadID = 0;
                     $scope.LoadMoreTopics = function () {
+
+                        console.log("In LoadMoreTopics", FreshLoad)
+                        FreshLoad = false;
                         TopicPageIndex += 1;
                         console.log(" fetching page " + TopicPageIndex)
                         if (HasReachedTop) return;
                         ListChatPaged($scope.SelectedThreadID, TopicPageIndex);
+
 
                     };
                     $scope.GetLatest = function () {
@@ -64,8 +79,7 @@
 
                             $scope.AllTopics = FormatViewModal($scope.AllTopics.concat(result));
 
-
-                            console.log(FullList);
+                            //console.log(FullList);
                             return result;
                         });
                     };
@@ -82,9 +96,37 @@
                     }
                     $scope.ListTopicsForThread = function (SelectedID) {
                         $scope.SelectedThreadID = SelectedID;
-                        $scope.AllTopics = [];
+                        //$scope.AllTopics = [];
+                        TopicPageIndex = 0;
+
+                        FreshLoad = true;
                         $scope.ListChat(SelectedID, TopicPageIndex);
+
                     }
+
+                    $scope.OnItemDatabound = function (element) {
+                        console.log('FreshLoad', FreshLoad)
+                        if (FreshLoad) return;
+
+                        if (LoadedItems >= PageSize - 1) {
+                            LoadedItems = 0;
+                            //all items loaded irrespective inserts, push, replace array
+
+                            if (FirstTopicItem != null) {
+                                //console.log($(FirstTopicItem).text());
+
+                                $('#ChatHistory').animate({
+                                    scrollTop: FirstTopicItem.offset().top - 100
+                                }, 0);
+                                $('#ChatHistory').HideLoadingPanel();
+                            }
+                            FirstTopicItem = $('#ChatHistory li').first();
+
+                        } else {
+                            LoadedItems += 1;
+                        }
+
+                    };
 
                     /*****************  Last Item Loaded  ********************/
                     $scope.OnLastGroupLoaded = function (element) {
@@ -106,6 +148,7 @@
 
                     $scope.OnLastTopicLoaded = function (element) {
                         ScrollToLastMessage();
+                        $('#ChatHistory').HideLoadingPanel();
                     };
 
 
@@ -143,6 +186,8 @@
                             return;
                         }
                         if ($scope.SelectedThreadID == null) { return }
+                        $('#txtMessage').ShowLoadingPanel();
+
                         var TopicToSave = {
                             "TopicID": 2,
                             "ThreadID": $scope.SelectedThreadID,
@@ -166,7 +211,7 @@
                         console.log("TopicToPush :- ", TopicToPush);
 
                         ChatService.PostChat.save(TopicToSave, function () {
-
+                            $('#txtMessage').HideLoadingPanel();
                             $scope.AllTopics.push(FormatTopic(TopicToPush));
 
                             $scope.Message = "";

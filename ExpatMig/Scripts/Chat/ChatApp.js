@@ -12,11 +12,11 @@
         // Directives
         'upward-infinite-scroll',
         'last-item-loaded',
+        ,'on-item-databound',
         //'ui.bootstrap'
     ]).config(['$httpProvider', function ($httpProvider) {
         //initialize get if not there
-        if (!$httpProvider.defaults.headers.get)
-        {
+        if (!$httpProvider.defaults.headers.get) {
             $httpProvider.defaults.headers.get = {};
         }
 

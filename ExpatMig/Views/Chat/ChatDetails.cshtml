@@ -5,11 +5,12 @@
 }
 
 <!--    Chat Controller    -->
-<div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" >
+<div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height">
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
             <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
-                <i class="ion-person-stalker"></i> Groups </h4>
+                <i class="ion-person-stalker"></i> Groups
+            </h4>
 
             <div class="dropdown pull-left dropWidth" id="ddlGroups">
                 <button class="btn btn-primary dropdown-toggle def-Width" type="button" id="btnSelectedGroup" data-toggle="dropdown">
@@ -18,28 +19,29 @@
                 </button>
 
                 <ul class="dropdown-menu def-Width">
-                    <li ng-repeat="EachGroup in AllGroups" last-item-loaded="OnLastGroupLoaded(element)" >
+                    <li ng-repeat="EachGroup in AllGroups" last-item-loaded="OnLastGroupLoaded(element)">
                         <a ng-click="ListThreadsForGroup(EachGroup)">{{EachGroup.Description}}</a>
                     </li>
 
                 </ul>
             </div>
-            <button type="button"  data-toggle="modal" data-target="#pnlNewGroup" class="btn btn-info margin-s-left" >
+            <button type="button" data-toggle="modal" data-target="#pnlNewGroup" class="btn btn-info margin-s-left">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
-           
+
 
         </div>
         <hr />
 
         <div class="Thread-height form-inline margin-s ">
             <h4 class="pull-left no-margin-top dropWidth">
-                <i class="ion-android-folder"></i> Threads</h4>
+                <i class="ion-android-folder"></i> Threads
+            </h4>
             <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success margin-s-left">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
             <div class="ThreadDetail-height  margin-s-top">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)" >
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
                     <h4> <a class="cursor-hand" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
 
                 </div>
@@ -48,43 +50,44 @@
     </div>
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
-     
-            <div class="Chat-height" >
-                <ul class="listgroup"  id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
-                    <li ng-repeat="x in AllTopics" class="list-group-item" last-item-loaded="OnLastTopicLoaded(element)">
-                        <!--    bindable -->
-                        <div class="row">
-                            <div class="col-md-10 ">
-                                <i class="ion-person"></i>
-                                <span data-toggle="modal" data-target="#divUserProfiler" style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> <strong>{{x.UserName}}</strong></span>
-                            </div>
-                            <div class="col-md-2 text-right">
-                                <small>{{x.CreatedDateString}}</small>
-                            </div>
-
+        <div class="Chat-height">
+            <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
+                <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
+                    on-item-databound="OnItemDatabound(element)"
+                    last-item-loaded="OnLastTopicLoaded(element)">
+                    <!--    bindable -->
+                    <div class="row">
+                        <div class="col-md-10 ">
+                            <i class="ion-person"></i>
+                            <span data-toggle="modal" data-target="#divUserProfiler" style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> <strong>{{x.UserName}}</strong></span>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                {{ x.Description }}
-                            </div>
+                        <div class="col-md-2 text-right">
+                            <small>{{x.CreatedDateString}}</small>
                         </div>
 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ x.Description }}
+                        </div>
+                    </div>
 
-                    </li>
-                </ul>
 
-       
-                <div class="input-group margin-s clear-padding ">
-                    <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="sizing-addon1" ng-keypress="OnEnterPress($event)" class="form-control" />
-                    <div class="input-group-btn">
-                        <div ng-click="SaveChanges()" id="sizing-addon1" class="btn btn-success">
-                            <span class="glyphicon glyphicon-send "></span>
-                     </div>
+                </li>
+            </ul>
+
+
+            <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
+                <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="sizing-addon1" ng-keypress="OnEnterPress($event)" class="form-control" />
+                <div class="input-group-btn">
+                    <div ng-click="SaveChanges()" id="sizing-addon1" class="btn btn-success">
+                        <span class="glyphicon glyphicon-send "></span>
                     </div>
                 </div>
             </div>
-       
-     
+        </div>
+
+
     </div>
 
     <div id="pnlNewThread" class="modal fade" role="dialog">
@@ -126,7 +129,7 @@
                         <div class="form-group def-Width">
 
                             <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here" ng-model="GroupName" />
-                            
+
                             <button type="submit" ng-click="SaveGroup()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>
 
@@ -141,31 +144,31 @@
 </div>
 
 <!--    UserProfile Controller    -->
-<div id="divUserProfiler" ng-controller="UserProfileController"  class="modal fade" role="dialog">
-  <div class="modal-dialog">
+<div id="divUserProfiler" ng-controller="UserProfileController" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">User Profile</h4>
-      </div>
-      <div class="modal-body">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Profile</h4>
+            </div>
+            <div class="modal-body">
 
-          <h1>User Profile</h1>
+                <h1>User Profile</h1>
 
-          here is what i want to see my photo and profile!
+                here is what i want to see my photo and profile!
 
 
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
 
-  </div>
-   
 
 </div>
 

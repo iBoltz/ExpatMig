@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
 
-    $("#btnTester").click(function (x) {
-        ScrollToLastMessage()
-    });
+    HideLoadingChat();
+
+
 });
 
 
@@ -16,7 +16,7 @@ function ScrollToLastMessage()
    
     $('#ChatHistory').animate({
         scrollTop:height
-    }, 2000);
+    }, 200);
 }
 
  

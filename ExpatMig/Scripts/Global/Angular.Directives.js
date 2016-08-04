@@ -5,9 +5,8 @@
     directive('lastItemLoaded', ['$timeout',
         function ($timeout) {
             return function (scope, element, attrs) {
+                //alert(scope.$last);
                 if (scope.$last) {
-                    //all tree nodes are loaded now time to shrink all nodes
-                    //JqTreeManager.InitTree();
                     if (attrs.lastItemLoaded != "") {
                         scope.$eval(attrs.lastItemLoaded);
                     } else {
@@ -24,7 +23,30 @@
 
         }]);
 
-    angular.module('upward-infinite-scroll',[]).
+    angular.module('on-item-databound', []).
+     directive('onItemDatabound', ['$timeout',
+         function ($timeout) {
+             return {
+                 link: function (scope, element, attr) {
+                     //scope.$apply(attr.onItemDatabound);
+                     //console.log("in directive === ",  element);
+                     $timeout(function () {
+                         scope.$apply(attr.onItemDatabound);
+                        //attr.onItemDatabound(elem);
+                     });
+                     //attr.onItemDatabound();
+                     
+                     //if (!scope.$$phase) {
+                     //    console.log($(elem).html());
+                     //    scope.$apply(attr.OnItemDatabound)
+                     //}//else attr.onItemDatabound(elem);
+                 }
+             }
+         }]);
+
+
+
+    angular.module('upward-infinite-scroll', []).
         directive('upwardInfiniteScroll', ['$timeout',
             function ($timeout) {
                 return {
@@ -32,7 +54,7 @@
                         var raw = elem[0];
                         //console.log('test scrolling', raw);
                         elem.bind('scroll', function () {
-                            
+
                             if (raw.scrollTop <= 0) {
                                 var sh = raw.scrollHeight;
                                 scope.$apply(attr.upwardInfiniteScroll);
@@ -54,5 +76,9 @@
                     }
                 }
             }]);
+
+
+
+
 })();
 

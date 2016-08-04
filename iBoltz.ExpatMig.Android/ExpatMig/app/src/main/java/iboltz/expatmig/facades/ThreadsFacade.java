@@ -11,6 +11,7 @@ import java.util.EventObject;
 import iboltz.expatmig.ListenerInterfaces.OnLoadedListener;
 import iboltz.expatmig.ListenerInterfaces.WebClientEventObject;
 import iboltz.expatmig.ListenerInterfaces.WebClientListeners;
+import iboltz.expatmig.models.ThreadsModel;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.utils.WebClient;
@@ -49,15 +50,15 @@ public class ThreadsFacade {
             Wc.setOnResponseReceivedListener(new WebClientListeners() {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
-                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<TopicsModel>>() {
+                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<ThreadsModel>>() {
                     }).getType();
 
-                    ArrayList<TopicsModel> GetMyTopics = new Gson()
+                    ArrayList<ThreadsModel> GetMyThreads = new Gson()
                             .fromJson(
                                     e.ResponseData,
                                     (java.lang.reflect.Type) collectionType);
 
-                    AppCache.CachedTopics = GetMyTopics;
+                    AppCache.CachedThreads = GetMyThreads;
                     OnFinished();
                 }
             });

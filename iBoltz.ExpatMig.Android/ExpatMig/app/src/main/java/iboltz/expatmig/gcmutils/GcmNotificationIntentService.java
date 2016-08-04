@@ -137,7 +137,7 @@ public class GcmNotificationIntentService extends IntentService {
                 iPostStatus Poster = (iPostStatus) ChatActivity.CurrentInstance;
                 if (Poster != null)
                     ChatActivity.NotificationMessage = Message;
-                Poster.PostStatusToOrder(null, null, null);
+                Poster.PostStatusToOrder(Message);
             } else {
                 /// Skip when other screens open
             }

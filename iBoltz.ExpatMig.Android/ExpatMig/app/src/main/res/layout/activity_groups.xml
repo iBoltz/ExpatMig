@@ -12,31 +12,70 @@
         android:layout_height="wrap_content"
         android:id="@+id/pnlLogin">
 
-        <TextView
-            android:layout_width="fill_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Groups :"
-            android:textColor="@color/dark_gray"
-            android:id="@+id/txtGroup" />
-        <Spinner
-            android:id="@+id/ddlGroups"
-            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/margin_m"
+            android:layout_weight=".28"
+            android:background="@drawable/spinner_border"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/ddlGroups"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/drop" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/spinner_title"/>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Threads :"
-            android:textColor="@color/dark_gray"
-            android:id="@+id/txtThread" />
+            android:layout_margin="@dimen/margin_m"
+            android:layout_weight=".28"
+            android:background="@drawable/spinner_border"
+            android:orientation="horizontal">
+
         <Spinner
             android:id="@+id/ddlThreads"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/spinner_title"/>
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:spinnerMode="dropdown" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/drop" />
+        </RelativeLayout>
 
+
+
+<Button
+    android:id="@+id/btnChat"
+    android:layout_width="fill_parent"
+    android:layout_margin="@dimen/margin_m"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_green"
+    android:text="Let's Chat"/>
 
     </LinearLayout>
 </RelativeLayout>

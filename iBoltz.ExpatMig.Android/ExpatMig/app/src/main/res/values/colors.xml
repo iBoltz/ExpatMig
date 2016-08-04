@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="actionbar_background">#fFAA00</color>
+    <color name="appwhite">#fefefe</color>
+
+    <color name="errortext">#B20D34</color>
+
+    <color name="button_pressed">#ff101010</color>
+    <color name="button_normal">#ff33b5e5</color>
+
+    <color name="transparant_bg">#cc000000</color>
+
+    <color name="theme_end_color">#B20D34</color>
+    <color name="normal_black">#111111</color>
+    <color name="gray_black">#65111111</color>
+    <color name="dish_item_background">#f5f5f5</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="viewfinder_border">#ffafed44</color>
+    <color name="lightgray">#E6E6E6FF</color>
+    <color name="dark_gray">#212121</color>
+    <color name="slate_gray">#353231</color>
+
+    <!--        iBoltz Color Constants            -->
+    <color name="iBoltzOrange">#ffaa00</color>
+    <color name="iBoltzDarkGray">#353231</color>
+    <color name="iBoltzOkGreen">#00FF00</color>
+    <color name="iBoltzDeniedRed">#ff0000</color>
+    <color name="iBoltzDullWhite">#CFCFCF</color>
+    <color name="iBoltzWhite">#f3f3f3</color>
+    <color name="iBoltzLightSilverGray">#c3c3c3</color>
+    <color name="iBoltzDarkGrayPressed">#858281</color>
+    <color name="LightOrange">#ffcc99</color>
+    <color name="Purple">#FFD8BFD8</color>
+
+    <color name="DarkGreen">#219408</color>
+    <color name="DarkOrange">#c59911</color>
+    <color name="DarkRed">#c52311</color>
+    <color name="LightBlue">#FFADD8E6</color>
+    <color name ="LightPink">#FFC0CB</color>
+
+
+
+</resources>

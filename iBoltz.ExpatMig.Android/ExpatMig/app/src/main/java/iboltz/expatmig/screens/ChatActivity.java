@@ -1,14 +1,20 @@
 package iboltz.expatmig.screens;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +28,7 @@ import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
+import iboltz.expatmig.utils.EndlessScrollListener;
 
 public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
     ListView lvChat;
@@ -33,11 +40,14 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     public static Activity CurrentInstance;
     public static boolean IsRunningNow = false;
     public static String NotificationMessage = "";
+
+    private int pageCount = 0;
+
     @Override
-    public void PostStatusToOrder(Integer OrderID, Integer OrderDetailID, Integer StatusID) {
+    public void PostStatusToOrder(String Message) {
 
-        FetchTopicsFromServer();
-
+        RefreshChat(Message);
+     
     }
     @Override
     public void onStart() {
@@ -55,15 +65,16 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         CurrentInstance = this;
+        SetBackButtonAction();
         InitControls();
         ButtonListener();
-        FetchTopicsFromServer();
+        FetchTopicsFromServer(0);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        //getMenuInflater().inflate(R.menu.menu_chat, menu);
         return true;
     }
 
@@ -86,8 +97,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
             AppCache.CachedTopics= new ArrayList<TopicsModel>();
 
-
-            lvChat = (ListView) findViewById(R.id.lvChat);
+        //    lvChat = (ListView) findViewById(R.id.lvChat);
             btnSend = (Button) findViewById(R.id.btnSend);
 //            btnRefresh=(Button) findViewById(R.id.btnRefresh);
 
@@ -95,6 +105,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 //            btnRefresh.setTypeface(AppCache.LinearIcons);
 
             txtMsg = (EditText) findViewById(R.id.txtMsg);
+            txtMsg.setTypeface(AppCache.FontQuickRegular);
             if(AppCache.CachedTopics!=null)
             {
             LoadTopics();
@@ -104,22 +115,43 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                 ex.printStackTrace();
             }
         }
+private void RefreshChat(String Message){
 
-    private void ButtonListener()
-    {
-        try
-        {
-//            btnRefresh.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    FetchTopicsFromServer();
-//                    LoadTopics();
-//                }
-//            });
+    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<TopicsModel>() {
+    }).getType();
+
+    TopicsModel GetLatestTopic = new Gson()
+            .fromJson(Message,
+                    (java.lang.reflect.Type) collectionType);
+
+    AppCache.CachedTopics.add(GetLatestTopic);
+    AppCache.CurrentItemPosition= AppCache.CachedTopics.size();
+    runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+            LoadTopics();
+        }
+    });
+
+}
+
+    private void ButtonListener() {
+        try {
+            lvChat.setOnScrollListener(onScrollListener());
+
+          /*  lvChat.setOnScrollListener(new EndlessScrollListener(10,0) {
+                @Override
+                public boolean onLoadMore(int page, int totalItemsCount) {
+                    FetchTopicsFromServer(page);
+                    return true;
+                }
+            });*/
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(TextUtils.isEmpty(txtMsg.getText())){return;}
+                    if (TextUtils.isEmpty(txtMsg.getText())) {
+                        return;
+                    }
 
                     String Inputtxt = txtMsg.getText().toString();
                     TopicsModel InputTopic = FillTopic(Inputtxt);
@@ -127,6 +159,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                     LoadTopics();
                     SaveTopic(InputTopic);
                     txtMsg.setText("");
+                    AppCache.CurrentItemPosition=AppCache.CachedTopics.size();
 
                 }
             });
@@ -135,37 +168,37 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             ex.printStackTrace();
         }
     }
+    private void ScrollToRecentPosition(){
+
+        lvChat.setSelection(AppCache.CurrentItemPosition - 1);
+    }
     private void LoadTopics()
     {
         try {
-            chatMessageAdapter = new ChatMessageAdapter(this, AppCache.CachedTopics);
+            ListView lvChat= (ListView) findViewById(R.id.lvChat);
+            ChatMessageAdapter chatMessageAdapter;
+
+            chatMessageAdapter = new ChatMessageAdapter(getApplicationContext(), AppCache.CachedTopics);
             lvChat.setAdapter(chatMessageAdapter);
-            scrollMyListViewToBottom();
+            ScrollToRecentPosition();
+
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
     }
-    private void scrollMyListViewToBottom() {
-        lvChat.post(new Runnable() {
-            @Override
-            public void run() {
-                // Select the last row so it will scroll into view...
-                lvChat.setSelection(chatMessageAdapter.getCount() - 1);
-            }
-        });
-    }
+
     private  TopicsModel FillTopic(String TopicsMessage)
     {
         try {
             TopicsModel item =new TopicsModel();
-                item.ThreadID = 1;
+                item.ThreadID = AppCache.SelectedThread.ThreadID;
                 item.Description = TopicsMessage;
                 item.Slug = "";
                 item.IsActive = true;
                 item.SeqNo = 1;
-                item.CreatedBy = 1;
+                item.CreatedBy = AppCache.HisUserID;
                 item.CreatedDate = AppConstants.StandardDateFormat
                         .format(new Date());
                 item.ModifiedBy = 0;
@@ -179,8 +212,9 @@ return item;
         }
         return null;
     }
-    public void FetchTopicsFromServer(){
+    public void FetchTopicsFromServer(int PageIndex){
         try{
+            if (AppCache.SelectedThread == null){return;}
             TopicsFacade tf = new TopicsFacade(CurrentContext);
             tf.setOnFinishedEventListener(new OnLoadedListener() {
                 @Override
@@ -188,11 +222,34 @@ return item;
                     LoadTopics();
                 }
             });
-tf.GetTopicsByThreadID(1);
+            tf.GetTopicsByThreadID(AppCache.SelectedThread.ThreadID,PageIndex);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    private void SetBackButtonAction() {
+        try {
+            View v = getActionBar().getCustomView();
+            TextView txtHeader=(TextView)v.findViewById(R.id.txtHeader);
+            Button btnGoBack = (Button) v.findViewById(R.id.btnGoBack);
+            txtHeader.setText(AppCache.SelectedThread.Description);
+            btnGoBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GotToPreviousPage();
+                }
+            });
+        } catch (Exception ex) {
+            //  LogHelper.HandleException(ex);
+        }
+    }
+    private  void GotToPreviousPage(){
+        Intent intent = new Intent(getApplicationContext(),
+                GroupsActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.activity_move_left_open,
+                R.anim.activity_move_left_close);
     }
     public void SaveTopic(TopicsModel InputTopic) {
         try {
@@ -209,5 +266,31 @@ tf.GetTopicsByThreadID(1);
             ex.printStackTrace();
         }
     }
+    private boolean listIsAtTop()   {
+        if(lvChat.getChildCount() == 0) return true;
+        return lvChat.getChildAt(0).getTop() == 0;
+    }
+    private AbsListView.OnScrollListener onScrollListener() {
+        return new AbsListView.OnScrollListener() {
 
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+               // int threshold = 1;
+               // int count = lvChat.getCount();
+
+                if (listIsAtTop()) {
+                  //  if (lvChat.getLastVisiblePosition() >= count - threshold) {
+                        pageCount = pageCount + 1;
+                        FetchTopicsFromServer(pageCount);
+                  //  }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
+            }
+
+        };
+    }
 }

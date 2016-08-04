@@ -158,17 +158,30 @@ html, body
 {
     margin-bottom: 0px !important;
 }
-
+.no-margin-left
+{
+    margin-left:0% !important;
+}
+.no-margin-right
+{
+    margin-right:0% !important;
+}
 .header2
 {
-    font-size: 2em;
+    font-size: 2em !important;
 }
-
+.header3
+{
+    font-size:1.5em!important;
+}
 .fontcolor-orange
 {
     color: orangered;
 }
-
+.fontcolor-white
+{
+    color: white!important;
+}
 .txtbox-default-width
 {
     width: 94% !important;
@@ -177,4 +190,11 @@ html, body
 .cursor-hand
 {
     cursor: pointer;
+}
+.image-header
+{
+    padding-right:15px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    width: 25%;
 }

@@ -32,7 +32,7 @@
         </div>
         <hr />
 
-        <div class="Thread-height form-inline margin-s ">
+        <div class="Thread-height form-inline margin-s hidden-xs hidden-lg ">
             <h4 class="pull-left no-margin-top dropWidth">
                 <i class="ion-android-folder"></i> Threads</h4>
             <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success margin-s-left">
@@ -44,6 +44,30 @@
 
                 </div>
             </div>
+        </div>
+        <div class="form-inline margin-s  hidden-md hidden-sm" >
+            <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
+                <i class="ion-android-folder"></i> Threads
+            </h4>
+
+            <div class="dropdown pull-left dropWidth" id="ddlThreads">
+                <button class="btn btn-warning dropdown-toggle def-Width" type="button" id="btnSelectedThreads" data-toggle="dropdown">
+                    <span ng-bind="SelectedThread"></span>
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu def-Width">
+                    <li ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
+                        <a ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a>
+                    </li>
+
+                </ul>
+            </div>
+            <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-danger margin-s-left">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+
+
         </div>
     </div>
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">

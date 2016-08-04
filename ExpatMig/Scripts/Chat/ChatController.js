@@ -47,6 +47,7 @@
                         console.log(FullList);
                     };
                     $scope.SelectedGroup = "Select Group";
+                    $scope.SelectedThread = "Select Thread";
                     $scope.SelectedThreadID = 0;
                     $scope.LoadMoreTopics = function () {
                         TopicPageIndex += 1;

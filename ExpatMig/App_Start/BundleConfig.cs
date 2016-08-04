@@ -31,6 +31,9 @@ namespace ExpatMig
             bundles.Add(new StyleBundle("~/bundles/chatstyle").Include(
                       "~/Content/Chat.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/homestyle").Include(
+                    "~/Content/Home.css"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/chatng").Include(
                         "~/Scripts/Global/Utils.js",

@@ -24,19 +24,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Expat Migration", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="~/Images/iboltz.png"  class="img-square pull-left image-header"/>
+                @Html.ActionLink("Expat Migration", "Index", "Home", new { area = "" }, new { @class = "navbar-brand fontcolor-white header2 margin-xs-top no-margin-left" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @*<li>  @Html.ActionLink("Home", "Index", "Home", new { @class = "fontcolor-white header3" })</li>*@
+                    @*<li>@Html.ActionLink("Chats", "ChatDetails", "Chat", new { @class = "fontcolor-white header3" })</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content margin-s-top">
+    <div class="body-content clear-padding">
         @RenderBody()
         <hr />
         <footer>

@@ -200,3 +200,33 @@ html, body
     height: 20px;
     margin-top: -10px;
     }
+
+    /*              **************  JqToast  ************************              */
+.ToastText
+{
+    color: white;
+    font-size: 2.5em; 
+    font-weight: 100;
+}
+
+.JqToast
+{
+    width: 100%;
+    position: absolute;
+    background-color: #444;
+    overflow: hidden;
+    display: none;
+    opacity: 0;
+    padding: 4%;
+    float: left;
+    z-index: 101;
+}
+
+.ToastText h3
+{
+    color: yellow;
+    text-decoration: underline;
+    font-weight: 100;
+    display: inline;
+    text-transform: capitalize;
+}

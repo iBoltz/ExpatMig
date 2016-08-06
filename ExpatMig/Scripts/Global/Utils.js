@@ -603,6 +603,71 @@ function ShowJqMsgBox(Message, Title) {
     }
 }
 
+
+
+function ShowToast(Message) {
+    try {
+        var Lines = CountMatch(Message, '<br />', 0);
+        var TotalHeight = Lines * 100
+        if (TotalHeight > 500) TotalHeight = 300;
+        if (TotalHeight < 250) TotalHeight = 100;
+        var TotalWidth = $(window).width();// 3/4 of the screen
+        // if (TotalWidth > 800) TotalWidth = 800;
+
+
+        if ($('#JqToast').length == 0) {
+            $('body').append("<div id='JqToast' class='JqToast text-center' style='width:" + TotalWidth
+                + ",height:" + TotalHeight + "'></div>");
+
+            $('#JqToast').append("<div id='ToastText' class='ToastText'>" + Message + "</div>");
+        }
+        $('.JqToast').width(TotalWidth + 'px');
+
+        $('.JqToast').center(); //this  is the div of the dialog
+        $('.JqToast').css('left', 0);//bug in center function
+        $('.JqToast').css({
+            'display': 'block',
+            'z-index': $('div').GetMaxZindex() + 3
+        });
+
+        $(".JqToast").animate({
+            "opacity": "1"
+        }, { queue: false, duration: 1000 }, 'swing', function () { $('.JqToast').center(); });
+        $('#ToastText').html(Message);
+
+        setTimeout(function () {
+
+            $(".JqToast").animate({
+                "opacity": "0"
+            }, 1000, 'swing', function () {
+                $(".JqToast").css("display", "none");
+            });
+
+        }, 5000);
+
+      
+
+    }
+    catch (ex) {
+        alert(ex);
+    }
+}
+
+function CountMatch(string, subString, allowOverlapping) {
+
+    string += ""; subString += "";
+    if (subString.length <= 0) return string.length + 1;
+
+    var n = 0, pos = 0;
+    var step = (allowOverlapping) ? (1) : (subString.length);
+
+    while (true) {
+        pos = string.indexOf(subString, pos);
+        if (pos >= 0) { n++; pos += step; } else break;
+    }
+    return (n);
+}
+
 function CountMatch(string, subString, allowOverlapping) {
 
     string += ""; subString += "";

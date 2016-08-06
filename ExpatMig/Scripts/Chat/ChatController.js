@@ -38,7 +38,7 @@
                             var Formated = FormatViewModal(result);
                             if (Formated.length <= 0) {
                                 HasReachedTop = true;
-                                alert('No more new messges');
+                                ShowToast('No more new messges');
                                 return;
                             }
                             console.log(" Existing data in memory " + $scope.AllTopics.length)
@@ -98,7 +98,7 @@
                         $scope.SelectedThreadID = SelectedID;
                         //$scope.AllTopics = [];
                         TopicPageIndex = 0;
-
+                        HasReachedTop = 0;
                         FreshLoad = true;
                         $scope.ListChat(SelectedID, TopicPageIndex);
 
@@ -196,6 +196,8 @@
                             "SeqNo": 1, "CreatedBy": CurrentUserID,
                             "CreatedDate": new Date()
                         }
+                        console.log("Current Time is",new Date());
+
                         var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                         MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
                         var TopicToPush = {

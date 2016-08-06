@@ -114,7 +114,7 @@ public class BaseActivity extends Activity implements
             Button btnGoBack = (Button) findViewById(R.id.btnGoBack);
             TextView txtHeader=(TextView) findViewById(R.id.txtHeader);
             txtHeader.setTypeface(AppCache.FontQuickRegular);
-            btnGoBack.setTypeface(AppCache.FontQuickRegular);
+            btnGoBack.setTypeface(AppCache.IonIcons);
 
 //            txtHeader.setEllipsize(TruncateAt.END);
 

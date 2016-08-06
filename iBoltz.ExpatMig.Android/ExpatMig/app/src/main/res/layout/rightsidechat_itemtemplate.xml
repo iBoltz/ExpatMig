@@ -25,7 +25,8 @@
                 android:layout_gravity="left"
                 android:layout_weight="0.7"
                 android:padding="@dimen/padding_m"
-                android:textSize="@dimen/text_size_s" />
+                android:textSize="@dimen/text_size_s"
+                android:textColor="@color/dark_gray" />
 
             <TextView
                 android:layout_width="0dp"
@@ -33,9 +34,9 @@
                 android:text="12-Jan-2016 14:22"
                 android:id="@+id/lblCreatedDate"
                 android:layout_weight="0.25"
-                android:textAlignment="viewEnd"
                 android:gravity="right"
-                android:padding="@dimen/padding_m" />
+                android:padding="@dimen/padding_m"
+                android:textColor="@color/iBoltzDarkGray" />
 
         </LinearLayout>
 

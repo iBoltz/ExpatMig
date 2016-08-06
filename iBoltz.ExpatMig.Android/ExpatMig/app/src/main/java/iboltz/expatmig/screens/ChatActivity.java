@@ -34,9 +34,9 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     ListView lvChat;
     EditText txtMsg;
     Button btnSend;
-//    Button btnRefresh;
+    //    Button btnRefresh;
     ChatMessageAdapter chatMessageAdapter;
-    ArrayList<TopicsModel> topic=new ArrayList<TopicsModel>();
+    ArrayList<TopicsModel> topic = new ArrayList<TopicsModel>();
     public static Activity CurrentInstance;
     public static boolean IsRunningNow = false;
     public static String NotificationMessage = "";
@@ -44,11 +44,18 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     private int pageCount = 0;
 
     @Override
-    public void PostStatusToOrder(String Message) {
+    public void PostStatusToOrder(TopicsModel Message) {
+        AppCache.CachedTopics.add(Message);
+        AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LoadTopics();
+            }
+        });
 
-        RefreshChat(Message);
-     
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -60,6 +67,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         super.onStop();
         IsRunningNow = false;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,60 +100,36 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
         return super.onOptionsItemSelected(item);
     }
+
     private void InitControls() {
         try {
 
-            AppCache.CachedTopics= new ArrayList<TopicsModel>();
+            AppCache.CachedTopics = new ArrayList<TopicsModel>();
 
-        //    lvChat = (ListView) findViewById(R.id.lvChat);
+            lvChat = (ListView) findViewById(R.id.lvChat);
             btnSend = (Button) findViewById(R.id.btnSend);
 //            btnRefresh=(Button) findViewById(R.id.btnRefresh);
 
-            btnSend.setTypeface(AppCache.LinearIcons);
+            btnSend.setTypeface(AppCache.IonIcons);
 //            btnRefresh.setTypeface(AppCache.LinearIcons);
 
             txtMsg = (EditText) findViewById(R.id.txtMsg);
             txtMsg.setTypeface(AppCache.FontQuickRegular);
-            if(AppCache.CachedTopics!=null)
-            {
-            LoadTopics();
+            if (AppCache.CachedTopics != null) {
+                LoadTopics();
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-private void RefreshChat(String Message){
+    }
 
-    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<TopicsModel>() {
-    }).getType();
 
-    TopicsModel GetLatestTopic = new Gson()
-            .fromJson(Message,
-                    (java.lang.reflect.Type) collectionType);
-
-    AppCache.CachedTopics.add(GetLatestTopic);
-    AppCache.CurrentItemPosition= AppCache.CachedTopics.size();
-    runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-            LoadTopics();
-        }
-    });
-
-}
 
     private void ButtonListener() {
         try {
             lvChat.setOnScrollListener(onScrollListener());
 
-          /*  lvChat.setOnScrollListener(new EndlessScrollListener(10,0) {
-                @Override
-                public boolean onLoadMore(int page, int totalItemsCount) {
-                    FetchTopicsFromServer(page);
-                    return true;
-                }
-            });*/
+
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -159,62 +143,61 @@ private void RefreshChat(String Message){
                     LoadTopics();
                     SaveTopic(InputTopic);
                     txtMsg.setText("");
-                    AppCache.CurrentItemPosition=AppCache.CachedTopics.size();
+                    AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
 
                 }
             });
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    private void ScrollToRecentPosition(){
+
+    private void ScrollToRecentPosition() {
 
         lvChat.setSelection(AppCache.CurrentItemPosition - 1);
     }
-    private void LoadTopics()
-    {
+
+    private void LoadTopics() {
         try {
-            ListView lvChat= (ListView) findViewById(R.id.lvChat);
+            ListView lvChat = (ListView) findViewById(R.id.lvChat);
             ChatMessageAdapter chatMessageAdapter;
 
             chatMessageAdapter = new ChatMessageAdapter(getApplicationContext(), AppCache.CachedTopics);
             lvChat.setAdapter(chatMessageAdapter);
             ScrollToRecentPosition();
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private  TopicsModel FillTopic(String TopicsMessage)
-    {
+    private TopicsModel FillTopic(String TopicsMessage) {
         try {
-            TopicsModel item =new TopicsModel();
-                item.ThreadID = AppCache.SelectedThread.ThreadID;
-                item.Description = TopicsMessage;
-                item.Slug = "";
-                item.IsActive = true;
-                item.SeqNo = 1;
-                item.CreatedBy = AppCache.HisUserID;
-                item.CreatedDate = AppConstants.StandardDateFormat
-                        .format(new Date());
-                item.ModifiedBy = 0;
-                item.ModifiedDate = AppConstants.StandardDateFormat
-                        .format(new Date());
-return item;
-        }
-        catch (Exception ex)
-        {
+            TopicsModel item = new TopicsModel();
+            item.ThreadID = AppCache.SelectedThread.ThreadID;
+            item.Description = TopicsMessage;
+            item.Slug = "";
+            item.IsActive = true;
+            item.SeqNo = 1;
+            item.UserName = AppCache.UserName;
+            item.CreatedBy = AppCache.HisUserID;
+            item.CreatedDate = AppConstants.StandardDateFormat
+                    .format(new Date());
+            item.ModifiedBy = 0;
+            item.ModifiedDate = AppConstants.StandardDateFormat
+                    .format(new Date());
+            return item;
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
     }
-    public void FetchTopicsFromServer(int PageIndex){
-        try{
-            if (AppCache.SelectedThread == null){return;}
+
+    public void FetchTopicsFromServer(int PageIndex) {
+        try {
+            if (AppCache.SelectedThread == null) {
+                return;
+            }
             TopicsFacade tf = new TopicsFacade(CurrentContext);
             tf.setOnFinishedEventListener(new OnLoadedListener() {
                 @Override
@@ -222,16 +205,17 @@ return item;
                     LoadTopics();
                 }
             });
-            tf.GetTopicsByThreadID(AppCache.SelectedThread.ThreadID,PageIndex);
+            tf.GetTopicsByThreadID(AppCache.SelectedThread.ThreadID, PageIndex);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     private void SetBackButtonAction() {
         try {
             View v = getActionBar().getCustomView();
-            TextView txtHeader=(TextView)v.findViewById(R.id.txtHeader);
+            TextView txtHeader = (TextView) v.findViewById(R.id.txtHeader);
             Button btnGoBack = (Button) v.findViewById(R.id.btnGoBack);
             txtHeader.setText(AppCache.SelectedThread.Description);
             btnGoBack.setOnClickListener(new View.OnClickListener() {
@@ -244,16 +228,18 @@ return item;
             //  LogHelper.HandleException(ex);
         }
     }
-    private  void GotToPreviousPage(){
+
+    private void GotToPreviousPage() {
         Intent intent = new Intent(getApplicationContext(),
                 GroupsActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.activity_move_left_open,
                 R.anim.activity_move_left_close);
     }
+
     public void SaveTopic(TopicsModel InputTopic) {
         try {
-           TopicsFacade tf = new TopicsFacade(CurrentContext);
+            TopicsFacade tf = new TopicsFacade(CurrentContext);
 
             tf.setOnFinishedEventListener(new OnLoadedListener() {
                 @Override
@@ -266,23 +252,28 @@ return item;
             ex.printStackTrace();
         }
     }
-    private boolean listIsAtTop()   {
-        if(lvChat.getChildCount() == 0) return true;
-        return lvChat.getChildAt(0).getTop() == 0;
+
+    private boolean listIsAtTop() {
+        //   if(lvChat.getChildCount() == 0) return true;
+        int CurrentChildCount = lvChat.getChildCount();
+
+        return lvChat.getFirstVisiblePosition() == 0 && (lvChat.getChildCount() == 0 || lvChat.getChildAt(0).getTop() == 0);
+        //  return lvChat.getChildAt(0).getTop() == 0;
     }
+
     private AbsListView.OnScrollListener onScrollListener() {
         return new AbsListView.OnScrollListener() {
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-               // int threshold = 1;
-               // int count = lvChat.getCount();
-
-                if (listIsAtTop()) {
-                  //  if (lvChat.getLastVisiblePosition() >= count - threshold) {
-                        pageCount = pageCount + 1;
-                        FetchTopicsFromServer(pageCount);
-                  //  }
+                // int threshold = 1;
+                // int count = lvChat.getCount();
+                Boolean IsAllow = listIsAtTop();
+                if (IsAllow) {
+                    //  if (lvChat.getLastVisiblePosition() >= count - threshold) {
+                    pageCount = pageCount + 1;
+                    FetchTopicsFromServer(pageCount);
+                    //  }
                 }
             }
 

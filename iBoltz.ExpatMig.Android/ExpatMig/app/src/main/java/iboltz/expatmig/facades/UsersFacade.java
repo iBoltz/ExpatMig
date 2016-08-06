@@ -128,6 +128,7 @@ public class UsersFacade {
                     @Override
                     public void OnResponseReceived(WebClientEventObject e) {
                         LocalCache ThatItemFromCache = PushToLocalStore(e.ResponseData, "HasLoggedIn");
+                        LocalCache UserNameToCache = PushToLocalStore(UserName, "UserName");
                         RaiseOnProcesFinished(ThatItemFromCache);
                     }
                 });
@@ -212,7 +213,7 @@ public class UsersFacade {
 
     public void UpdateUserByPhoneNo() {
         try {
-            String UpdateUrl = WebServiceUrls.UserUpdationService
+           /* String UpdateUrl = WebServiceUrls.UserUpdationService
                     + AppCache.HisUserID + "/" + AppCache.HostPhoneNo;
             WebClient Wc = new WebClient(CurrentContext);
             Wc.GetData(UpdateUrl);
@@ -221,7 +222,7 @@ public class UsersFacade {
                 public void OnResponseReceived(WebClientEventObject e) {
                     RaiseOnProcesFinished();
                 }
-            });
+            });*/
         } catch (Exception ex) {
             LogHelper.HandleException(ex);
         }

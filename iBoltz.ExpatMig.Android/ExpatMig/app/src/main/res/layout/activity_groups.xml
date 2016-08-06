@@ -11,43 +11,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pnlLogin">
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:weightSum="1">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_m"
+        android:layout_weight=".7"
+        android:background="@drawable/spinner_border"
+        android:orientation="horizontal">
 
-        <RelativeLayout
+        <Spinner
+            android:id="@+id/ddlGroups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_m"
-            android:layout_weight=".28"
-            android:background="@drawable/spinner_border"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/ddlGroups"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:spinnerMode="dropdown" />
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:spinnerMode="dropdown" />
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/drop" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/drop" />
 
-        </RelativeLayout>
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btnNewGroup"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_m"
+        android:layout_weight="0.3"
+        android:background="@drawable/button_green"
+        android:textColor="@color/iBoltzWhite"
+        android:text="">
+
+    </Button>
+</LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:weightSum="1">
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_m"
-            android:layout_weight=".28"
+            android:layout_weight=".7"
             android:background="@drawable/spinner_border"
             android:orientation="horizontal">
-
         <Spinner
             android:id="@+id/ddlThreads"
             android:layout_width="match_parent"
@@ -66,16 +89,27 @@
                 android:layout_gravity="center"
                 android:src="@drawable/drop" />
         </RelativeLayout>
+        <Button
+            android:id="@+id/btnNewThread"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_m"
+            android:layout_weight="0.3"
+            android:background="@drawable/button_green"
+            android:textColor="@color/iBoltzWhite"
+            android:text="">
 
-
+        </Button>
+</LinearLayout>
 
 <Button
     android:id="@+id/btnChat"
     android:layout_width="fill_parent"
     android:layout_margin="@dimen/margin_m"
     android:layout_height="wrap_content"
-    android:background="@drawable/button_green"
-    android:text="Let's Chat"/>
+    android:background="@drawable/button_orange"
+    android:textColor="@color/iBoltzWhite"
+    android:text=" Let's Chat"/>
 
     </LinearLayout>
 </RelativeLayout>

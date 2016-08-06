@@ -5,16 +5,17 @@ package iboltz.expatmig.models;
  */
 public class TopicsModel {
     private static final long serialVersionUID = 85681452;
-
+    public String UserName;
+    public int TopicID;
     public int ThreadID;
     public String Description;
+    public int CreatedBy;
+    public String CreatedDate;
     public String Slug;
     public Boolean IsActive;
     public int SeqNo;
-    public int CreatedBy;
-    public String CreatedDate;
     public int ModifiedBy;
     public String ModifiedDate;
-    public String UserName;
+
 }
 

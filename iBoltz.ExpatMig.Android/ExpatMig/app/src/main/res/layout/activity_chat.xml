@@ -16,19 +16,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:weightSum="1"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:gravity="center|bottom"
         android:orientation="horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/padding_m"
+        android:paddingBottom="@dimen/padding_m">
 
         <EditText
             android:id="@+id/txtMsg"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="0.8"
             android:hint="Type a message"/>
 
@@ -36,9 +38,11 @@
         <Button
             android:id="@+id/btnSend"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="0.2"
-            android:text="Send"
+            android:background="@drawable/button_green"
+            android:textColor="@color/iBoltzWhite"
+            android:text=""
              />
     </LinearLayout>
 </LinearLayout>

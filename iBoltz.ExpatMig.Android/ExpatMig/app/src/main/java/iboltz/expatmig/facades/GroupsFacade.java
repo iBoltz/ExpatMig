@@ -13,6 +13,7 @@ import iboltz.expatmig.ListenerInterfaces.WebClientEventObject;
 import iboltz.expatmig.ListenerInterfaces.WebClientListeners;
 import iboltz.expatmig.models.GroupsModel;
 import iboltz.expatmig.utils.AppCache;
+import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.WebClient;
 import iboltz.expatmig.utils.WebServiceUrls;
 
@@ -40,6 +41,36 @@ public class GroupsFacade {
         }
 
     }
+    public void SaveNewGroup(GroupsModel ThisGroup) {
+        try {
+            Gson gson = new Gson();
+            String PostData = gson.toJson(ThisGroup);
+
+            String UpdateUrl = WebServiceUrls.SaveNewGroup;
+
+            WebClient Wc = new WebClient(CurrentContext);
+            Wc.PostData(UpdateUrl, PostData);
+            Wc.setOnResponseReceivedListener(new WebClientListeners() {
+                @Override
+                public void OnResponseReceived(WebClientEventObject e) {
+                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<GroupsModel>() {
+                    }).getType();
+
+                   GroupsModel NewModel = new Gson()
+                            .fromJson(
+                                    e.ResponseData,
+                                    (java.lang.reflect.Type) collectionType);
+
+                   AppCache.SelectedGroup=NewModel;
+                    OnFinished();
+                }
+            });
+        }
+        catch (Exception ex) {
+            LogHelper.HandleException(ex);
+        }
+    }
+
     public void LoadAllGroups(){
         try{
             String UpdateUrl = WebServiceUrls.ListGroups ;
@@ -57,7 +88,7 @@ public class GroupsFacade {
                                     e.ResponseData,
                                     (java.lang.reflect.Type) collectionType);
 
-                    AppCache.CachedModels = ListAllModels;
+                    AppCache.CachedGroups = ListAllModels;
                     OnFinished();
                 }
             });

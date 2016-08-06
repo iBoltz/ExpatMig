@@ -1,6 +1,7 @@
 package iboltz.expatmig.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,12 @@ import iboltz.expatmig.utils.DateUtils;
 /**
  * Created by ucfpriya on 26-07-2016.
  */
-public class ChatMessageAdapter extends ArrayAdapter<TopicsModel>
-{
+public class ChatMessageAdapter extends ArrayAdapter<TopicsModel> {
     private final Context context;
     private final ArrayList<TopicsModel> values;
 
     public ChatMessageAdapter(Context context,
-                              ArrayList<TopicsModel> objects)
-    {
+                              ArrayList<TopicsModel> objects) {
         super(context, R.layout.rightsidechat_itemtemplate, objects);
 
         this.context = context;
@@ -34,16 +33,13 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel>
     }
 
     @Override
-    public TopicsModel getItem(int position)
-    {
+    public TopicsModel getItem(int position) {
         return values.get(position);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        try
-        {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        try {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -63,14 +59,19 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel>
 
             lblUserName.setText(item.UserName);
             lblUserName.setTypeface(AppCache.FontQuickRegular);
+                String CreatedDate = DateUtils.DisplayDate(item.CreatedDate);
 
-            lblCreatedDate.setText(DateUtils.DisplayDate( item.CreatedDate));
+            lblCreatedDate.setText(CreatedDate);
+
+            if (TextUtils.isEmpty(CreatedDate)) {
+                lblCreatedDate.setText(item.CreatedDate);
+            }
+
             lblCreatedDate.setTypeface(AppCache.FontQuickRegular);
 
 
             return rowView;
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
             return null;
         }

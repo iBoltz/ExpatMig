@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.util.Date;
 import java.util.EventObject;
 
 import iboltz.expatmig.ListenerInterfaces.UsersFacadeListeners;
@@ -19,8 +20,11 @@ import iboltz.expatmig.facades.UsersFacade;
 import iboltz.expatmig.gcmutils.GcmManager;
 import iboltz.expatmig.models.LocalCache;
 import iboltz.expatmig.utils.AppCache;
+import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.utils.BaseActivity;
+import iboltz.expatmig.utils.DateUtils;
 import iboltz.expatmig.utils.LogHelper;
+import iboltz.expatmig.utils.StorageManager;
 import iboltz.expatmig.utils.UiUtils;
 
 public class SplashActivity extends BaseActivity
@@ -44,9 +48,33 @@ public class SplashActivity extends BaseActivity
 
     private void CheckLoginAndRegisterGcm() {
         if (CheckAlreadyLoggedIn()) {
+            CheckAndRefreshGcmCache();
+
+
             GcmManager gcmManager = new GcmManager((Activity) CurrentContext);
             gcmManager.registerGCM();
             RedirectToChat();
+        }
+    }
+
+    private void CheckAndRefreshGcmCache() {
+        //if the reg check at gcm server is more than 24 hrs old then
+        //clear the local store to refetch the rgistration id
+        //if registration id is same in the gcm server
+        // it will return the same gcm. wont fetch new one
+        try {
+            String LastUpdatedOnString = StorageManager.Get(CurrentContext, "LastRegisteredDate");
+            if (LastUpdatedOnString.trim() == "") return;
+            Date LastUpdatedOn = AppConstants.JsonDateFormat.parse(LastUpdatedOnString);
+
+            if (DateUtils.AddDays(LastUpdatedOn, 1).getTime() >= (new Date()).getTime()) {
+                //clear pref edit
+                StorageManager.Put(CurrentContext, "REG_ID", "");
+
+            }
+
+        } catch (Exception ex) {
+            LogHelper.HandleException(ex);
         }
     }
 
@@ -64,6 +92,10 @@ public class SplashActivity extends BaseActivity
 
     private boolean CheckAlreadyLoggedIn() {
         LocalCache ThatItemFromCache = AppCache.GetLocalCacheByName("HasLoggedIn");
+        LocalCache UserNameFromCache = AppCache.GetLocalCacheByName("UserName");
+        if(UserNameFromCache != null){
+            AppCache.UserName= String.valueOf(UserNameFromCache.CacheValue);
+        }
         if (ThatItemFromCache == null || ThatItemFromCache.CacheValue == null) return false;
         int UserID = Integer.parseInt(ThatItemFromCache.CacheValue);
         if (UserID >= 0) {
@@ -99,6 +131,10 @@ public class SplashActivity extends BaseActivity
             public void OnProcesFinished(EventObject e) {
 //                        UiUtils.ShowToast((Activity) CurrentContext, "You Loged in " + e.toString());
                 LocalCache PassedValue = (LocalCache) e.getSource();
+                LocalCache UserNameFromCache = AppCache.GetLocalCacheByName("UserName");
+                if(UserNameFromCache != null){
+                    AppCache.UserName= String.valueOf( UserNameFromCache.CacheValue);
+                }
                 int UserID = Integer.parseInt(PassedValue.CacheValue);
 
                 if (UserID >= 0) {

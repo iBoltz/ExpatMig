@@ -35,8 +35,9 @@ public class AppCache {
     public static List<LocalCache> Cached;
     public static ArrayList<TopicsModel> CachedTopics=null;
     public static ArrayList<ThreadsModel> CachedThreads;
-    public static ArrayList<GroupsModel> CachedModels;
+    public static ArrayList<GroupsModel> CachedGroups;
     public static ThreadsModel SelectedThread=null;
+    public static GroupsModel SelectedGroup=null;
     public static int CurrentItemPosition=0;
 
     public static Typeface LinearIcons = null;
@@ -61,7 +62,8 @@ public class AppCache {
     public static ArrayList<UserRolesModel> HisRoles;
     public static String RegistrationID = "";
     public static Integer HisUserID = -1;
-    public static String HostPhoneNo = "";
+
+    public static String UserName = "";
     public static Integer ScreenWidth;
     public static Integer ScreenHeight;
 

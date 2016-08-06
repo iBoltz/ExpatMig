@@ -130,7 +130,21 @@ namespace ExpatMig.Controllers
             db.SaveChanges();
 
 
-            var TopicMessage = new JavaScriptSerializer().Serialize(topic);
+            var Output = from EachTopic in db.Topics
+                         join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         where EachTopic.TopicID == topic.TopicID
+                         orderby EachTopic.CreatedDate descending
+                         select new
+                         {
+                             EachUser.UserName,
+                             EachTopic.TopicID,
+                             EachTopic.ThreadID,
+                             EachTopic.Description,
+                             EachTopic.CreatedBy,
+                             EachTopic.CreatedDate
+                         };
+            var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
+
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {

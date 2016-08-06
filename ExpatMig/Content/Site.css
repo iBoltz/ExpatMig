@@ -230,3 +230,11 @@ html, body
     display: inline;
     text-transform: capitalize;
 }
+
+
+/***************************    Bootstrap Tabs    ******************/
+
+.tab-body
+{
+    background-color:white;
+}

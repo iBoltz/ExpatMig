@@ -1,0 +1,30 @@
+﻿@model ExpatMig.Models.PointsCalculatorModel
+@section Head
+{
+    <link href="~/Content/gsdk-base.css" rel="stylesheet" />
+}
+@{
+    ViewBag.Title = "PRCalculatorResult";
+}
+
+<h2>Result</h2>
+
+<div>
+    <h2>
+        <div class="image-container set-full-height" >
+            <div class="container">
+                <div class="card wizard-card ct-wizard-orange">
+                    <div class="wizard-container">
+                        <h4 class="info-text">
+                            Your score is
+                            @Html.DisplayFor(prcalc => prcalc.score) !!!
+                            </h4>
+</div>
+                </div>
+                </div>
+            </div>
+</h2>
+</div>
+<p>
+       @Html.ActionLink("Back to Calculator", "PRCalculator")
+</p>

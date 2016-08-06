@@ -186,6 +186,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\PointsCalculatorController.cs" />
     <Compile Include="Controllers\ThreadsController.cs" />
     <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Controllers\UserDevicesController.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\PointsCalculatorModel.cs" />
     <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
     <Compile Include="Models\UserProfile.cs" />
@@ -218,6 +220,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chat.css" />
+    <Content Include="Content\gsdk-base.css" />
+    <Content Include="Content\Images\sydney.jpg" />
     <Content Include="Docs\AndroidFCM.txt" />
     <Content Include="Docs\WebFCM.txt" />
     <Content Include="favicon.ico" />
@@ -1036,6 +1040,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PointsCalculator\jquery.bootstrap.wizard.js" />
+    <Content Include="Scripts\PointsCalculator\wizard.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\UserProfile\UserProfileController.js" />
@@ -1077,6 +1083,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Chat\ChatDetails.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\PointsCalculator\PRCalculator.cshtml" />
+    <Content Include="Views\PointsCalculator\PRCalculatorResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

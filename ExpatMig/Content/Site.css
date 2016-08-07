@@ -238,3 +238,12 @@ html, body
 {
     background-color:white;
 }
+.tab-content
+{
+
+    background-color:white;
+    padding:20px;
+    border-bottom:solid 1px #DDE ;
+    border-left:solid 1px #DDE;
+    border-right:solid 1px #DDE;
+}

@@ -17,6 +17,7 @@ namespace ExpatMig.Models
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String PhoneNumber { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yy}", ApplyFormatInEditMode = true)]
         public DateTime? BirthDay { get; set; }
         public int NativeCityID { get; set; }
         public int? MigratingToID { get; set; }
@@ -24,14 +25,15 @@ namespace ExpatMig.Models
         public String Sector { get; set; }
         public String LinkedIn { get; set; }
         public String VisaType { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yy}", ApplyFormatInEditMode = true)]
         public DateTime? VisaGrantOn { get; set; }
         public string Suburb { get; set; }
         public bool IsActive { get; set; }
         public int SeqNo { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
         public virtual ICollection<TravelLog> MyTravels { get; set; }
 

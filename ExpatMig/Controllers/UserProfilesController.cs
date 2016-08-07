@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using ExpatMig.Data;
 using ExpatMig.Models;
+using Microsoft.AspNet.Identity;
+using ExpatMig.ViewModels;
 
 namespace ExpatMig.Controllers
 {
@@ -86,13 +88,44 @@ namespace ExpatMig.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserProfileID,UserID,Nick,FirstName,LastName,PhoneNumber,BirthDay,NativeCityID,MigratingToID,Experience,Sector,LinkedIn,VisaType,VisaGrantOn,Suburb,IsActive,SeqNo,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate")] UserProfile userProfile)
+        public ActionResult Edit([Bind(Exclude = "UserID,IsActive,SeqNo,CreatedBy,CreatedDate",
+            Include = "UserProfileID,Nick,FirstName,LastName,PhoneNumber,BirthDay,NativeCityID,MigratingToID,Experience,Sector,LinkedIn,VisaType,VisaGrantOn,Suburb")]
+            UserProfileViewModel HisViewModel)
         {
+            var userProfile = db.UserProfiles.Where(x => x.UserID == HisViewModel.UserProfileID).FirstOrDefault();
+
             if (ModelState.IsValid)
             {
-                db.Entry(userProfile).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                  
+                    userProfile.BirthDay = HisViewModel.BirthDay;
+                    userProfile.Experience = HisViewModel.Experience;
+                    userProfile.FirstName = HisViewModel.FirstName;
+                    userProfile.LastName = HisViewModel.LastName;
+                    userProfile.LinkedIn = HisViewModel.LinkedIn;
+
+                    userProfile.MigratingToID = HisViewModel.MigratingToID;
+                    userProfile.NativeCityID = HisViewModel.NativeCityID;
+                    userProfile.Nick = HisViewModel.Nick;
+                    userProfile.PhoneNumber = HisViewModel.PhoneNumber;
+                    userProfile.Sector = HisViewModel.Sector;
+                    userProfile.Suburb = HisViewModel.Suburb;
+                    userProfile.VisaGrantOn = HisViewModel.VisaGrantOn;
+                    userProfile.VisaType = HisViewModel.VisaType;
+
+
+                    db.Entry(userProfile).State = EntityState.Modified;
+                    userProfile.ModifiedBy = int.Parse(User.Identity.GetUserId());
+                    userProfile.ModifiedDate = DateTime.Now;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
             }
             ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", userProfile.MigratingToID);
             ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", userProfile.NativeCityID);

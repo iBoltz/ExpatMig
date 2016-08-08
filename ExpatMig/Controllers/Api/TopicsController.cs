@@ -38,7 +38,7 @@ namespace ExpatMig.Controllers.Api
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate
                          };
-
+          
             var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
             return ReverseOrdered.OrderBy(x=>x.CreatedDate);
         }
@@ -141,8 +141,9 @@ namespace ExpatMig.Controllers.Api
                              EachTopic.ThreadID,
                              EachTopic.Description,
                              EachTopic.CreatedBy,
-                             EachTopic.CreatedDate
+                            CreatedDate=EachTopic.CreatedDate.ToString()
                          };
+            
             var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
 
 

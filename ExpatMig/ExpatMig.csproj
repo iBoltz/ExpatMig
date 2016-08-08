@@ -182,13 +182,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\UserAccessController.cs" />
+    <Compile Include="Controllers\Api\UserProfilesController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\PointsCalculatorController.cs" />
     <Compile Include="Controllers\ThreadsController.cs" />
-    <Compile Include="Controllers\TopicsController.cs" />
+    <Compile Include="Controllers\Api\TopicsController.cs" />
     <Compile Include="Controllers\UserDevicesController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />

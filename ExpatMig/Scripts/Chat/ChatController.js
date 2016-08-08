@@ -104,6 +104,7 @@
 
                     }
 
+
                     $scope.OnItemDatabound = function (element) {
                         console.log('FreshLoad', FreshLoad)
                         if (FreshLoad) return;
@@ -125,6 +126,12 @@
                         } else {
                             LoadedItems += 1;
                         }
+
+                    };
+
+                    $scope.ShowUserPrfile = function (UserID) {
+
+                        BridgeService.BridgeUserProfile(UserID);
 
                     };
 

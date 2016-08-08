@@ -13,6 +13,7 @@ using ExpatMig.ViewModels;
 
 namespace ExpatMig.Controllers
 {
+    [Authorize]
     public class UserProfilesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -73,14 +74,31 @@ namespace ExpatMig.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserProfile userProfile = db.UserProfiles.Find(id);
-            if (userProfile == null)
+            var FoundUser = db.UserProfiles.Where(x => x.UserID == id).FirstOrDefault();
+            if (FoundUser == null)
             {
-                return HttpNotFound();
+                ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", -1);
+                ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", -1);
+
+                return View(new UserProfileViewModel());
             }
-            ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", userProfile.MigratingToID);
-            ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", userProfile.NativeCityID);
-            return View(userProfile);
+            else
+            {
+                ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", FoundUser.MigratingToID);
+                ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", FoundUser.NativeCityID);
+
+                UserProfileViewModel userProfile = new UserProfileViewModel(FoundUser);
+                if (userProfile == null)
+                {
+                    return HttpNotFound();
+                }
+                if (FoundUser.UserID != int.Parse(User.Identity.GetUserId()))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                return View(userProfile);
+            }
+
         }
 
         // POST: UserProfiles/Edit/5
@@ -92,13 +110,20 @@ namespace ExpatMig.Controllers
             Include = "UserProfileID,Nick,FirstName,LastName,PhoneNumber,BirthDay,NativeCityID,MigratingToID,Experience,Sector,LinkedIn,VisaType,VisaGrantOn,Suburb")]
             UserProfileViewModel HisViewModel)
         {
-            var userProfile = db.UserProfiles.Where(x => x.UserID == HisViewModel.UserProfileID).FirstOrDefault();
+            var userProfile = db.UserProfiles.Where(x => x.UserProfileID == HisViewModel.UserProfileID).FirstOrDefault();
 
             if (ModelState.IsValid)
             {
+
                 try
                 {
-                  
+                    var IsNew = userProfile == null;
+
+                    if (IsNew)
+                    {
+                        userProfile = new UserProfile();
+                        userProfile.UserID= int.Parse(User.Identity.GetUserId());
+                    }
                     userProfile.BirthDay = HisViewModel.BirthDay;
                     userProfile.Experience = HisViewModel.Experience;
                     userProfile.FirstName = HisViewModel.FirstName;
@@ -115,9 +140,20 @@ namespace ExpatMig.Controllers
                     userProfile.VisaType = HisViewModel.VisaType;
 
 
-                    db.Entry(userProfile).State = EntityState.Modified;
-                    userProfile.ModifiedBy = int.Parse(User.Identity.GetUserId());
-                    userProfile.ModifiedDate = DateTime.Now;
+
+                    if (IsNew)
+                    {
+                        userProfile.CreatedBy = int.Parse(User.Identity.GetUserId());
+                        userProfile.CreatedDate = DateTime.Now;
+                        db.UserProfiles.Add(userProfile);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.Entry(userProfile).State = EntityState.Modified;
+                        userProfile.ModifiedBy = int.Parse(User.Identity.GetUserId());
+                        userProfile.ModifiedDate = DateTime.Now;
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }

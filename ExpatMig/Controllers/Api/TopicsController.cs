@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.Collections;
 
-namespace ExpatMig.Controllers
+namespace ExpatMig.Controllers.Api
 {
     public class TopicsController : ApiController
     {

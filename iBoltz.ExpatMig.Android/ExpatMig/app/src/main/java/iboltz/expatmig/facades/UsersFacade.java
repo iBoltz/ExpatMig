@@ -3,6 +3,7 @@ package iboltz.expatmig.facades;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Property;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -127,6 +128,10 @@ public class UsersFacade {
                 Wc.setOnResponseReceivedListener(new WebClientListeners() {
                     @Override
                     public void OnResponseReceived(WebClientEventObject e) {
+                        if(e.ResponseData.equals("-1")){
+                            Toast.makeText(CurrentContext, "Invalid! Please Register", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         LocalCache ThatItemFromCache = PushToLocalStore(e.ResponseData, "HasLoggedIn");
                         LocalCache UserNameToCache = PushToLocalStore(UserName, "UserName");
                         RaiseOnProcesFinished(ThatItemFromCache);

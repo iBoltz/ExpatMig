@@ -72,7 +72,7 @@ public class NetworkStateManager {
 				NetworkInfo netInfo = cm.getActiveNetworkInfo();
 				if (netInfo != null && netInfo.isConnected()) {
 					try {
-						String WebService = "http://" + params[0];
+						String WebService = "https://" + params[0];
 						URL url = new URL(WebService);   // Change to "http://google.com" for www  test.
 						HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
 						urlc.setConnectTimeout(10 * 1000);          // 10 s.

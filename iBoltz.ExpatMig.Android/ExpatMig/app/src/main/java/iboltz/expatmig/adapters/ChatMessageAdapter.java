@@ -2,6 +2,7 @@ package iboltz.expatmig.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,9 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel> {
                     .findViewById(R.id.lblUserName);
             TextView lblCreatedDate = (TextView) rowView
                     .findViewById(R.id.lblCreatedDate);
-
+if(item.CreatedBy == AppCache.HisUserID){
+    lblRightSideMsg.setGravity(Gravity.RIGHT);
+}
 
             lblRightSideMsg.setText(item.Description);
             lblRightSideMsg.setTypeface(AppCache.FontQuickRegular);

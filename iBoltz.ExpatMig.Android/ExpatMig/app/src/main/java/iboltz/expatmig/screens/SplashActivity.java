@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Date;
 import java.util.EventObject;
@@ -108,11 +109,20 @@ public class SplashActivity extends BaseActivity
     }
 
     private void InitCtrls() {
+        TextView lblUserName=(TextView) findViewById(R.id.lblUserName);
+        TextView lblPassword=(TextView) findViewById(R.id.lblPassword);
+        TextView txtHeader=(TextView) findViewById(R.id.txtHeader);
+
+
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUserName = (EditText) findViewById(R.id.txtUserName);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         pnlLogin = (LinearLayout) findViewById(R.id.pnlLogin);
-
+        btnLogin.setTypeface(AppCache.IonIcons);
+        txtUserName.setTypeface(AppCache.FontQuickRegular);
+        lblUserName .setTypeface(AppCache.FontQuickRegular);
+        lblPassword.setTypeface(AppCache.FontQuickRegular);
+        txtHeader.setTypeface(AppCache.FontQuickRegular);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,6 +16,6 @@ public class TopicsModel {
     public int SeqNo;
     public int ModifiedBy;
     public String ModifiedDate;
-
+public  int UserDeviceID;
 }
 

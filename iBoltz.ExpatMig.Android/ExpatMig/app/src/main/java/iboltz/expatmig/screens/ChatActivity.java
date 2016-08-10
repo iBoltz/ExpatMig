@@ -2,6 +2,10 @@ package iboltz.expatmig.screens;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -10,6 +14,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +34,7 @@ import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
 import iboltz.expatmig.utils.EndlessScrollListener;
+import iboltz.expatmig.utils.StorageManager;
 
 public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
     ListView lvChat;
@@ -118,6 +124,12 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             if (AppCache.CachedTopics != null) {
                 LoadTopics();
             }
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ps_neutral);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(bmp);
+            bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+            LinearLayout layout = (LinearLayout) findViewById(R.id.lnrbg);
+            layout.setBackgroundDrawable(bitmapDrawable);
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -186,6 +198,8 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             item.ModifiedBy = 0;
             item.ModifiedDate = AppConstants.StandardDateFormat
                     .format(new Date());
+            String UsderDeviceID= StorageManager.Get(this, "gcmdeviceid");
+            item.UserDeviceID=Integer.valueOf(UsderDeviceID);
             return item;
         } catch (Exception ex) {
             ex.printStackTrace();

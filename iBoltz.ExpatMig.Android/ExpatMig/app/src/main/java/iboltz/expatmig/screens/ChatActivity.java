@@ -199,7 +199,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             item.ModifiedDate = AppConstants.StandardDateFormat
                     .format(new Date());
             String UsderDeviceID= StorageManager.Get(this, "gcmdeviceid");
-            item.UserDeviceID=Integer.valueOf(UsderDeviceID);
+           // item.UserDeviceID=Integer.valueOf(UsderDeviceID);
             return item;
         } catch (Exception ex) {
             ex.printStackTrace();

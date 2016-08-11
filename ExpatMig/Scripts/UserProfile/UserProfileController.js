@@ -6,9 +6,10 @@
             .controller('UserProfileController', ['$scope', 'UserProfileService', '$http', 'BridgeService', '$filter', function ($scope, UserProfileService, $http, BridgeService, $filter) {
                 try {
 
-
+                    
 
                     function GetHisProfile(HisUserID) {
+                        $scope.HisUserID = HisUserID;
                         $scope.HisProfile = UserProfileService.GetUserProfile.get({ id: HisUserID }, function (result) {
                             return result;
                         });

@@ -10,12 +10,44 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ExpatMig.Data;
 using ExpatMig.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ExpatMig.Controllers.Api
 {
     public class UserProfilesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        [HttpPost, Route("api/UserProfiles/UpdatePhoto")]
+        public bool UpdatePhoto([FromBody]UserProfile MyProfile)
+        {
+
+            var FoundUser = db.UserProfiles.Where(x => x.UserID == MyProfile.UserID).FirstOrDefault();
+            if (FoundUser == null)
+            {
+                return false;
+            }
+            else
+            {
+                FoundUser.ProfilePic = MyProfile.ProfilePic;
+                FoundUser.ModifiedBy = int.Parse(User.Identity.GetUserId());
+                FoundUser.ModifiedDate = DateTime.Now;
+
+                db.Entry(FoundUser).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+
+
+
+            return true;
+        }
+
+
+
+
+
+
 
         // GET: api/UserProfiles
         public IQueryable<UserProfile> GetUserProfiles()
@@ -31,7 +63,7 @@ namespace ExpatMig.Controllers.Api
             UserProfile userProfile = db.UserProfiles.
                 Include(u => u.MigratingTo).
                 Include(u => u.NativeCity).
-                Where(x=> x.UserID ==id).FirstOrDefault();
+                Where(x => x.UserID == id).FirstOrDefault();
 
             if (userProfile == null)
             {

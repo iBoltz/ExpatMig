@@ -16,7 +16,7 @@ function RegisterEmoji() {
                     //var e = jQuery.Event('keydown', { which: $.ui.keyCode.ENTER });
                     //angular.element('#btnSendMessage').scope().SaveChanges();
                     //$('#btnSendMessage').trigger('click');
-
+                    angular.element('#txtMessage').trigger('focus');
                     angular.element('#btnSendMessage').triggerHandler('click');
 
 

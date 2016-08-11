@@ -179,7 +179,22 @@ html, body
     cursor: pointer;
 }
 
+.fontsize-jumbo-xl
+{
+    font-size: 128px;
+}
 
+.rounded-panel
+{
+    border-radius: 10px;
+    border: solid 3px #ccc;
+    text-align: center;
+}
+
+.forecolor-dull
+{
+    color: #ccc;
+}
 /**************************          Loading panel           ***************************/
 
 .LoadingPanel
@@ -187,25 +202,25 @@ html, body
     position: absolute;
     display: none;
     background-color: white;
-    text-align:center;
+    text-align: center;
 }
 
     .LoadingPanel .Image
     {
-    background: url('../Images//10.gif') no-repeat;
-    margin: 0 auto;
-    width: 120px;
-    position: relative;
-    top: 50%;
-    height: 20px;
-    margin-top: -10px;
+        background: url('../Images//10.gif') no-repeat;
+        margin: 0 auto;
+        width: 120px;
+        position: relative;
+        top: 50%;
+        height: 20px;
+        margin-top: -10px;
     }
 
-    /*              **************  JqToast  ************************              */
+/*              **************  JqToast  ************************              */
 .ToastText
 {
     color: white;
-    font-size: 2.5em; 
+    font-size: 2.5em;
     font-weight: 100;
 }
 
@@ -236,14 +251,38 @@ html, body
 
 .tab-body
 {
-    background-color:white;
+    background-color: white;
 }
+
 .tab-content
 {
+    background-color: white;
+    padding: 20px;
+    border-bottom: solid 1px #DDE;
+    border-left: solid 1px #DDE;
+    border-right: solid 1px #DDE;
+}
 
-    background-color:white;
-    padding:20px;
-    border-bottom:solid 1px #DDE ;
-    border-left:solid 1px #DDE;
-    border-right:solid 1px #DDE;
+/*              FileUploader            */
+.DropBox .PhotoUploader
+{
+    position: absolute;
+    z-index: 0;
+    opacity: 0.01;
+}
+
+.DropBox .FileUploader
+{
+    position: absolute;
+    z-index: 100;
+}
+
+.DropBox .Message
+{
+    position: relative;
+}
+
+.DropBox #imgPhoto
+{
+border-radius:30px;
 }

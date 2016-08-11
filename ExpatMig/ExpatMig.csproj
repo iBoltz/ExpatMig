@@ -223,6 +223,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chat.css" />
+    <Content Include="Content\emojionearea.css" />
     <Content Include="Content\gsdk-base.css" />
     <Content Include="Content\Images\sydney.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -697,6 +698,7 @@
     <Content Include="Scripts\Chat\ChatPush.js" />
     <Content Include="PushServiceWorker.js" />
     <Content Include="Scripts\Chat\ChatScript.js" />
+    <Content Include="Scripts\Emoji\emojionearea.min.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -712,6 +714,7 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Docs\google-services.json" />
     <Content Include="Scripts\Chat\PushManifest.json" />
+    <None Include="Properties\PublishProfiles\ExpatMig.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chat\ChatApp.js" />
     <Content Include="Scripts\Chat\ChatController.js" />

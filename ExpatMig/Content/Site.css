@@ -1,11 +1,17 @@
 ﻿body
 {
     padding-top: 50px;
-    padding-bottom: 20px;
     font-family: Quicksand;
     font-weight: 400;
     background: url('../Images/ps_neutral.png');
 }
+
+a
+{
+    color: white;
+    text-decoration: none !important;
+}
+
 
 *, h1, h2, h3, h4, h5, h6
 {
@@ -30,6 +36,11 @@ html, body
 .dl-horizontal dt
 {
     white-space: normal;
+}
+
+.padding-m
+{
+    padding: 2%;
 }
 
 .margin-xs-top
@@ -187,25 +198,25 @@ html, body
     position: absolute;
     display: none;
     background-color: white;
-    text-align:center;
+    text-align: center;
 }
 
     .LoadingPanel .Image
     {
-    background: url('../Images//10.gif') no-repeat;
-    margin: 0 auto;
-    width: 120px;
-    position: relative;
-    top: 50%;
-    height: 20px;
-    margin-top: -10px;
+        background: url('../Images//10.gif') no-repeat;
+        margin: 0 auto;
+        width: 120px;
+        position: relative;
+        top: 50%;
+        height: 20px;
+        margin-top: -10px;
     }
 
-    /*              **************  JqToast  ************************              */
+/*              **************  JqToast  ************************              */
 .ToastText
 {
     color: white;
-    font-size: 2.5em; 
+    font-size: 2.5em;
     font-weight: 100;
 }
 
@@ -236,14 +247,111 @@ html, body
 
 .tab-body
 {
-    background-color:white;
+    background-color: white;
 }
+
 .tab-content
 {
+    background-color: white;
+    padding: 20px;
+    border-bottom: solid 1px #DDE;
+    border-left: solid 1px #DDE;
+    border-right: solid 1px #DDE;
+}
+/********************************  Home Pag e*****************************************/
 
-    background-color:white;
-    padding:20px;
-    border-bottom:solid 1px #DDE ;
-    border-left:solid 1px #DDE;
-    border-right:solid 1px #DDE;
+.ContentLayer
+{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    max-width: none !important;
+}
+
+.Bg-gray
+{
+    background: #545256;
+}
+
+.text-white
+{
+    color: rgba(250, 250, 250, 1);
+}
+
+.text-orange
+{
+    color: rgba(233, 202, 32, 1);
+}
+
+.Glass-bg
+{
+    background: rgba(0,0,0,0.5);
+}
+
+.Margin-l
+{
+    margin: 5%;
+}
+
+.Banner
+{
+    position: absolute;
+    top: 50px;
+}
+
+.Trans
+{
+    opacity: 0.7;
+}
+
+.Bg-Image
+{
+    background: url('../Images/pexels-photo (1).jpg') no-repeat;
+    background-size: cover;
+}
+
+/*******************************  OutLine Buttons    ******************************************/
+
+.btn-iboltz
+{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    margin-left: 10%;
+    width: 20%;
+    border: 2px solid rgba(233, 202, 32, 1);
+    color: rgba(233, 202, 32, 1);
+    padding: 4px 0px;
+    font-size: 2em;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 40px;
+}
+
+
+    .btn-iboltz:hover
+    {
+        background-color: rgba(233, 202, 32, 1); /* Green */
+        color: white;
+    }
+
+    .btn-iboltz a:hover
+    {
+        color: white;
+    }
+
+.Child_Banner
+{
+    position: absolute;
+    top: 80%;
+}
+
+footer
+{
+    background: rgba(0,0,0,1);
+    margin: 0px;
+    padding: 0.5% 0%;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
 }

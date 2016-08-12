@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
     <link href="@Url.Content("~/Scripts/Chat/PushManifest.json")" rel="manifest" />
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Quicksand:300,400,700" />
+
 
 
     @RenderSection("AdditionalJS", required: false)
@@ -32,18 +33,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Calculator", "PRCalculator", "PointsCalculator")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content ContentLayer">
         @RenderBody()
-        <hr />
-        <footer>
-            <p class="margin-xs-top">&copy; @DateTime.Now.Year - Expat Migration</p>
+       
+        <footer class="text-right">
+            <p class="text-white">&copy; @DateTime.Now.Year - Expat Migration</p>
         </footer>
     </div>
 

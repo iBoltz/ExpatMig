@@ -199,6 +199,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\Partial\Topics.cs" />
     <Compile Include="Models\PointsCalculatorModel.cs" />
     <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
@@ -664,6 +665,7 @@
     <Content Include="Images\10.gif" />
     <Content Include="Images\Logo.png" />
     <Compile Include="Models\NotificationsModel.cs" />
+    <Content Include="Images\pexels-photo %281%29.jpg" />
     <Content Include="Images\ps_neutral.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />

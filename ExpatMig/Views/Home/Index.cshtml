@@ -1,15 +1,28 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<div class="Bg-gray def-height">
+    <div class="Bg-Image def-height Trans"></div>
+        <div class="jumbotron pull-left Glass-bg Margin-l Banner  text-white">
+            <h1>Expat Migration</h1>
+            <p class="lead">Expat Migration community. Share and gain knowledge about the entire migration process from the community</p>
 
-<div class="jumbotron">
-    <h1>Expat Migration</h1>
-    <p class="lead">Expat Migration community. Share and gain knowledge about the entire migration process from the community</p>
-    
+        </div>
+
+        <div class="row Child_Banner def-Width">
+            <div class="col-md-4 btn btn-iboltz">
+                <i class="ion-chatbubbles"></i>
+                @Html.ActionLink("Chat", "Details", "Chat", routeValues: null, htmlAttributes: new { id = "registerLink" })
+               
+            </div>
+            <div class="col-md-4 btn btn-iboltz">
+                <i class="ion-person-add"></i>
+                @Html.ActionLink("Sign Up", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+            </div>
+            <div class="col-md-4 btn btn-iboltz">
+                <i class="ion-log-in"></i>
+                @Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })               
+            </div>
+        </div>
+ 
 </div>
-
-<div class="row">
-    <div class="col-md-4">Discuss</div>
-    <div class="col-md-4">Register</div>
-    <div class="col-md-4">Login</div>
- </div>

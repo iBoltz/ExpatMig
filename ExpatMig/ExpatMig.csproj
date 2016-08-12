@@ -199,7 +199,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\Partial\Topics.cs" />
     <Compile Include="Models\PointsCalculatorModel.cs" />
     <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
@@ -1546,6 +1545,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Partial\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

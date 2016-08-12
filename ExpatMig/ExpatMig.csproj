@@ -205,6 +205,13 @@
     <Compile Include="Models\UserDevices.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Utils\AppConstants.cs" />
+    <Compile Include="Utils\ImageHelper.cs" />
+    <Compile Include="Utils\MultipleImageHandler.ashx.cs">
+      <DependentUpon>MultipleImageHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\PhotoHandler.ashx.cs">
+      <DependentUpon>PhotoHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\PushNotifications\INotifier.cs" />
     <Compile Include="Utils\PushNotifications\Notifiers\AndroidNotifier.cs" />
     <Compile Include="Utils\PushNotifications\Notifiers\BrowserNotifier.cs" />
@@ -224,6 +231,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chat.css" />
+    <Content Include="Content\emojionearea.css" />
     <Content Include="Content\gsdk-base.css" />
     <Content Include="Content\Images\sydney.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -699,6 +707,7 @@
     <Content Include="Scripts\Chat\ChatPush.js" />
     <Content Include="PushServiceWorker.js" />
     <Content Include="Scripts\Chat\ChatScript.js" />
+    <Content Include="Scripts\Emoji\emojionearea.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -714,6 +723,7 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Docs\google-services.json" />
     <Content Include="Scripts\Chat\PushManifest.json" />
+    <None Include="Properties\PublishProfiles\ExpatMig.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chat\ChatApp.js" />
     <Content Include="Scripts\Chat\ChatController.js" />
@@ -721,6 +731,7 @@
     <Content Include="Scripts\Global\Angular.Directives.js" />
     <Content Include="Scripts\Global\iBoltz.ColorGen.js" />
     <Content Include="Scripts\Global\iBoltz.Loghelper.js" />
+    <Content Include="Scripts\Global\iBoltz.PhotoUploader.js" />
     <Content Include="Scripts\Global\iBoltz.Plugins.js" />
     <Content Include="Scripts\Global\Utils.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
@@ -1479,6 +1490,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PhotoUploader\UserProfile.js" />
     <Content Include="Scripts\PointsCalculator\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\PointsCalculator\wizard.js" />
     <Content Include="Scripts\respond.js" />
@@ -1529,6 +1541,8 @@
     <Content Include="Views\UserProfiles\Details.cshtml" />
     <Content Include="Views\UserProfiles\Edit.cshtml" />
     <Content Include="Views\UserProfiles\Index.cshtml" />
+    <Content Include="Utils\PhotoHandler.ashx" />
+    <Content Include="Utils\MultipleImageHandler.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

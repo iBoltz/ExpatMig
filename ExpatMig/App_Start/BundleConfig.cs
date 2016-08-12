@@ -28,7 +28,8 @@ namespace ExpatMig
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/themes/base/jquery-ui.min.css",
-                "~/Content/themes/ui-darkness/jquery-ui.ui-darkness.min.css",                                                
+                "~/Content/themes/ui-darkness/jquery-ui.ui-darkness.min.css",
+                "~/Content/emojionearea.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
@@ -39,10 +40,14 @@ namespace ExpatMig
             bundles.Add(new ScriptBundle("~/bundles/global").Include(
                         "~/Scripts/Global/Utils.js",
                         "~/Scripts/Global/iBoltz.Loghelper.js",
+                        "~/Scripts/Global/iBoltz.PhotoUploader.js",                        
+                        "~/Scripts/Emoji/emojionearea.js", 
                         "~/Scripts/Global/iBoltz.Plugins.js"
                         ));
+            bundles.Add(new ScriptBundle("~/bundles/PhotoUploader").Include(
+                   "~/Scripts/PhotoUploader/UserProfile.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/chatng").Include(
+       bundles.Add(new ScriptBundle("~/bundles/chatng").Include(
                         "~/Scripts/Global/iBoltz.ColorGen.js",
                         "~/Scripts/angular.js",
                         "~/Scripts/angular-resource.js",

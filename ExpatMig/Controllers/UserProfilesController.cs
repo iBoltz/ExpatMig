@@ -70,6 +70,7 @@ namespace ExpatMig.Controllers
         // GET: UserProfiles/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.CurrentUserID = User.Identity.GetUserId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -79,14 +80,14 @@ namespace ExpatMig.Controllers
             {
                 ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", -1);
                 ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", -1);
-
+              
                 return View(new UserProfileViewModel());
             }
             else
             {
                 ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", FoundUser.MigratingToID);
                 ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", FoundUser.NativeCityID);
-
+                ViewBag.ProfilePic = FoundUser.ProfilePic.Trim();
                 UserProfileViewModel userProfile = new UserProfileViewModel(FoundUser);
                 if (userProfile == null)
                 {

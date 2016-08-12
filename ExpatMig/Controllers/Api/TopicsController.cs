@@ -27,11 +27,14 @@ namespace ExpatMig.Controllers.Api
             var PageSize = 15;
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics                          
+                         from EachProfile1 in GrpTopics.DefaultIfEmpty()
                          where EachTopic.ThreadID == ThreadID
                          orderby EachTopic.CreatedDate descending
                          select new
                          {
                              EachUser.UserName,
+                             EachProfile1.Nick,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
                              EachTopic.Description,

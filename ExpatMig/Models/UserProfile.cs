@@ -28,6 +28,7 @@ namespace ExpatMig.Models
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yy}", ApplyFormatInEditMode = true)]
         public DateTime? VisaGrantOn { get; set; }
         public string Suburb { get; set; }
+        public string ProfilePic { get; set; }
         public bool IsActive { get; set; }
         public int SeqNo { get; set; }
         public int CreatedBy { get; set; }

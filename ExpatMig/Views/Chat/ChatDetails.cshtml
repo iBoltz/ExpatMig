@@ -59,7 +59,12 @@
                     <div class="row">
                         <div class="col-md-9 ">
                             <i class="ion-person"></i>
-                            <span data-toggle="modal" ng-click="ShowUserPrfile(x.CreatedBy)" data-target="#divUserProfiler" style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> <strong>{{x.UserName}}</strong></span>
+                            <span data-toggle="modal" 
+                                  ng-click="ShowUserPrfile(x.CreatedBy)" 
+                                  data-target="#divUserProfiler"
+                                  class="cursor-hand"
+                                   style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> 
+                            <strong>{{x.Nick == null ? x.UserName : x.Nick }}</strong></span>
                         </div>
                         <div class="col-md-3 text-right">
                             <small>{{x.CreatedDateString}}</small>
@@ -67,8 +72,9 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            {{ x.Description }}
+
+                        <div class="col-md-12" ng-bind-html="RenderWithEmoji(x.Description)">
+
                         </div>
                     </div>
 
@@ -78,11 +84,11 @@
 
 
             <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
-                <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="sizing-addon1" ng-keypress="OnEnterPress($event)" class="form-control" />
+                <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="btnSendMessage" ng-keypress="OnEnterPress($event)" class="form-control" />
                 <div class="input-group-btn">
-                    <div ng-click="SaveChanges()" id="sizing-addon1" class="btn btn-success">
+                    <button ng-click="SaveChanges()" id="btnSendMessage" class="btn btn-success">
                         <span class="glyphicon glyphicon-send "></span>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -151,82 +157,64 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><i class="ion-person"></i>  User Profile</h4>
+                <h4 class="modal-title"><i class="ion-person"></i>  User Profile 
+                <a id="lnkEdutProfile"  class="btn btn-xs btn-warning margin-s-hoz" 
+                   target="_blank" href="@Url.Content("~/userprofiles/edit/"){{HisUserID}}" ><i class="ion-edit"></i> Edit</a></h4>
                 
             </div>
             <div class="modal-body">
-
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                        @*<li data-target="#myCarousel" data-slide-to="3"></li>*@
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <h4>Personal</h4>
-                            <div class="row">
-                                <div class="col-md-4">Name</div>
-                                <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
-                                <div class="col-md-4">Phone Number</div>
-                                <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
-                                <div class="col-md-4">Date of Birth</div>
-                                <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
-                            </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#personal"><i class="ion-person"></i> Personal</a></li>
+                    <li><a data-toggle="tab" href="#prof"><i class="ion-university"></i> Professional</a></li>
+                    <li><a data-toggle="tab" href="#migration"><i class="ion-plane"></i> Migration</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="personal" class="tab-pane fade in active tab-body">
+                        <div class="row">
+                            <div class="col-md-4">Name</div>
+                            <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
+                            <div class="col-md-4">Phone Number</div>
+                            <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
+                            <div class="col-md-4">Date of Birth</div>
+                            <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
                         </div>
-
-                        <div class="item">
-
-                            <h4>Professional</h4>
-                            <div class="row">
-                                <div class="col-md-4">Experience</div>
-                                <div class="col-md-8">{{HisProfile.Experience}} Years</div>
-                                <div class="col-md-4">Sector</div>
-                                <div class="col-md-8">{{HisProfile.Sector}}</div>
-                                <div class="col-md-4">LinkedIn</div>
-                                <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
-                            </div>
+                    </div>
+                    <div id="migration" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-4">Native</div>
+                            <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
+                            <div class="col-md-4">Migrating To</div>
+                            <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
+                            <div class="col-md-4">Visa Type</div>
+                            <div class="col-md-8">{{HisProfile.VisaType}}</div>
+                            <div class="col-md-4">Visa Granted On</div>
+                            <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
+                            <div class="col-md-4">Suburb</div>
+                            <div class="col-md-8">{{HisProfile.Suburb}}</div>
                         </div>
-
-                        <div class="item">
-                            <h4>Migration</h4>
-                            <div class="row">
-                                <div class="col-md-4">Native</div>
-                                <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
-                                <div class="col-md-4">Migrating To</div>
-                                <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
-                                <div class="col-md-4">Visa Type</div>
-                                <div class="col-md-8">{{HisProfile.VisaType}}</div>
-                                <div class="col-md-4">Visa Granted On</div>
-                                <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
-                                <div class="col-md-4">Suburb</div>
-                                <div class="col-md-8">{{HisProfile.Suburb}}</div>
-                            </div>
-                        </div>
-
-                        @*<div class="item">
-                            <h4>Travel Plans</h4>
-                        </div>*@
                     </div>
 
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    <div id="prof" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-4">Experience</div>
+                            <div class="col-md-8">{{HisProfile.Experience}} Years</div>
+                            <div class="col-md-4">Sector</div>
+                            <div class="col-md-8">{{HisProfile.Sector}}</div>
+                            <div class="col-md-4">LinkedIn</div>
+                            <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
+                        </div>
+                    </div>
+
+                    @*<div class="item">
+                            <h4>Travel Plans</h4>
+                        </div>*@
                 </div>
 
 
-
             </div>
+
+
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>

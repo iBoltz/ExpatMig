@@ -12,6 +12,7 @@ namespace ExpatMig.Models
  
         [Key]
         public int TravelPlanID { get; set; }
+        public int UserProfileID { get; set; }
 
         public DateTime ExpectedMoveOn { get; set; }
         [MaxLength(250)]
@@ -26,9 +27,10 @@ namespace ExpatMig.Models
         public DateTime CreatedDate { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
-      
-    
 
-        
+        [ForeignKey("UserProfileID")]
+        public virtual UserProfile MyUserProfile { get; set; }
+
+
     }
 }

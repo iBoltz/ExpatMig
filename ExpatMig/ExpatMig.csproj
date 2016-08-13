@@ -188,6 +188,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\PointsCalculatorController.cs" />
+    <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Controllers\ThreadsController.cs" />
     <Compile Include="Controllers\Api\TopicsController.cs" />
     <Compile Include="Controllers\UserDevicesController.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\PointsCalculatorModel.cs" />
+    <Compile Include="Models\TravelPlans.cs" />
     <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
     <Compile Include="Models\UserProfile.cs" />

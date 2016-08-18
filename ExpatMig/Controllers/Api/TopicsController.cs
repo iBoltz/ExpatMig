@@ -122,7 +122,7 @@ namespace ExpatMig.Controllers.Api
 
         // POST: api/Topics
         [ResponseType(typeof(Topic))]
-        public IHttpActionResult PostTopic(Topic topic)
+        public IHttpActionResult PostTopic(MyTopic topic)
         {
             if (!ModelState.IsValid)
             {
@@ -152,11 +152,14 @@ namespace ExpatMig.Controllers.Api
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
-                if (ThatUserID == topic.CreatedBy) continue;
+               // if (ThatUserID == topic.CreatedBy) continue;
+
                 var HisDevices = db.UserDevices.Where(x => x.UserID == ThatUserID);
 
                 foreach (var EachDevice in HisDevices)
                 {
+                    if (EachDevice.UserDeviceID == topic.UserDeviceID) continue;
+
                     var Notification = new NotificationsModel
                     {
                         NotificationType = AppConstants.NotificationTypes.Topics,

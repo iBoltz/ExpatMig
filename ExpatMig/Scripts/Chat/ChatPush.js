@@ -1,7 +1,11 @@
-﻿if ('serviceWorker' in navigator) {
+﻿
+var RegisteredUserDeviceID = 0;
+console.log('ChatPush.js hitted');
+if ('serviceWorker' in navigator) {
     console.log('Service Worker is supported');
     navigator.serviceWorker.register('../PushServiceWorker.js').then(function (reg) {
         console.log(':^)', reg);
+        navigator.serviceWorker.ready.then(function (reg) {
 
         reg.pushManager.subscribe({
             userVisibleOnly: true
@@ -9,10 +13,12 @@
             var DeviceID = sub.endpoint.replace("https://android.googleapis.com/gcm/send/", "");
             //call the register API here
             console.log('DeviceID registerd in iBoltz System:', DeviceID);
-
+          
             RegisterForPushInServer(DeviceID)
 
         });
+        });
+
     }).catch(function (err) {
         console.log(':^(', err);
     });
@@ -34,10 +40,13 @@ function RegisterForPushInServer(DeviceID) {
         url: "/api/userdevices",
         data: ThisDevice,
         success: function (data) {
-
+           // alert("Succeess" +data);
+            RegisteredUserDeviceID = data.UserDeviceID;
+           // alert(UserDeviceID);
         },
         error: function (error) {
             jsonValue = jQuery.parseJSON(error.responseText);
+             alert("Error" + error.responseText);
             //jError('An error has occurred while saving the new part source: ' + jsonValue, { TimeShown: 3000 });
         }
     });

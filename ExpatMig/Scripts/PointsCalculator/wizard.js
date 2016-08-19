@@ -1,10 +1,9 @@
 searchVisible = 0;
 transparent = true;
 
-//alert("Wizard");
 $(document).ready(function(){
     /*  Activate the tooltips      */
-    //alert("Wizard inside");
+ //   alert("Wizard inside");
     $('[rel="tooltip"]').tooltip();
 
     $("#ProfessionalYear").hide();

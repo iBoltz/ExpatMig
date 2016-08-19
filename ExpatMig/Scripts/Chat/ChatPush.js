@@ -1,7 +1,10 @@
-﻿if ('serviceWorker' in navigator) {
+﻿var RegisteredUserDeviceID=0;
+
+if ('serviceWorker' in navigator) {
     console.log('Service Worker is supported');
     navigator.serviceWorker.register('../PushServiceWorker.js').then(function (reg) {
         console.log(':^)', reg);
+        navigator.serviceWorker.ready.then(function (reg) {
 
         reg.pushManager.subscribe({
             userVisibleOnly: true
@@ -12,6 +15,7 @@
 
             RegisterForPushInServer(DeviceID)
 
+        });
         });
     }).catch(function (err) {
         console.log(':^(', err);
@@ -34,7 +38,7 @@ function RegisterForPushInServer(DeviceID) {
         url: "/api/userdevices",
         data: ThisDevice,
         success: function (data) {
-
+            RegisteredUserDeviceID = data.UserDeviceID;
         },
         error: function (error) {
             jsonValue = jQuery.parseJSON(error.responseText);

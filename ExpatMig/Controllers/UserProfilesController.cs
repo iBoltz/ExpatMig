@@ -80,14 +80,17 @@ namespace ExpatMig.Controllers
             {
                 ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", -1);
                 ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", -1);
-              
+
                 return View(new UserProfileViewModel());
             }
             else
             {
                 ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", FoundUser.MigratingToID);
                 ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", FoundUser.NativeCityID);
-                ViewBag.ProfilePic = FoundUser.ProfilePic.Trim();
+                if (!string.IsNullOrEmpty(FoundUser.ProfilePic))
+                {
+                    ViewBag.ProfilePic = FoundUser.ProfilePic.Trim();
+                }
                 UserProfileViewModel userProfile = new UserProfileViewModel(FoundUser);
                 if (userProfile == null)
                 {
@@ -123,7 +126,7 @@ namespace ExpatMig.Controllers
                     if (IsNew)
                     {
                         userProfile = new UserProfile();
-                        userProfile.UserID= int.Parse(User.Identity.GetUserId());
+                        userProfile.UserID = int.Parse(User.Identity.GetUserId());
                     }
                     userProfile.BirthDay = HisViewModel.BirthDay;
                     userProfile.Experience = HisViewModel.Experience;

@@ -1,9 +1,20 @@
 searchVisible = 0;
 transparent = true;
 
+alert("Wizard");
 $(document).ready(function(){
     /*  Activate the tooltips      */
+    alert("Wizard inside");
     $('[rel="tooltip"]').tooltip();
+
+    $("#ProfessionalYear").hide();
+    $("input[name='australianEdu']").on("change", function () {
+        //s alert($(this).val());
+        if ($(this).val() == "True") {
+            $("#ProfessionalYear").show();
+        } else { $("#ProfessionalYear").hide(); }
+    });
+
       
     $('.wizard-card').bootstrapWizard({
         'tabClass': 'nav nav-pills',

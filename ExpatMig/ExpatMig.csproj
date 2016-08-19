@@ -200,7 +200,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\Partial\Topics.cs" />
     <Compile Include="Models\PointsCalculatorModel.cs" />
     <Compile Include="Models\TravelPlans.cs" />
     <Compile Include="Models\TravelLog.cs" />

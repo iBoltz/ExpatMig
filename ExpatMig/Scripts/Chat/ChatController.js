@@ -208,7 +208,7 @@
 
                             if (typeof (RegisteredUserDeviceID) != undefined) {
                                 UserDeviceID = RegisteredUserDeviceID;
-                                alert(UserDeviceID);
+                             //   alert(UserDeviceID);
                             }
 
 

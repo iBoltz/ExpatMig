@@ -14,6 +14,7 @@ using ExpatMig.Utils;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.Collections;
+using ExpatMig.ViewModels;
 
 namespace ExpatMig.Controllers.Api
 {
@@ -119,16 +120,33 @@ namespace ExpatMig.Controllers.Api
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+        private Topic ConvertToTopic(ChatViewModel Inputtopic)
+        {
+            Topic topic = new Topic();
+            topic.ThreadID = Inputtopic.ThreadID;
+            topic.Description = Inputtopic.Description;
+            topic.CreatedBy = Inputtopic.CreatedBy;
+            topic.CreatedDate = Inputtopic.CreatedDate;
+            topic.Slug = null;
+            topic.SeqNo = 1;
+            topic.IsActive = true;
+            topic.ModifiedBy = null;
+            topic.ModifiedDate = null;
+            topic.AttachmentType = null;
+            topic.AttachmentURL = null;
+            return topic;
+        }
 
         // POST: api/Topics
         [ResponseType(typeof(Topic))]
-        public IHttpActionResult PostTopic(MyTopic topic)
+        public IHttpActionResult PostTopic(ChatViewModel Inputtopic)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            Topic topic = ConvertToTopic(Inputtopic);
             db.Topics.Add(topic);
             db.SaveChanges();
 
@@ -158,7 +176,7 @@ namespace ExpatMig.Controllers.Api
 
                 foreach (var EachDevice in HisDevices)
                 {
-                    if (EachDevice.UserDeviceID == topic.UserDeviceID) continue;
+                    if (EachDevice.UserDeviceID == Inputtopic.UserDeviceID) continue;
 
                     var Notification = new NotificationsModel
                     {

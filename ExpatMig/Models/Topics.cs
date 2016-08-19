@@ -10,7 +10,7 @@ namespace ExpatMig.Models
     public class Topic
     {
  
-        [Key, Column(Order = 0)]
+        [Key]
         public int TopicID { get; set; }
 
         public int ThreadID { get; set; }

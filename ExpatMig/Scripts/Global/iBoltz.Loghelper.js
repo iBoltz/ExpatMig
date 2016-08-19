@@ -7,7 +7,7 @@ var Loghelper = {
         {
             DiagnosisList.push(methodName + ":" + exception.message + "<hr />" + exception.stack);
             console.log(exception.message + "<hr />" + exception.stack);
-            ShowJqMsgBox(DiagnosisList.join("<br />", "You wont see this production!"), "Exception!");
+          //  ShowJqMsgBox(DiagnosisList.join("<br />", "You wont see this production!"), "Exception!");
         }
         catch (ex)
         {

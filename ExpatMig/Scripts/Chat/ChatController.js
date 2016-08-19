@@ -204,6 +204,13 @@
                             }
                             if ($scope.SelectedThreadID == null) { return }
                             $('#txtMessage').ShowLoadingPanel();
+                            var UserDeviceID = 0;
+
+                            if (typeof (RegisteredUserDeviceID) != undefined) {
+                                UserDeviceID = RegisteredUserDeviceID;
+                             //   alert(UserDeviceID);
+                            }
+
 
                             var TopicToSave = {
                                 "TopicID": 2,
@@ -211,12 +218,14 @@
                                 "Description": $scope.Message,
                                 "Slug": null, "IsActive": true,
                                 "SeqNo": 1, "CreatedBy": CurrentUserID,
-                                "CreatedDate": new Date()
+                                "CreatedDate": new Date(),
+                                "UserDeviceID": UserDeviceID
                             }
                             console.log("Current Time is", new Date());
 
                             var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                             MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
+                          
                             var TopicToPush = {
                                 "UserName": CurrentUserName,
                                 "TopicID": MaxID + 1,
@@ -225,6 +234,7 @@
                                 "CreatedBy": CurrentUserID,
                                 "CreatedDate": new Date()
                             };
+
                             //alert(new Date());
                             //MaxID + 1 for tentative calcuation to avoid wrongly fetching data
                             console.log("TopicToPush :- ", TopicToPush);

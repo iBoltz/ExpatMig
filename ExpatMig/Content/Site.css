@@ -18,7 +18,7 @@ a
     font-family: Quicksand;
 }
 
-html, body
+html, body,form
 {
     height: 100%;
 }
@@ -288,6 +288,10 @@ html, body
 {
     background: #545256;
 }
+.text-black
+{
+    color: rgba(0, 0, 0, 1);
+}
 
 .text-white
 {
@@ -437,3 +441,12 @@ footer
 {
 border-radius:30px;
 }
+
+/************** PR Calc  *********/
+.image-container{
+    height: 100%;
+    background-position: center center;
+    background-size: cover;
+    background-image: url('Images/sydney.jpg');
+}
+

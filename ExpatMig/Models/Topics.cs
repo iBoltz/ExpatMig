@@ -28,8 +28,6 @@ namespace ExpatMig.Models
         public String AttachmentType { get; set; }
 
         public virtual Thread MyThread { get; set; }
-
-
         
     }
 }

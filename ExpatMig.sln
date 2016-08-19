@@ -1,19 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpatMig", "ExpatMig\ExpatMig.csproj", "{25BD4EFD-00B3-4EB3-8335-E5646CC98174}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpatMig.Tests", "ExpatMig.Tests\ExpatMig.Tests.csproj", "{54E07BA3-190E-4862-BCDC-F515D4B3D84E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iBoltz.ExpatMig.TestApp", "iBoltz.ExpatMig.TestApp\iBoltz.ExpatMig.TestApp.csproj", "{F0E4CA95-C965-4DB0-B52D-D08CDEAAD580}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Items.Web", "..\..\..\Desktop\angularjs-crudgrid-master\Items.Web\Items.Web.csproj", "{DD190A9C-D057-4706-AB55-75C8F61A15D9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Items.Business", "..\..\..\Desktop\angularjs-crudgrid-master\Items.Business\Items.Business.csproj", "{EE7AB05E-E85A-470E-B5B5-FE988FAE065E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.Web", "..\..\..\Desktop\angularjs-crudgrid-master\Utils.Web\Utils.Web.csproj", "{A6AF4405-BA8E-472F-AA60-307916160706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +27,6 @@ Global
 		{F0E4CA95-C965-4DB0-B52D-D08CDEAAD580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0E4CA95-C965-4DB0-B52D-D08CDEAAD580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0E4CA95-C965-4DB0-B52D-D08CDEAAD580}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD190A9C-D057-4706-AB55-75C8F61A15D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD190A9C-D057-4706-AB55-75C8F61A15D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD190A9C-D057-4706-AB55-75C8F61A15D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD190A9C-D057-4706-AB55-75C8F61A15D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE7AB05E-E85A-470E-B5B5-FE988FAE065E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE7AB05E-E85A-470E-B5B5-FE988FAE065E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE7AB05E-E85A-470E-B5B5-FE988FAE065E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE7AB05E-E85A-470E-B5B5-FE988FAE065E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6AF4405-BA8E-472F-AA60-307916160706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6AF4405-BA8E-472F-AA60-307916160706}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6AF4405-BA8E-472F-AA60-307916160706}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6AF4405-BA8E-472F-AA60-307916160706}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

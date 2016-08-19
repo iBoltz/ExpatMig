@@ -1,5 +1,40 @@
 ﻿@model ExpatMig.Models.PointsCalculatorModel
+@section Head
+{
+   
+    <link rel="icon" type="image/png" href="~/Content/Images/favicon.ico">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/gsdk-base.css" rel="stylesheet" />
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+   
+    <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
 
+<script>
+    $(document).ready(function () {
+        $("#ProfessionalYear").hide();
+        $("input[name='australianEdu']").on("change", function () {
+           //s alert($(this).val());
+            if ($(this).val() =="True") {
+                $("#ProfessionalYear").show();
+            } else { $("#ProfessionalYear").hide(); }
+        });
+    });
+</script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript"></script>
+
+    <!--   plugins 	 -->
+    <script src="~/Scripts/PointsCalculator/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+
+    <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <!--  methods for manipulating the wizard and the validation -->
+    <script src="~/Scripts/PointsCalculator/wizard.js"></script>
+}
 @{
     ViewBag.Title = "PRCalculator";
 }

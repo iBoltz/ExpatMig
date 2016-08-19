@@ -24,8 +24,6 @@ namespace ExpatMig.Models
         public DateTime CreatedDate { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public String AttachmentURL { get; set; }
-        public String AttachmentType { get; set; }
 
         public virtual Thread MyThread { get; set; }
         

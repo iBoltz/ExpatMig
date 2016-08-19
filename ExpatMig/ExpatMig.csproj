@@ -188,7 +188,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\PointsCalculatorController.cs" />
-    <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Controllers\ThreadsController.cs" />
     <Compile Include="Controllers\Api\TopicsController.cs" />
     <Compile Include="Controllers\UserDevicesController.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\PointsCalculatorModel.cs" />
-    <Compile Include="Models\TravelPlans.cs" />
     <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
     <Compile Include="Models\UserProfile.cs" />
@@ -1499,9 +1497,7 @@
     <Content Include="Scripts\UserProfile\UserProfileController.js" />
     <Content Include="Scripts\UserProfile\UserProfileService.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1549,6 +1545,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Partial\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

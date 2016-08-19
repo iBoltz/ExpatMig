@@ -42,7 +42,7 @@
             </button>
             <div class="ThreadDetail-height  margin-s-top">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
-                    <h4> <a class="cursor-hand text-orange" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
+                    <h4> <a class="cursor-hand" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
 
                 </div>
             </div>
@@ -169,41 +169,49 @@
                     <li><a data-toggle="tab" href="#migration"><i class="ion-plane"></i> Migration</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="personal" class="tab-pane fade in active tab-body">
-                        <div class="row">
-                            <div class="col-md-4">Name</div>
-                            <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
-                            <div class="col-md-4">Phone Number</div>
-                            <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
-                            <div class="col-md-4">Date of Birth</div>
-                            <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
-                        </div>
+                    <div class="col-md-3" >
+                        <h1>My pic</h1>
                     </div>
-                    <div id="migration" class="tab-pane fade">
-                        <div class="row">
-                            <div class="col-md-4">Native</div>
-                            <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
-                            <div class="col-md-4">Migrating To</div>
-                            <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
-                            <div class="col-md-4">Visa Type</div>
-                            <div class="col-md-8">{{HisProfile.VisaType}}</div>
-                            <div class="col-md-4">Visa Granted On</div>
-                            <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
-                            <div class="col-md-4">Suburb</div>
-                            <div class="col-md-8">{{HisProfile.Suburb}}</div>
+                    <div  class="col-md-9">
+
+                        <div id="personal" class="tab-pane fade in active tab-body">
+                            <div class="row">
+                                <div class="col-md-4">Name</div>
+                                <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
+                                <div class="col-md-4">Phone Number</div>
+                                <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
+                                <div class="col-md-4">Date of Birth</div>
+                                <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
+                            </div>
                         </div>
+                        <div id="migration" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-4">Native</div>
+                                <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
+                                <div class="col-md-4">Migrating To</div>
+                                <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
+                                <div class="col-md-4">Visa Type</div>
+                                <div class="col-md-8">{{HisProfile.VisaType}}</div>
+                                <div class="col-md-4">Visa Granted On</div>
+                                <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
+                                <div class="col-md-4">Suburb</div>
+                                <div class="col-md-8">{{HisProfile.Suburb}}</div>
+                            </div>
+                        </div>
+
+                        <div id="prof" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-4">Experience</div>
+                                <div class="col-md-8">{{HisProfile.Experience}} Years</div>
+                                <div class="col-md-4">Sector</div>
+                                <div class="col-md-8">{{HisProfile.Sector}}</div>
+                                <div class="col-md-4">LinkedIn</div>
+                                <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div id="prof" class="tab-pane fade">
-                        <div class="row">
-                            <div class="col-md-4">Experience</div>
-                            <div class="col-md-8">{{HisProfile.Experience}} Years</div>
-                            <div class="col-md-4">Sector</div>
-                            <div class="col-md-8">{{HisProfile.Sector}}</div>
-                            <div class="col-md-4">LinkedIn</div>
-                            <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
-                        </div>
-                    </div>
 
                     @*<div class="item">
                             <h4>Travel Plans</h4>

@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     }
     
-    PhotoUploadManager.OnPhotoUploaded = function (ImagePath) {
+    var OnPhotoUploaded = function (ImagePath) {
         var data = {
             "UserID": CurrentUserID,
             "ProfilePic": ImagePath
@@ -19,8 +19,9 @@ $(document).ready(function () {
             dataType: "json",
             data: data,
             success: function (result) {
-                alert(result);
-                console.log("done", e);
+                $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ImagePath + "'/>")
+
+                console.log("done uploading ", result);
             },
             error: function (e) {
                 console.log("error while uploading", e);
@@ -29,5 +30,10 @@ $(document).ready(function () {
         });
 
     };
+
+
+    $('.DropBox').AttachImage({
+        OnPhotoUploaded:OnPhotoUploaded
+    });
 
 });

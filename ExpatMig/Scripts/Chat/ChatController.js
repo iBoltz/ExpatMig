@@ -43,6 +43,7 @@
                         }
                         function ListChatPaged(SelectedThreadID, PageIndex) {
                             $('#ChatHistory').ShowLoadingPanel();
+                            $scope.SelectedThreadID = SelectedThreadID;
                             var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
                                 //ScrollToLastMessage();
                                 var Formated = FormatViewModal(result);
@@ -106,7 +107,7 @@
                         }
                         $scope.ListTopicsForThread = function (SelectedID) {
                             $scope.SelectedThreadID = SelectedID;
-                            //$scope.AllTopics = [];
+                                 //$scope.AllTopics = [];
                             TopicPageIndex = 0;
                             HasReachedTop = 0;
                             FreshLoad = true;
@@ -159,7 +160,7 @@
                             if ($scope.AllThreads.length > 0) {
 
                                 $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
-                                $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                                     $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
                             }
                         };
 

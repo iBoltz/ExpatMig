@@ -32,5 +32,11 @@ namespace ExpatMig.Data
         public DbSet<UserDevice> UserDevices { get; set; }
 
         public System.Data.Entity.DbSet<ExpatMig.Models.City> Cities { get; set; }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    // other code 
+        //    //Database.SetInitializer<ApplicationDbContext>(null);
+        //    // more code
+        //}
     }
 }

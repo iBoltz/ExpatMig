@@ -40,8 +40,8 @@ namespace ExpatMig
             bundles.Add(new ScriptBundle("~/bundles/global").Include(
                         "~/Scripts/Global/Utils.js",
                         "~/Scripts/Global/iBoltz.Loghelper.js",
-                        "~/Scripts/Global/iBoltz.PhotoUploader.js",                        
-                        "~/Scripts/Emoji/emojionearea.js", 
+                        "~/Scripts/Global/iBoltz.PhotoUploader.js",
+                        "~/Scripts/Emoji/emojionearea.js",
                         "~/Scripts/Global/iBoltz.Plugins.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/PhotoUploader").Include(
@@ -59,7 +59,8 @@ namespace ExpatMig
                         "~/Scripts/UserProfile/UserProfileService.js",
                         "~/Scripts/UserProfile/UserProfileController.js",
                         "~/Scripts/chat/PushServiceWorker.js",
-                        "~/Scripts/chat/ChatPush.js"
+                        "~/Scripts/chat/ChatPush.js",
+                        "~/Scripts/PhotoUploader/ChatWindow.js"
                       ));
 
 

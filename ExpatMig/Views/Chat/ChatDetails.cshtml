@@ -48,49 +48,71 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="hidSelectedThreadID" value="{{SelectedThreadID}}" />
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
         <div class="Chat-height">
-            <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
-                <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
-                    on-item-databound="OnItemDatabound(element)"
-                    last-item-loaded="OnLastTopicLoaded(element)">
-                    <!--    bindable -->
-                    <div class="row">
-                        <div class="col-md-9 ">
-                            <i class="ion-person"></i>
-                            <span data-toggle="modal" 
-                                  ng-click="ShowUserPrfile(x.CreatedBy)" 
-                                  data-target="#divUserProfiler"
-                                  class="cursor-hand"
-                                   style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> 
-                            <strong>{{x.Nick == null ? x.UserName : x.Nick }}</strong></span>
-                        </div>
-                        <div class="col-md-3 text-right">
-                            <small>{{x.CreatedDateString}}</small>
-                        </div>
+            <div class=" MultiplePhotoUpload">
+                <div id="DropBox" class="DropBox">
+            
 
+                    <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
+                        <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
+                            on-item-databound="OnItemDatabound(element)"
+                            last-item-loaded="OnLastTopicLoaded(element)">
+                            <!--    bindable -->
+                            <div class="row">
+                                <div class="col-md-9 ">
+                                    <i class="ion-person"></i>
+                                    <span data-toggle="modal"
+                                          ng-click="ShowUserPrfile(x.CreatedBy)"
+                                          data-target="#divUserProfiler"
+                                          class="cursor-hand"
+                                          style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})">
+                                        <strong>{{x.Nick == null ? x.UserName : x.Nick }}</strong>
+                                    </span>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <small>{{x.CreatedDateString}}</small>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12" ng-bind-html="RenderWithEmoji(x.Description)">
+
+                                </div>
+                            </div>
+
+
+                        </li>
+                    </ul>
+
+
+                    <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
+                        <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="btnSendMessage" ng-keypress="OnEnterPress($event)" class="form-control" />
+                        <div class="input-group-btn">
+                            <button ng-click="SaveChanges()" id="btnSendMessage" class="btn btn-success">
+                                <span class="glyphicon glyphicon-send "></span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="row">
-
-                        <div class="col-md-12" ng-bind-html="RenderWithEmoji(x.Description)">
+                    <div class="Message hidden" >
+                        <div class="PhotoUploader">
+                            <input type="file" id="fluPhoto" class="FileUploader" />
 
                         </div>
+                        <div id="imgPhoto" class="rounded-panel fontsize-jumbo-xl forecolor-dull">
+                            <i class="ion-person "></i>
+                            +
+                        </div>
                     </div>
-
-
-                </li>
-            </ul>
-
-
-            <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
-                <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="btnSendMessage" ng-keypress="OnEnterPress($event)" class="form-control" />
-                <div class="input-group-btn">
-                    <button ng-click="SaveChanges()" id="btnSendMessage" class="btn btn-success">
-                        <span class="glyphicon glyphicon-send "></span>
-                    </button>
+                    <div class="ProgressBar">
+                        <div class="Progress"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -149,6 +171,8 @@
     </div>
 </div>
 
+
+
 <!--    UserProfile Controller    -->
 <div id="divUserProfiler" ng-controller="UserProfileController" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -157,59 +181,63 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><i class="ion-person"></i>  User Profile 
-                <a id="lnkEdutProfile"  class="btn btn-xs btn-warning margin-s-hoz" 
-                   target="_blank" href="@Url.Content("~/userprofiles/edit/"){{HisUserID}}" ><i class="ion-edit"></i> Edit</a></h4>
-                
+                <h4 class="modal-title">
+                    <i class="ion-person"></i>  User Profile
+                    <a id="lnkEdutProfile" class="btn btn-xs btn-warning margin-s-hoz"
+                       target="_blank" href="@Url.Content("~/userprofiles/edit/"){{HisUserID}}"><i class="ion-edit"></i>Edit</a>
+                </h4>
+
             </div>
             <div class="modal-body">
+
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#personal"><i class="ion-person"></i> Personal</a></li>
                     <li><a data-toggle="tab" href="#prof"><i class="ion-university"></i> Professional</a></li>
                     <li><a data-toggle="tab" href="#migration"><i class="ion-plane"></i> Migration</a></li>
                 </ul>
-                <div class="tab-content">
-                    <div class="col-md-3" >
-                        <h1>My pic</h1>
-                    </div>
-                    <div  class="col-md-9">
+                <div class="row tab-content">
 
-                        <div id="personal" class="tab-pane fade in active tab-body">
-                            <div class="row">
+                    <div id="personal" class="tab-pane fade in active tab-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img class="margin-s" ng-src="/utils/photohandler.ashx?Width=150&frompath={{HisProfile.ProfilePic}}">
+                            </div>
+                            <div class="col-md-9">
+
                                 <div class="col-md-4">Name</div>
                                 <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
-                                <div class="col-md-4">Phone Number</div>
+                                <div class="col-md-4">Phone</div>
                                 <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
                                 <div class="col-md-4">Date of Birth</div>
                                 <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
                             </div>
-                        </div>
-                        <div id="migration" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-4">Native</div>
-                                <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
-                                <div class="col-md-4">Migrating To</div>
-                                <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
-                                <div class="col-md-4">Visa Type</div>
-                                <div class="col-md-8">{{HisProfile.VisaType}}</div>
-                                <div class="col-md-4">Visa Granted On</div>
-                                <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
-                                <div class="col-md-4">Suburb</div>
-                                <div class="col-md-8">{{HisProfile.Suburb}}</div>
-                            </div>
-                        </div>
 
-                        <div id="prof" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-4">Experience</div>
-                                <div class="col-md-8">{{HisProfile.Experience}} Years</div>
-                                <div class="col-md-4">Sector</div>
-                                <div class="col-md-8">{{HisProfile.Sector}}</div>
-                                <div class="col-md-4">LinkedIn</div>
-                                <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
-                            </div>
                         </div>
+                    </div>
+                    <div id="migration" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-4">Native</div>
+                            <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
+                            <div class="col-md-4">Migrating To</div>
+                            <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
+                            <div class="col-md-4">Visa Type</div>
+                            <div class="col-md-8">{{HisProfile.VisaType}}</div>
+                            <div class="col-md-4">Visa Granted On</div>
+                            <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
+                            <div class="col-md-4">Suburb</div>
+                            <div class="col-md-8">{{HisProfile.Suburb}}</div>
+                        </div>
+                    </div>
 
+                    <div id="prof" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-4">Experience</div>
+                            <div class="col-md-8">{{HisProfile.Experience}} Years</div>
+                            <div class="col-md-4">Sector</div>
+                            <div class="col-md-8">{{HisProfile.Sector}}</div>
+                            <div class="col-md-4">LinkedIn</div>
+                            <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
+                        </div>
                     </div>
 
 
@@ -223,16 +251,13 @@
 
 
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+
         </div>
 
     </div>
 
 
 </div>
-
 
 @section PageSpecificStyles
 {
@@ -251,5 +276,6 @@
         var CurrentUserID = @ViewBag.CurrentUserID;
 
         var CurrentUserName =@Html.Raw( string.Format("\"{0}\"", User.Identity.Name)) ;
+        var SelectedThreadID =null;
     </script>
 }

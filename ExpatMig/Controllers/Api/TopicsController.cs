@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.Collections;
 using ExpatMig.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace ExpatMig.Controllers.Api
 {
@@ -28,7 +29,7 @@ namespace ExpatMig.Controllers.Api
             var PageSize = 15;
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
-                         join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics                          
+                         join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics
                          from EachProfile1 in GrpTopics.DefaultIfEmpty()
                          where EachTopic.ThreadID == ThreadID
                          orderby EachTopic.CreatedDate descending
@@ -38,16 +39,39 @@ namespace ExpatMig.Controllers.Api
                              EachProfile1.Nick,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             EachTopic.Description,
+                             Description = EachTopic.Description.Replace("[attachment]", "<img src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
                              EachTopic.CreatedBy,
-                             EachTopic.CreatedDate
+                             EachTopic.CreatedDate,
+                             EachTopic.AttachmentURL
                          };
-          
+
             var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
-            return ReverseOrdered.OrderBy(x=>x.CreatedDate);
+            return ReverseOrdered.OrderBy(x => x.CreatedDate);
         }
 
 
+        [HttpPost, Route("api/Topics/UploadPhoto")]
+        public bool UploadPhoto([FromBody]Topic GivenTopic)
+        {
+
+            Topic NewTopic = new Topic();
+            NewTopic.Description = GivenTopic.Description;
+            NewTopic.AttachmentType = AppConstants.AttachmentTypes.Images;
+            NewTopic.AttachmentURL = GivenTopic.AttachmentURL;
+            NewTopic.ThreadID = GivenTopic.ThreadID;
+            NewTopic.SeqNo = 0;
+            NewTopic.IsActive = true;
+            NewTopic.CreatedBy = int.Parse(User.Identity.GetUserId());
+            NewTopic.CreatedDate = DateTime.Now;
+
+            db.Topics.Add(NewTopic);
+            db.SaveChanges();
+
+
+
+
+            return true;
+        }
         [HttpGet, Route("api/Topics/GetLatest/{id}")]
         public IQueryable GetLatest(int id)
         {
@@ -60,7 +84,7 @@ namespace ExpatMig.Controllers.Api
                              EachUser.UserName,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             EachTopic.Description,
+                             Description = EachTopic.Description.Replace("[attachment]", "<img src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate
                          };
@@ -162,15 +186,15 @@ namespace ExpatMig.Controllers.Api
                              EachTopic.ThreadID,
                              EachTopic.Description,
                              EachTopic.CreatedBy,
-                            CreatedDate=EachTopic.CreatedDate.ToString()
+                             CreatedDate = EachTopic.CreatedDate.ToString()
                          };
-            
+
             var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
 
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
-               // if (ThatUserID == topic.CreatedBy) continue;
+                // if (ThatUserID == topic.CreatedBy) continue;
 
                 var HisDevices = db.UserDevices.Where(x => x.UserID == ThatUserID);
 

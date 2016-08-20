@@ -1,23 +1,22 @@
 ﻿@model ExpatMig.Models.PointsCalculatorModel
+<div class="Bg-Image def-height pull-left def-Width" id="bgClass">
+   
+     
 
-<h2>Result</h2>
-
-<div>
-    <h2>
-        <div class="image-container set-full-height" >
-            <div class="container">
-                <div class="card wizard-card ct-wizard-orange">
-                    <div class="wizard-container">
-                        <h4 class="info-text">
-                            Your score is
-                            @Html.DisplayFor(prcalc => prcalc.score) !!!
+      
+                <div class="container Glass-bg Margin-l">
+                    <div class="card wizard-card ct-wizard-orange">
+                        <div class="wizard-container">
+                            <h4 class="info-text">
+                                Your score is
+                                @Html.DisplayFor(prcalc => prcalc.score) !!!
                             </h4>
-</div>
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-</h2>
-</div>
-<p>
-       @Html.ActionLink("Back to Calculator", "PRCalculator")
-</p>
+     
+       
+    <p class="back-bottom">
+        @Html.ActionLink("Back to Calculator", "PRCalculator")
+    </p>
+    </div>

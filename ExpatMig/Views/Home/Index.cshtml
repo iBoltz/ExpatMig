@@ -10,19 +10,27 @@
         </div>
 
         <div class="row Child_Banner def-Width">
-            <div class="col-md-4 btn btn-iboltz">
-                <i class="ion-chatbubbles"></i>
-                @Html.ActionLink("Chat", "Details", "Chat", routeValues: null, htmlAttributes: new { id = "registerLink" })
-               
-            </div>
-            <div class="col-md-4 btn btn-iboltz">
-                <i class="ion-person-add"></i>
-                @Html.ActionLink("Sign Up", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-            </div>
-            <div class="col-md-4 btn btn-iboltz">
-                <i class="ion-log-in"></i>
-                @Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })               
-            </div>
-        </div>
+            <a id="registerLink" href="@Url.Action("Details", "Chat")">
+                <div class="col-md-4 btn btn-iboltz">
+                  
+                    <span><i class="ion-chatbubbles"></i> <span class="hide-mbl">Chat</span></span>
+                    @*@Html.ActionLink("Chat", "Details", "Chat", routeValues: null, htmlAttributes: new { id = "registerLink" })*@
+
+                </div>
+            </a>
+            <a id="registerLink" href="@Url.Action("Register", "Account")">
+                <div class="col-md-4 btn btn-iboltz">
+                   
+                    <span><i class="ion-person-add"></i> <span class="hide-mbl">Sign Up</span></span>
+
+                </div>
+                </a>
+            <a id="registerLink" href="@Url.Action("Login", "Account")">
+                <div class="col-md-4 btn btn-iboltz">
+                    
+                    <span><i class="ion-log-in"></i> <span class="hide-mbl" >Sign In</span></span>
+  </div>
+                </a>
+</div>
  
 </div>

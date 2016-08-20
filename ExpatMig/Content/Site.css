@@ -12,13 +12,18 @@ a
     text-decoration: none !important;
 }
 
+.info-text
+{
+    font-size: 50px;
+    color: white;
+}
 
 *, h1, h2, h3, h4, h5, h6
 {
     font-family: Quicksand;
 }
 
-html, body,form
+html, body, form
 {
     height: 100%;
 }
@@ -189,6 +194,7 @@ html, body,form
 {
     cursor: pointer;
 }
+
 .fontsize-jumbo-xl
 {
     font-size: 128px;
@@ -288,6 +294,7 @@ html, body,form
 {
     background: #545256;
 }
+
 .text-black
 {
     color: rgba(0, 0, 0, 1);
@@ -439,14 +446,28 @@ footer
 
 .DropBox #imgPhoto
 {
-border-radius:30px;
+    border-radius: 30px;
 }
 
+@media (max-width: 767px)
+{
+    .hide-mbl
+    {
+        display: none !important;
+    }
+}
 /************** PR Calc  *********/
-.image-container{
+.image-container
+{
     height: 100%;
     background-position: center center;
     background-size: cover;
     background-image: url('Images/sydney.jpg');
 }
 
+.back-bottom
+{
+    position: absolute;
+    left: 5%;
+    bottom: 7%;
+}

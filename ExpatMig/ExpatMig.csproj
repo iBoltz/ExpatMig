@@ -1489,6 +1489,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PhotoUploader\ChatWindow.js" />
     <Content Include="Scripts\PhotoUploader\UserProfile.js" />
     <Content Include="Scripts\PointsCalculator\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\PointsCalculator\wizard.js" />

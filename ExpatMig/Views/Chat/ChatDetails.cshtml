@@ -149,6 +149,8 @@
     </div>
 </div>
 
+
+
 <!--    UserProfile Controller    -->
 <div id="divUserProfiler" ng-controller="UserProfileController" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -157,59 +159,63 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><i class="ion-person"></i>  User Profile 
-                <a id="lnkEdutProfile"  class="btn btn-xs btn-warning margin-s-hoz" 
-                   target="_blank" href="@Url.Content("~/userprofiles/edit/"){{HisUserID}}" ><i class="ion-edit"></i> Edit</a></h4>
-                
+                <h4 class="modal-title">
+                    <i class="ion-person"></i>  User Profile
+                    <a id="lnkEdutProfile" class="btn btn-xs btn-warning margin-s-hoz"
+                       target="_blank" href="@Url.Content("~/userprofiles/edit/"){{HisUserID}}"><i class="ion-edit"></i>Edit</a>
+                </h4>
+
             </div>
             <div class="modal-body">
+
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#personal"><i class="ion-person"></i> Personal</a></li>
                     <li><a data-toggle="tab" href="#prof"><i class="ion-university"></i> Professional</a></li>
                     <li><a data-toggle="tab" href="#migration"><i class="ion-plane"></i> Migration</a></li>
                 </ul>
-                <div class="tab-content">
-                    <div class="col-md-3" >
-                        <h1>My pic</h1>
-                    </div>
-                    <div  class="col-md-9">
+                <div class="row tab-content">
 
-                        <div id="personal" class="tab-pane fade in active tab-body">
-                            <div class="row">
+                    <div id="personal" class="tab-pane fade in active tab-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img class="margin-s" ng-src="/utils/photohandler.ashx?Width=150&frompath={{HisProfile.ProfilePic}}">
+                            </div>
+                            <div class="col-md-9">
+
                                 <div class="col-md-4">Name</div>
                                 <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
-                                <div class="col-md-4">Phone Number</div>
+                                <div class="col-md-4">Phone</div>
                                 <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
                                 <div class="col-md-4">Date of Birth</div>
                                 <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
                             </div>
-                        </div>
-                        <div id="migration" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-4">Native</div>
-                                <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
-                                <div class="col-md-4">Migrating To</div>
-                                <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
-                                <div class="col-md-4">Visa Type</div>
-                                <div class="col-md-8">{{HisProfile.VisaType}}</div>
-                                <div class="col-md-4">Visa Granted On</div>
-                                <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
-                                <div class="col-md-4">Suburb</div>
-                                <div class="col-md-8">{{HisProfile.Suburb}}</div>
-                            </div>
-                        </div>
 
-                        <div id="prof" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-4">Experience</div>
-                                <div class="col-md-8">{{HisProfile.Experience}} Years</div>
-                                <div class="col-md-4">Sector</div>
-                                <div class="col-md-8">{{HisProfile.Sector}}</div>
-                                <div class="col-md-4">LinkedIn</div>
-                                <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
-                            </div>
                         </div>
+                    </div>
+                    <div id="migration" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-4">Native</div>
+                            <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
+                            <div class="col-md-4">Migrating To</div>
+                            <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
+                            <div class="col-md-4">Visa Type</div>
+                            <div class="col-md-8">{{HisProfile.VisaType}}</div>
+                            <div class="col-md-4">Visa Granted On</div>
+                            <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
+                            <div class="col-md-4">Suburb</div>
+                            <div class="col-md-8">{{HisProfile.Suburb}}</div>
+                        </div>
+                    </div>
 
+                    <div id="prof" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-4">Experience</div>
+                            <div class="col-md-8">{{HisProfile.Experience}} Years</div>
+                            <div class="col-md-4">Sector</div>
+                            <div class="col-md-8">{{HisProfile.Sector}}</div>
+                            <div class="col-md-4">LinkedIn</div>
+                            <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
+                        </div>
                     </div>
 
 
@@ -223,16 +229,13 @@
 
 
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+
         </div>
 
     </div>
 
 
 </div>
-
 
 @section PageSpecificStyles
 {

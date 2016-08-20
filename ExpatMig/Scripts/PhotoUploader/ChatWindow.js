@@ -1,13 +1,12 @@
 ﻿var IsPhotoUploaderLoaded = true;
 $(document).ready(function () {
-    
-    if (ProfilePic != undefined)
-    {
+
+    if (ProfilePic != undefined) {
         $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ProfilePic + "'/>")
 
     }
-    
-    var OnPhotoUploaded = function (ImagePath) {
+
+    PhotoUploadManager.OnPhotoUploaded = function (ImagePath) {
         var data = {
             "UserID": CurrentUserID,
             "ProfilePic": ImagePath
@@ -30,10 +29,5 @@ $(document).ready(function () {
         });
 
     };
-
-
-    $('.DropBox').AttachImage({
-        OnPhotoUploaded:OnPhotoUploaded
-    });
 
 });

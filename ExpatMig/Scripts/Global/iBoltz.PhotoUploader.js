@@ -1,35 +1,55 @@
-﻿var IsPhotoUploaderLoaded = true;
-$(document).ready(function () {
-    $('#imgPhoto').click(function () {
-        $('#fluPhoto').click();
-    });
-    PhotoUploader();
-    $('#fluPhoto').on('change', function () {
-        PhotoUploadManager.UploadSinglePhoto('fluPhoto')
-    });
-});
+﻿(function ($) {
+    //Pon: reference to create a new plugin => https://learn.jquery.com/plugins/basic-plugin-creation/
 
-PhotoUploader = function () {
+    $.fn.AttachImage = function (options) {
 
-    PhotoUploadManager.InitUploadTool();
-};
+        try {
+            // This is the easiest way to have default options.
+            var settings = $.extend({
+                OnPhotoUploaded: function () { alert('No photo uploaded call back defined!'); }
+            }, options);
+
+            var DropBox = this;
+            var fluPhoto = this.find('#fluPhoto');
+            PhotoUploadManager.InitUploadTool(DropBox);
+
+            this.find('#imgPhoto').click(function () {
+                fluPhoto.click();
+            });
+
+
+
+            fluPhoto.on('change', function () {
+                PhotoUploadManager.UploadSinglePhoto(fluPhoto)
+            });
+            PhotoUploadManager.OnPhotoUploaded = settings.OnPhotoUploaded;
+            return this;
+        }
+        catch (ex) {
+
+            Loghelper.HandleException("GlowAnimate", ex)
+
+        }
+    };
+
+}(jQuery));
+
 
 var PhotoUploadManager = {
     OnPhotoUploaded: function () { },
-    InitUploadTool: function () {
+    InitUploadTool: function (DropBox) {
         try {
+
             if (!Modernizr.draganddrop) {
                 //  alert("This browser doesn't support File API and Drag & Drop features of HTML5!");
                 return;
             }
+            var fluPhoto = DropBox.find('#fluPhoto');
+            DropBox[0].addEventListener("dragenter", OnDragEnter, false);
+            DropBox[0].addEventListener("dragover", OnDragOver, false);
+            DropBox[0].addEventListener("drop", OnDrop, false);
 
-            var box;
-            box = document.getElementById("DropBox");
-            box.addEventListener("dragenter", OnDragEnter, false);
-            box.addEventListener("dragover", OnDragOver, false);
-            box.addEventListener("drop", OnDrop, false);
-
-            $("#filImage").click(function () {
+            DropBox.find("#filImage").click(function () {
                 UploadPhotos();
             });
             function OnDragEnter(e) {
@@ -44,8 +64,9 @@ var PhotoUploadManager = {
                 e.stopPropagation();
                 e.preventDefault();
                 var selectedFiles = e.dataTransfer.files;
-                $("#DropBox").text(selectedFiles.length + " file(s) selected for uploading!");
-                PhotoUploadManager.UploadPhotos(selectedFiles); 
+             
+                //$("#DropBox").text(selectedFiles.length + " file(s) selected for uploading!");
+                PhotoUploadManager.UploadPhotos(selectedFiles, fluPhoto);
             }
         }
         catch (ex) {
@@ -55,19 +76,20 @@ var PhotoUploadManager = {
     },
     UploadSinglePhoto: function (FileUploaderClientID) {
         try {
+
             var selectedFiles = [];
-            var fileInput = $('#' + FileUploaderClientID);
+            var fileInput = FileUploaderClientID;// $('#' + FileUploaderClientID);
 
             var fileData = fileInput.prop("files")[0];   // Gettingfiles
 
             selectedFiles.push(fileData);
-            PhotoUploadManager.UploadPhotos(selectedFiles, FileUploaderClientID);
+            PhotoUploadManager.UploadPhotos(selectedFiles, fileInput);
         }
-        catch (ex) { 
+        catch (ex) {
             Loghelper.HandleException("UploadSinglePhoto", ex.message);
         }
     },
-    UploadPhotos: function (selectedFiles, FileUploaderClientID) {
+    UploadPhotos: function (selectedFiles, fileInput) {
         try {
 
             var data = new FormData();
@@ -92,20 +114,12 @@ var PhotoUploadManager = {
                 success: function (result) {
 
 
+                    var ParentDiv = fileInput.parent().parent();
+                    ParentDiv.find("#hidUploadedFiles").val(result);
+                    ParentDiv.find('#btnGetUploadedFiles').trigger('click');
 
-                    if (FileUploaderClientID == null || FileUploaderClientID == "") {
-                        $("#hidUploadedFiles").val(result);
-                        $('#btnGetUploadedFiles').trigger('click');
-                    }
-                    else {
-                        var ParentDiv = $('#' + FileUploaderClientID).parent().parent();
-                        ParentDiv.find("#hidUploadedFiles").val(result);
-                        ParentDiv.find('#btnGetUploadedFiles').trigger('click');
-                    }
 
-                    
-
-                    $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + result + "'/>")
+                    ParentDiv.find('#imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + result + "'/>")
                     //$("#DropBox .PhotoUpload").html("Files Uploaded Successfully!<br />" + result); 
                     PhotoUploadManager.OnPhotoUploaded(result);
                 },

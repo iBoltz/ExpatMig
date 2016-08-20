@@ -48,49 +48,71 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="hidSelectedThreadID" value="{{SelectedThreadID}}" />
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
         <div class="Chat-height">
-            <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
-                <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
-                    on-item-databound="OnItemDatabound(element)"
-                    last-item-loaded="OnLastTopicLoaded(element)">
-                    <!--    bindable -->
-                    <div class="row">
-                        <div class="col-md-9 ">
-                            <i class="ion-person"></i>
-                            <span data-toggle="modal" 
-                                  ng-click="ShowUserPrfile(x.CreatedBy)" 
-                                  data-target="#divUserProfiler"
-                                  class="cursor-hand"
-                                   style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> 
-                            <strong>{{x.Nick == null ? x.UserName : x.Nick }}</strong></span>
-                        </div>
-                        <div class="col-md-3 text-right">
-                            <small>{{x.CreatedDateString}}</small>
-                        </div>
+            <div class=" MultiplePhotoUpload">
+                <div id="DropBox" class="DropBox">
+            
 
+                    <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
+                        <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
+                            on-item-databound="OnItemDatabound(element)"
+                            last-item-loaded="OnLastTopicLoaded(element)">
+                            <!--    bindable -->
+                            <div class="row">
+                                <div class="col-md-9 ">
+                                    <i class="ion-person"></i>
+                                    <span data-toggle="modal"
+                                          ng-click="ShowUserPrfile(x.CreatedBy)"
+                                          data-target="#divUserProfiler"
+                                          class="cursor-hand"
+                                          style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})">
+                                        <strong>{{x.Nick == null ? x.UserName : x.Nick }}</strong>
+                                    </span>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <small>{{x.CreatedDateString}}</small>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12" ng-bind-html="RenderWithEmoji(x.Description)">
+
+                                </div>
+                            </div>
+
+
+                        </li>
+                    </ul>
+
+
+                    <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
+                        <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="btnSendMessage" ng-keypress="OnEnterPress($event)" class="form-control" />
+                        <div class="input-group-btn">
+                            <button ng-click="SaveChanges()" id="btnSendMessage" class="btn btn-success">
+                                <span class="glyphicon glyphicon-send "></span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="row">
-
-                        <div class="col-md-12" ng-bind-html="RenderWithEmoji(x.Description)">
+                    <div class="Message hidden" >
+                        <div class="PhotoUploader">
+                            <input type="file" id="fluPhoto" class="FileUploader" />
 
                         </div>
+                        <div id="imgPhoto" class="rounded-panel fontsize-jumbo-xl forecolor-dull">
+                            <i class="ion-person "></i>
+                            +
+                        </div>
                     </div>
-
-
-                </li>
-            </ul>
-
-
-            <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
-                <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="btnSendMessage" ng-keypress="OnEnterPress($event)" class="form-control" />
-                <div class="input-group-btn">
-                    <button ng-click="SaveChanges()" id="btnSendMessage" class="btn btn-success">
-                        <span class="glyphicon glyphicon-send "></span>
-                    </button>
+                    <div class="ProgressBar">
+                        <div class="Progress"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -254,5 +276,6 @@
         var CurrentUserID = @ViewBag.CurrentUserID;
 
         var CurrentUserName =@Html.Raw( string.Format("\"{0}\"", User.Identity.Name)) ;
+        var SelectedThreadID =null;
     </script>
 }

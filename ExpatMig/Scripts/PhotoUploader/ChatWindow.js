@@ -1,24 +1,32 @@
 ﻿var IsPhotoUploaderLoaded = true;
 $(document).ready(function () {
+    //alert('test-0');
+    //if (ProfilePic != undefined) {
+    //    $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ProfilePic + "'/>")
 
-    if (ProfilePic != undefined) {
-        $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ProfilePic + "'/>")
-
-    }
-
-    PhotoUploadManager.OnPhotoUploaded = function (ImagePath) {
+    //}
+    //alert('test');
+    var OnPhotoUploaded = function (ImagePath) {
         var data = {
-            "UserID": CurrentUserID,
-            "ProfilePic": ImagePath
+            "Description": "With attachment [attachment]",
+            "AttachmentURL": ImagePath,
+            "ThreadID": $('#hidSelectedThreadID').val()
         }
+
+        //alert($('#hidSelectedThreadID').val());
 
         $.ajax({
             type: "POST",
-            url: "/api/UserProfiles/UpdatePhoto/",
+            url: "/api/Topics/UploadPhoto/",
             dataType: "json",
             data: data,
             success: function (result) {
-                $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ImagePath + "'/>")
+                //$('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ImagePath + "'/>")
+
+
+                
+                angular.element(document.getElementById('divChatController')).scope().GetLatest();
+
 
                 console.log("done uploading ", result);
             },
@@ -29,5 +37,10 @@ $(document).ready(function () {
         });
 
     };
+
+
+    $('.DropBox').AttachImage({
+        OnPhotoUploaded: OnPhotoUploaded
+    });
 
 });

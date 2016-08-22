@@ -79,13 +79,18 @@ namespace ExpatMig.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var ExistingUserDevice = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID);
 
-            if (db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).Count() <= 0)
+            if (ExistingUserDevice.Count() <= 0)
             {
                 userDevice.CreatedDate = DateTime.Now;
                 db.UserDevices.Add(userDevice);
                 db.SaveChanges();
 
+            }
+            else
+            {
+                userDevice = ExistingUserDevice.First();
             }
 
             return CreatedAtRoute("DefaultApi", new { id = userDevice.UserDeviceID }, userDevice);

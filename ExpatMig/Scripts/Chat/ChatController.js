@@ -23,7 +23,7 @@
                         }
                         function FormatTopic(Topic) {
                             var CreatedDate = new Date(Topic.CreatedDate);
-                            console.log('CreatedDate', CreatedDate)
+                            
                             Topic.Color = iBoltzColorGen.GetMyColor(Topic.UserName, Topic.CreatedBy);
                             if (IsDateToday(Topic.CreatedDate)) {
                                 Topic.CreatedDateString = $filter('date')(CreatedDate, "hh:mm a");
@@ -33,15 +33,11 @@
 
                             Topic.OwnerAlignLeft = Topic.CreatedBy == CurrentUserID ? '18%' : '2%';
 
-                            
-                           
-
                             return Topic;
                         }
                         $scope.RenderWithEmoji=function(Description)
                         {
                             return $sce.trustAsHtml(emojione.toImage(Description));
-
                         }
                         function ListChatPaged(SelectedThreadID, PageIndex) {
                             $('#ChatHistory').ShowLoadingPanel();
@@ -143,9 +139,7 @@
                         };
 
                         $scope.ShowUserPrfile = function (UserID) {
-
                             BridgeService.BridgeUserProfile(UserID);
-
                         };
 
                         /*****************  Last Item Loaded  ********************/
@@ -169,6 +163,7 @@
                         $scope.OnLastTopicLoaded = function (element) {
                             ScrollToLastMessage();
                             $('#ChatHistory').HideLoadingPanel();
+                            
                         };
 
 

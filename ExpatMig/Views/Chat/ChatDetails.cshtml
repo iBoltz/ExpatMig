@@ -54,7 +54,7 @@
         <div class="Chat-height">
             <div class=" MultiplePhotoUpload def-height">
                 <div id="DropBox" class="DropBox def-height">
-            
+
 
                     <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
                         <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
@@ -79,7 +79,7 @@
                             </div>
                             <div class="row">
 
-                                <div class="col-md-12" ng-bind-html="RenderWithEmoji(x.Description)">
+                                <div class="col-md-12" id="divTopic" ng-bind-html="RenderWithEmoji(x.Description)">
 
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="Message hidden" >
+                    <div class="Message hidden">
                         <div class="PhotoUploader">
                             <input type="file" id="fluPhoto" class="FileUploader" />
 
@@ -117,7 +117,16 @@
 
 
     </div>
-
+    <div id="pnlEnlargePhoto" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img />
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="pnlNewThread" class="modal fade" role="dialog">
         <div class="modal-dialog">
 

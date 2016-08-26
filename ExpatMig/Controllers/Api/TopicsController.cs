@@ -39,7 +39,7 @@ namespace ExpatMig.Controllers.Api
                              EachProfile1.Nick,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             Description = EachTopic.Description.Replace("[attachment]", "<img src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate,
                              EachTopic.AttachmentURL

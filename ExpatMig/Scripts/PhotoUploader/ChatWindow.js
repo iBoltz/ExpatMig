@@ -14,7 +14,7 @@ $(document).ready(function () {
             //   alert(UserDeviceID);
         }
         var data = {
-            "Description": "With attachment [attachment]",
+            "Description": "[attachment]",
             "AttachmentURL": ImagePath,
             "ThreadID": $('#hidSelectedThreadID').val(),
             "UserDeviceID": UserDeviceID,

@@ -44,8 +44,10 @@
                             $scope.SelectedThreadID = SelectedThreadID;
                             var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
                                 //ScrollToLastMessage();
+                               // alert('PageIndex ' + PageIndex);
+                               // alert('SelectedThreadID ' + SelectedThreadID);
                                 var Formated = FormatViewModal(result);
-                                if (Formated.length <= 0) {
+                                if (Formated.length <= 0 && PageIndex > 1) {
                                     HasReachedTop = true;
                                     ShowToast('No more new messges');
                                     return;

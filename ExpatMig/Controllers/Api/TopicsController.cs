@@ -39,7 +39,7 @@ namespace ExpatMig.Controllers.Api
                              EachProfile1.Nick,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             Description = EachTopic.Description.Replace("[attachment]", "<img src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate,
                              EachTopic.AttachmentURL
@@ -51,7 +51,7 @@ namespace ExpatMig.Controllers.Api
 
 
         [HttpPost, Route("api/Topics/UploadPhoto")]
-        public bool UploadPhoto([FromBody]Topic GivenTopic)
+        public bool UploadPhoto([FromBody]ChatViewModel GivenTopic)
         {
 
             Topic NewTopic = new Topic();
@@ -62,13 +62,14 @@ namespace ExpatMig.Controllers.Api
             NewTopic.SeqNo = 0;
             NewTopic.IsActive = true;
             NewTopic.CreatedBy = int.Parse(User.Identity.GetUserId());
-            NewTopic.CreatedDate = DateTime.Now;
+            NewTopic.CreatedDate = GivenTopic.CreatedDate ;
 
             db.Topics.Add(NewTopic);
             db.SaveChanges();
 
 
 
+            SendNotification(NewTopic, GivenTopic.UserDeviceID);
 
             return true;
         }
@@ -180,8 +181,14 @@ namespace ExpatMig.Controllers.Api
             Topic topic = ConvertToTopic(Inputtopic);
             db.Topics.Add(topic);
             db.SaveChanges();
+            SendNotification(topic, Inputtopic.UserDeviceID);
 
 
+            return CreatedAtRoute("DefaultApi", new { id = topic.TopicID }, topic);
+        }
+
+        public void SendNotification(Topic topic,int UserDeviceID)
+        {
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
                          where EachTopic.TopicID == topic.TopicID
@@ -207,7 +214,7 @@ namespace ExpatMig.Controllers.Api
 
                 foreach (var EachDevice in HisDevices)
                 {
-                    if (EachDevice.UserDeviceID == Inputtopic.UserDeviceID) continue;
+                    if (EachDevice.UserDeviceID == UserDeviceID) continue;
 
                     var Notification = new NotificationsModel
                     {
@@ -223,7 +230,6 @@ namespace ExpatMig.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = topic.TopicID }, topic);
         }
 
         // DELETE: api/Topics/5

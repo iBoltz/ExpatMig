@@ -7,10 +7,18 @@ $(document).ready(function () {
     //}
     //alert('test');
     var OnPhotoUploaded = function (ImagePath) {
+        var UserDeviceID = 0;
+
+        if (typeof (RegisteredUserDeviceID) != undefined) {
+            UserDeviceID = RegisteredUserDeviceID;
+            //   alert(UserDeviceID);
+        }
         var data = {
             "Description": "With attachment [attachment]",
             "AttachmentURL": ImagePath,
-            "ThreadID": $('#hidSelectedThreadID').val()
+            "ThreadID": $('#hidSelectedThreadID').val(),
+            "UserDeviceID": UserDeviceID,
+            "CreatedDate": GetUtcDateString(new Date())
         }
 
         //alert($('#hidSelectedThreadID').val());

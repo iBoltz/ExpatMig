@@ -2,14 +2,29 @@
 
     //HideLoadingChat();
     RegisterEmoji();
+   
 
 });
+
+function xpand(thisitem) {
+    //$('#divTopic img').bind('click', function () { alert($this) });
+    console.log('registerd img click ' + $(thisitem).attr('src'));
+    var imagePath = $(thisitem).attr('src');
+    imagePath = imagePath.replace('Width=150&', '');
+//    alert(imagePath);
+
+    $('#pnlEnlargePhoto img').attr('src', imagePath);
+
+    $('#pnlEnlargePhoto .modal-dialog').width($('#pnlEnlargePhoto img').width());
+    $('#pnlEnlargePhoto').modal('show');
+
+}
 
 function RegisterEmoji() {
     $('#txtMessage').emojioneArea({
         hideSource: false,
         placeholder: null,
-        container:null,
+        container: null,
         events: {
             keydown: function (editor, event) {
                 if (event.keyCode == 13) {

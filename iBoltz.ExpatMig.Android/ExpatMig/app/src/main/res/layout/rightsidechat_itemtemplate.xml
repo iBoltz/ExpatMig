@@ -40,15 +40,15 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblRightSideMsg"
-            android:layout_width="fill_parent"
+
+        <iboltz.expatmig.emojicon.EmojiconTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Hopefully you are fine to see you in the tea break."
             android:padding="@dimen/padding_m"
             android:textColor="#000"
-            android:textSize="@dimen/text_size_m" />
+            android:textSize="@dimen/text_size_m"
+            android:id="@+id/lblRightSideMsg"
+            />
     </LinearLayout>
 
 </LinearLayout>

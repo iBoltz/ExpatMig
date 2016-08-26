@@ -2,6 +2,7 @@ package iboltz.expatmig.utils;
 
 public class WebServiceUrls {
     public static final String WebServiceUrl = "192.168.1.105:125";
+    public static final String WebSiteUrl = "food.iboltz.com";
 
     //Verify Update - But not used
     public static final String AppVersionSyncService = "http://192.168.1.105:125/apps/syncversion/";

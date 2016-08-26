@@ -17,7 +17,7 @@
     <AssemblyName>ExpatMig</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -200,6 +200,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\PointsCalculatorModel.cs" />
+    <Compile Include="Models\ThreadSubscriptions.cs" />
     <Compile Include="Models\TravelLog.cs" />
     <Compile Include="Models\UserDevices.cs" />
     <Compile Include="Models\UserProfile.cs" />
@@ -1572,7 +1573,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4501</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4005/</IISUrl>
+          <IISUrl>http://192.168.1.105:125/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

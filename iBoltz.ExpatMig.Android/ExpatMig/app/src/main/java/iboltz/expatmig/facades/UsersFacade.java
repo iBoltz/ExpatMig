@@ -288,6 +288,7 @@ public class UsersFacade {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
                     if (e.ResponseData != null) {
+
                         StorageManager.Put(CurrentContext, "gcmdeviceid", e.ResponseData);
                         RaiseOnProcesFinished();
                     }

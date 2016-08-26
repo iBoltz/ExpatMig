@@ -17,5 +17,6 @@ public class TopicsModel {
     public int ModifiedBy;
     public String ModifiedDate;
 public  int UserDeviceID;
+    public Boolean IsAndroid;
 }
 

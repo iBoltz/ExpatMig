@@ -1,26 +1,34 @@
 package iboltz.expatmig.screens;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EventObject;
@@ -28,18 +36,26 @@ import java.util.EventObject;
 import iboltz.expatmig.ListenerInterfaces.OnLoadedListener;
 import iboltz.expatmig.R;
 import iboltz.expatmig.adapters.ChatMessageAdapter;
+import iboltz.expatmig.emojicon.EmojiconEditText;
+import iboltz.expatmig.emojicon.EmojiconGridView;
+import iboltz.expatmig.emojicon.EmojiconsPopup;
+import iboltz.expatmig.emojicon.emoji.Emojicon;
+import iboltz.expatmig.models.UserDevicesModel;
+import iboltz.expatmig.models.UsersModel;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
 import iboltz.expatmig.utils.EndlessScrollListener;
+import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.StorageManager;
 
 public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
     ListView lvChat;
-    EditText txtMsg;
-    Button btnSend;
+    ImageView submit_btn;
+    EmojiconEditText emojiconEditText;
+    ImageView emojiButton;
     //    Button btnRefresh;
     ChatMessageAdapter chatMessageAdapter;
     ArrayList<TopicsModel> topic = new ArrayList<TopicsModel>();
@@ -82,7 +98,9 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         SetBackButtonAction();
         InitControls();
         ButtonListener();
+
         FetchTopicsFromServer(0);
+        LoadEmojiEvents();
     }
 
     @Override
@@ -113,21 +131,24 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             AppCache.CachedTopics = new ArrayList<TopicsModel>();
 
             lvChat = (ListView) findViewById(R.id.lvChat);
-            btnSend = (Button) findViewById(R.id.btnSend);
+            submit_btn = (ImageView) findViewById(R.id.submit_btn);
+            emojiconEditText=(EmojiconEditText) findViewById(R.id.emojicon_edit_text);
+            emojiButton = (ImageView) findViewById(R.id.emoji_btn);
+
 //            btnRefresh=(Button) findViewById(R.id.btnRefresh);
 
-            btnSend.setTypeface(AppCache.IonIcons);
+           // submit_btn.setTypeface(AppCache.IonIcons);
 //            btnRefresh.setTypeface(AppCache.LinearIcons);
 
-            txtMsg = (EditText) findViewById(R.id.txtMsg);
-            txtMsg.setTypeface(AppCache.FontQuickRegular);
+            emojiconEditText.setTypeface(AppCache.FontQuickRegular);
             if (AppCache.CachedTopics != null) {
                 LoadTopics();
             }
+
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ps_neutral);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(bmp);
             bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-            LinearLayout layout = (LinearLayout) findViewById(R.id.lnrbg);
+            LinearLayout layout = (LinearLayout) findViewById(R.id.root_view);
             layout.setBackgroundDrawable(bitmapDrawable);
 
         } catch (Exception ex) {
@@ -135,27 +156,125 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         }
     }
 
+private void LoadEmojiEvents(){
+    final View rootView = findViewById(R.id.root_view);
+    final EmojiconsPopup popup = new EmojiconsPopup(rootView, this);
 
+    //Will automatically set size according to the soft keyboard size
+    popup.setSizeForSoftKeyboard();
+
+    //If the emoji popup is dismissed, change emojiButton to smiley icon
+    popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+        @Override
+        public void onDismiss() {
+            changeEmojiKeyboardIcon(emojiButton, R.drawable.smiley);
+        }
+    });
+
+    //If the text keyboard closes, also dismiss the emoji popup
+    popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+
+        @Override
+        public void onKeyboardOpen(int keyBoardHeight) {
+
+        }
+
+        @Override
+        public void onKeyboardClose() {
+            if (popup.isShowing())
+                popup.dismiss();
+        }
+    });
+//On emoji clicked, add it to edittext
+    popup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+
+        @Override
+        public void onEmojiconClicked(Emojicon emojicon) {
+            if (emojiconEditText == null || emojicon == null) {
+                return;
+            }
+            int start = emojiconEditText.getSelectionStart();
+            int end = emojiconEditText.getSelectionEnd();
+            if (start < 0) {
+                emojiconEditText.append(emojicon.getEmoji());
+            } else {
+                emojiconEditText.getText().replace(Math.min(start, end),
+                        Math.max(start, end), emojicon.getEmoji(), 0,
+                        emojicon.getEmoji().length());
+            }
+        }
+    });
+            //On backspace clicked, emulate the KEYCODE_DEL key event
+            popup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+
+                @Override
+                public void onEmojiconBackspaceClicked(View v) {
+                    KeyEvent event = new KeyEvent(
+                            0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                    emojiconEditText.dispatchKeyEvent(event);
+                }
+            });
+    // To toggle between text keyboard and emoji keyboard keyboard(Popup)
+    emojiButton.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            //If popup is not showing => emoji keyboard is not visible, we need to show it
+            if (!popup.isShowing()) {
+
+                //If keyboard is visible, simply show the emoji popup
+                if (popup.isKeyBoardOpen()) {
+                    popup.showAtBottom();
+                    changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                }
+                //else, open the text keyboard first and immediately after that show the emoji popup
+                else {
+                    emojiconEditText.setFocusableInTouchMode(true);
+                    emojiconEditText.requestFocus();
+                    popup.showAtBottomPending();
+                    final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.showSoftInput(emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
+                    changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                }
+            }
+
+            //If popup is showing, simply dismiss it to show the undelying text keyboard
+            else {
+                popup.dismiss();
+            }
+        }
+    });
+
+
+}
+    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId){
+        Resources resources = getResources();
+        iconToBeChanged.setImageDrawable(resources.getDrawable(drawableResourceId));
+    }
 
     private void ButtonListener() {
         try {
             lvChat.setOnScrollListener(onScrollListener());
 
 
-            btnSend.setOnClickListener(new View.OnClickListener() {
+            submit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TextUtils.isEmpty(txtMsg.getText())) {
+                    if (TextUtils.isEmpty(emojiconEditText.getText())) {
                         return;
                     }
 
-                    String Inputtxt = txtMsg.getText().toString();
+                    String Inputtxt = emojiconEditText.getText().toString();
                     TopicsModel InputTopic = FillTopic(Inputtxt);
                     AppCache.CachedTopics.add(InputTopic);
                     LoadTopics();
-                    SaveTopic(InputTopic);
-                    txtMsg.setText("");
+                    SaveTopic(FillTopic(Inputtxt));
+                    emojiconEditText.setText("");
                     AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
+
+
 
                 }
             });
@@ -185,6 +304,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
     private TopicsModel FillTopic(String TopicsMessage) {
         try {
+
             TopicsModel item = new TopicsModel();
             item.ThreadID = AppCache.SelectedThread.ThreadID;
             item.Description = TopicsMessage;
@@ -198,15 +318,21 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             item.ModifiedBy = 0;
             item.ModifiedDate = AppConstants.StandardDateFormat
                     .format(new Date());
-            String UsderDeviceID= StorageManager.Get(this, "gcmdeviceid");
-           // item.UserDeviceID=Integer.valueOf(UsderDeviceID);
+            item.IsAndroid=true;
+            item.UserDeviceID=GetUserDeviceID();
             return item;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
     }
-
+public int GetUserDeviceID(){
+    String ThisUserDevicejson= StorageManager.Get(this, "gcmdeviceid");
+    Type collectionType = (Type) (new TypeToken<UserDevicesModel>() {
+    }).getType();
+    UserDevicesModel ThisUserDevice = new Gson().fromJson(ThisUserDevicejson, (Type) collectionType);
+    return ThisUserDevice.UserDeviceID;
+}
     public void FetchTopicsFromServer(int PageIndex) {
         try {
             if (AppCache.SelectedThread == null) {
@@ -250,9 +376,25 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         overridePendingTransition(R.anim.activity_move_left_open,
                 R.anim.activity_move_left_close);
     }
+public String EncodeMsg(){
+    try{
+        byte[] data = emojiconEditText.getText().toString().getBytes("UTF-8");
+        String baseString = Base64.encodeToString(data, Base64.DEFAULT);
 
+return baseString;
+    }
+    catch(Exception ex){
+        LogHelper.HandleException(ex);
+    }
+    return null;
+
+}
     public void SaveTopic(TopicsModel InputTopic) {
         try {
+            TopicsModel ConvertedTopics= new TopicsModel();
+            ConvertedTopics=InputTopic;
+            ConvertedTopics.Description=EncodeMsg();
+
             TopicsFacade tf = new TopicsFacade(CurrentContext);
 
             tf.setOnFinishedEventListener(new OnLoadedListener() {
@@ -261,7 +403,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
                 }
             });
-            tf.SaveTopics(InputTopic);
+            tf.SaveTopics(ConvertedTopics);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

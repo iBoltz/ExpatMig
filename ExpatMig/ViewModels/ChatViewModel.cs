@@ -17,6 +17,7 @@ namespace ExpatMig.ViewModels
 
         public String AuthorName { get; set; }
         public int UserDeviceID { get; set; }
+        public Boolean IsAndroid { get; set; }
 
 
     }

@@ -169,6 +169,13 @@ namespace ExpatMig.Controllers.Api
             {
                 return BadRequest(ModelState);
             }
+            if (Inputtopic.IsAndroid)
+            {
+                var base64EncodedBytes = System.Convert.FromBase64String(Inputtopic.Description);
+                var AndroidMsg = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+                Inputtopic.Description = AndroidMsg;
+
+            }
 
             Topic topic = ConvertToTopic(Inputtopic);
             db.Topics.Add(topic);

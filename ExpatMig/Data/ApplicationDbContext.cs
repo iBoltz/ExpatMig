@@ -30,6 +30,8 @@ namespace ExpatMig.Data
 
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserDevice> UserDevices { get; set; }
+        public DbSet<ThreadSubscription> ThreadSubscriptions { get; set; }
+
 
         public System.Data.Entity.DbSet<ExpatMig.Models.City> Cities { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)

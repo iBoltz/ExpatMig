@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import iboltz.expatmig.R;
+import iboltz.expatmig.emojicon.EmojiconTextView;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.DateUtils;
@@ -47,7 +48,7 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel> {
             final View rowView = inflater.inflate(
                     R.layout.rightsidechat_itemtemplate, parent, false);
             TopicsModel item = values.get(position);
-            TextView lblRightSideMsg = (TextView) rowView
+            EmojiconTextView lblRightSideMsg = (EmojiconTextView) rowView
                     .findViewById(R.id.lblRightSideMsg);
             TextView lblUserName = (TextView) rowView
                     .findViewById(R.id.lblUserName);

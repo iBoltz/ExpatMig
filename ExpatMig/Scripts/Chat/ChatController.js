@@ -22,11 +22,13 @@
                             return Topics;
                         }
                         function FormatTopic(Topic) {
+                            var CreatedDate = new Date(Topic.CreatedDate);
+                            console.log('CreatedDate', CreatedDate)
                             Topic.Color = iBoltzColorGen.GetMyColor(Topic.UserName, Topic.CreatedBy);
                             if (IsDateToday(Topic.CreatedDate)) {
-                                Topic.CreatedDateString = $filter('date')(Topic.CreatedDate, "hh:mm a");
+                                Topic.CreatedDateString = $filter('date')(CreatedDate, "hh:mm a");
                             } else {
-                                Topic.CreatedDateString = $filter('date')(Topic.CreatedDate, "dd-MMM-yy hh:mm");
+                                Topic.CreatedDateString = $filter('date')(CreatedDate, "dd-MMM-yy hh:mm");
                             }
 
                             Topic.OwnerAlignLeft = Topic.CreatedBy == CurrentUserID ? '18%' : '2%';
@@ -219,10 +221,10 @@
                                 "Description": $scope.Message,
                                 "Slug": null, "IsActive": true,
                                 "SeqNo": 1, "CreatedBy": CurrentUserID,
-                                "CreatedDate": new Date(),
+                                "CreatedDate": GetUtcDateString(new Date()),
                                 "UserDeviceID": UserDeviceID
                             }
-                            console.log("Current Time is", new Date());
+                            //console.log("Current Time is", new Date());
 
                             var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                             MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;

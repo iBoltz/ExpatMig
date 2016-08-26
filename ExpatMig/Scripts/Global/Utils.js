@@ -365,6 +365,30 @@ function FormatDate(DateToFormat, FormatAs) {
 
 }
 
+
+function GetUtcDateString(dtIp) {
+    var month = new Array(12);
+    month[0] = "Jan";
+    month[1] = "Feb";
+    month[2] = "Mar";
+    month[3] = "Apr";
+    month[4] = "May";
+    month[5] = "Jun";
+    month[6] = "Jul";
+    month[7] = "Aug";
+    month[8] = "Sep";
+    month[9] = "Oct";
+    month[10] = "Nov";
+    month[11] = "Dec";
+
+    var UtcDateString = dtIp.getUTCDate() + '-' + month[dtIp.getUTCMonth()] + '-' + dtIp.getUTCFullYear()
+                        + ' ' + dtIp.getUTCHours() + ':' + dtIp.getUTCMinutes() + ':' + dtIp.getUTCSeconds()
+                        + '.' + dtIp.getUTCMilliseconds();
+
+    return UtcDateString;
+}
+
+
 function FormatNumber(intNum, intDecimalDigits) {
     if (isNaN(parseInt(intNum))) return "NaN";
 
@@ -645,7 +669,7 @@ function ShowToast(Message) {
 
         }, 5000);
 
-      
+
 
     }
     catch (ex) {
@@ -753,8 +777,8 @@ function IsDateToday(GivenDate) {
 }
 
 
- 
- 
+
+
 
 $(document).ready(function () {
 

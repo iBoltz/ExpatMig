@@ -2,14 +2,14 @@
 
     //HideLoadingChat();
     RegisterEmoji();
-
+   
 });
 
 function RegisterEmoji() {
     $('#txtMessage').emojioneArea({
         hideSource: false,
         placeholder: null,
-        container:null,
+        container: null,
         events: {
             keydown: function (editor, event) {
                 if (event.keyCode == 13) {

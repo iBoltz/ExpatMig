@@ -30,8 +30,9 @@ namespace ExpatMig.Models
         public int SeqNo { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public string ProfilePic { get; set; }
 
         public virtual ICollection<TravelLog> MyTravels { get; set; }
 

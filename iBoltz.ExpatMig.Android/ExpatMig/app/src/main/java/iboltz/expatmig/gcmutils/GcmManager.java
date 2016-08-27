@@ -1,8 +1,6 @@
 package iboltz.expatmig.gcmutils;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.EventObject;
 
 import iboltz.expatmig.ListenerInterfaces.UsersFacadeListeners;
@@ -22,7 +20,6 @@ import iboltz.expatmig.utils.StorageManager;
 
 public class GcmManager
 {
-	public static final String GcmRegID = "REG_ID";
 	GoogleCloudMessaging gcm;
 	Context context;
 	Activity CurrentActivity;
@@ -118,7 +115,7 @@ public class GcmManager
 		try
 		{
 
-			String registrationId = StorageManager.Get(context, GcmRegID);
+			String registrationId = StorageManager.Get(context, "REG_ID");
 			if (registrationId.isEmpty())
 			{
 				Log.i(TAG, "Registration not found.");
@@ -229,7 +226,6 @@ public class GcmManager
 			StorageManager.Put(context, "REG_ID", regId);
 			StorageManager.Put(context, "APP_VERSION", AppCache.AppCurrentVersion);
 
-			StorageManager.Put(context, "LastRegisteredDate", AppConstants.JsonDateFormat.format(new Date()));
 		}
 		catch(Exception ex)
 		{

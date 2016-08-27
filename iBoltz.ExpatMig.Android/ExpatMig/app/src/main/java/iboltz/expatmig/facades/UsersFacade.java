@@ -3,7 +3,6 @@ package iboltz.expatmig.facades;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Property;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -128,12 +127,7 @@ public class UsersFacade {
                 Wc.setOnResponseReceivedListener(new WebClientListeners() {
                     @Override
                     public void OnResponseReceived(WebClientEventObject e) {
-                        if(e.ResponseData.equals("-1")){
-                            Toast.makeText(CurrentContext, "Invalid! Please Register", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
                         LocalCache ThatItemFromCache = PushToLocalStore(e.ResponseData, "HasLoggedIn");
-                        LocalCache UserNameToCache = PushToLocalStore(UserName, "UserName");
                         RaiseOnProcesFinished(ThatItemFromCache);
                     }
                 });
@@ -218,7 +212,7 @@ public class UsersFacade {
 
     public void UpdateUserByPhoneNo() {
         try {
-           /* String UpdateUrl = WebServiceUrls.UserUpdationService
+            String UpdateUrl = WebServiceUrls.UserUpdationService
                     + AppCache.HisUserID + "/" + AppCache.HostPhoneNo;
             WebClient Wc = new WebClient(CurrentContext);
             Wc.GetData(UpdateUrl);
@@ -227,7 +221,7 @@ public class UsersFacade {
                 public void OnResponseReceived(WebClientEventObject e) {
                     RaiseOnProcesFinished();
                 }
-            });*/
+            });
         } catch (Exception ex) {
             LogHelper.HandleException(ex);
         }
@@ -288,7 +282,6 @@ public class UsersFacade {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
                     if (e.ResponseData != null) {
-
                         StorageManager.Put(CurrentContext, "gcmdeviceid", e.ResponseData);
                         RaiseOnProcesFinished();
                     }

@@ -9,7 +9,6 @@ using ExpatMig.Controllers;
 
 namespace ExpatMig.Tests.Controllers
 {
-    //comment :rab
     [TestClass]
     public class HomeControllerTest
     {

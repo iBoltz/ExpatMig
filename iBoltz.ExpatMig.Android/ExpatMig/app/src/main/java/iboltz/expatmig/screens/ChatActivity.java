@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
@@ -24,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,8 +56,12 @@ import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.StorageManager;
 
 public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
+    private static int IMG_RESULT = 1;
     ListView lvChat;
+    Intent intent;
+    String ImageDecode;
     ImageView submit_btn;
+    TextView attach_img;
     EmojiconEditText emojiconEditText;
     ImageView emojiButton;
     //    Button btnRefresh;
@@ -134,11 +142,18 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             submit_btn = (ImageView) findViewById(R.id.submit_btn);
             emojiconEditText=(EmojiconEditText) findViewById(R.id.emojicon_edit_text);
             emojiButton = (ImageView) findViewById(R.id.emoji_btn);
+            attach_img=(TextView) findViewById(R.id.attach_img);
+            attach_img.setTypeface(AppCache.IonIcons);
+            attach_img.setVisibility(View.GONE);
+            attach_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-//            btnRefresh=(Button) findViewById(R.id.btnRefresh);
-
-           // submit_btn.setTypeface(AppCache.IonIcons);
-//            btnRefresh.setTypeface(AppCache.LinearIcons);
+                    startActivityForResult(intent, IMG_RESULT);
+                }
+            });
 
             emojiconEditText.setTypeface(AppCache.FontQuickRegular);
             if (AppCache.CachedTopics != null) {
@@ -154,6 +169,38 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+
+            if (requestCode == IMG_RESULT && resultCode == RESULT_OK
+                    && null != data) {
+
+
+                Uri URI = data.getData();
+                String[] FILE = { MediaStore.Images.Media.DATA };
+
+
+                Cursor cursor = getContentResolver().query(URI,
+                        FILE, null, null, null);
+
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(FILE[0]);
+                ImageDecode = cursor.getString(columnIndex);
+                cursor.close();
+
+               /* imageViewLoad.setImageBitmap(BitmapFactory
+                        .decodeFile(ImageDecode));*/
+
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Please try again", Toast.LENGTH_LONG)
+                    .show();
+        }
+
     }
 
 private void LoadEmojiEvents(){

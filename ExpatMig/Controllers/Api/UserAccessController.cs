@@ -13,7 +13,7 @@ namespace ExpatMig.Controllers.Api
 {
     public class UserAccessController : ApiController
     {
-        public class UserAccessModel
+        public class LoginModel
         {
             public String UserName { get; set; }
             public String Password { get; set; }
@@ -21,7 +21,7 @@ namespace ExpatMig.Controllers.Api
         }
 
         [HttpPost, Route("api/UserAccess/Login")]
-        public int Login(UserAccessModel AccessModel)
+        public int Login(LoginModel AccessModel)
         {
             var manager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
@@ -36,40 +36,6 @@ namespace ExpatMig.Controllers.Api
                 return -1;
             }
 
-        }
-
-        [HttpPost, Route("api/UserAccess/Register")]
-        public String Register(UserAccessModel NewAccessUser)
-        {
-            try
-            {
-                var manager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-                var FoundUser = manager.Find(NewAccessUser.UserName, NewAccessUser.Password);
-
-                if (FoundUser == null)
-                {
-                    var user = new ApplicationUser { UserName = NewAccessUser.UserName, Email = NewAccessUser.UserName };
-                    var NewUser=  manager.CreateAsync(user, NewAccessUser.Password);
-                    if (NewUser.Result.Succeeded) {
-                        return "success";
-                    }
-                    else
-                    {
-                        return NewUser.Result.Errors.First();
-                    }
-                   
-                }
-                else
-                {
-                    return "Already Exists User";
-                }
-            }
-            catch(Exception ex)
-            {
-                return ex.Message;
-            }
-           
         }
     }
 }

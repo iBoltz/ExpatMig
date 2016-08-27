@@ -112,10 +112,6 @@ public class BaseActivity extends Activity implements
 
             actionBar.setCustomView(customNav, lp1);
             Button btnGoBack = (Button) findViewById(R.id.btnGoBack);
-            TextView txtHeader=(TextView) findViewById(R.id.txtHeader);
-            txtHeader.setTypeface(AppCache.FontQuickRegular);
-            btnGoBack.setTypeface(AppCache.IonIcons);
-
 //            txtHeader.setEllipsize(TruncateAt.END);
 
 

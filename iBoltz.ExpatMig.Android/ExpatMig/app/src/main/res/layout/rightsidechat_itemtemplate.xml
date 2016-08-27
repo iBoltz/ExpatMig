@@ -25,8 +25,7 @@
                 android:layout_gravity="left"
                 android:layout_weight="0.7"
                 android:padding="@dimen/padding_m"
-                android:textSize="@dimen/text_size_s"
-                android:textColor="@color/dark_gray" />
+                android:textSize="@dimen/text_size_s" />
 
             <TextView
                 android:layout_width="0dp"
@@ -34,21 +33,21 @@
                 android:text="12-Jan-2016 14:22"
                 android:id="@+id/lblCreatedDate"
                 android:layout_weight="0.25"
+                android:textAlignment="viewEnd"
                 android:gravity="right"
-                android:padding="@dimen/padding_m"
-                android:textColor="@color/iBoltzDarkGray" />
+                android:padding="@dimen/padding_m" />
 
         </LinearLayout>
 
-
-        <iboltz.expatmig.emojicon.EmojiconTextView
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblRightSideMsg"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Hopefully you are fine to see you in the tea break."
             android:padding="@dimen/padding_m"
             android:textColor="#000"
-            android:textSize="@dimen/text_size_m"
-            android:id="@+id/lblRightSideMsg"
-            />
+            android:textSize="@dimen/text_size_m" />
     </LinearLayout>
 
 </LinearLayout>

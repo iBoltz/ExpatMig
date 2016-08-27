@@ -8,6 +8,27 @@
 <div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height">
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
+
+            <div class="input-group margin-s clear-padding " id="divSearch">
+                <input type="text" ng-model="SearchText" id="txtSearch" placeholder="Search ...." aria-describedby="btnSearch" class="form-control" />
+                <div class="input-group-btn">
+                    <button ng-click="SearchNow()" id="btnSearch" class="btn btn-success">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="SearchResults">
+
+                <ul class="listgroup" id="SearchList" upward-infinite-scroll="LoadMoreTopics()">
+                    <li ng-repeat="EachResult in SearchResults" class="list-group-item chat-item margin-s-top">
+                        <span>{{EachResult.Description }}</span>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr />
+        <div class="form-inline margin-s">
             <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
                 <i class="ion-person-stalker"></i> Groups
             </h4>

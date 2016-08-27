@@ -4,6 +4,7 @@
     font-family: Quicksand;
     font-weight: 400;
     background: url('../Images/ps_neutral.png');
+    overflow:hidden;
 }
 
 a

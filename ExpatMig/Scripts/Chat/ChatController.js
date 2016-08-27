@@ -23,7 +23,7 @@
                         }
                         function FormatTopic(Topic) {
                             var CreatedDate = new Date(Topic.CreatedDate);
-                            
+
                             Topic.Color = iBoltzColorGen.GetMyColor(Topic.UserName, Topic.CreatedBy);
                             if (IsDateToday(Topic.CreatedDate)) {
                                 Topic.CreatedDateString = $filter('date')(CreatedDate, "hh:mm a");
@@ -35,8 +35,7 @@
 
                             return Topic;
                         }
-                        $scope.RenderWithEmoji=function(Description)
-                        {
+                        $scope.RenderWithEmoji = function (Description) {
                             return $sce.trustAsHtml(emojione.toImage(Description));
                         }
                         function ListChatPaged(SelectedThreadID, PageIndex) {
@@ -44,8 +43,8 @@
                             $scope.SelectedThreadID = SelectedThreadID;
                             var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
                                 //ScrollToLastMessage();
-                               // alert('PageIndex ' + PageIndex);
-                               // alert('SelectedThreadID ' + SelectedThreadID);
+                                // alert('PageIndex ' + PageIndex);
+                                // alert('SelectedThreadID ' + SelectedThreadID);
                                 var Formated = FormatViewModal(result);
                                 if (Formated.length <= 0 && PageIndex > 1) {
                                     HasReachedTop = true;
@@ -70,7 +69,7 @@
                         };
 
                         $scope.SelectedGroup = "Select Group";
-                        $scope.SelectedThreadID = 0;
+                        $scope.SelectedThreadID = -1;
                         $scope.LoadMoreTopics = function () {
 
                             console.log("In LoadMoreTopics", FreshLoad)
@@ -83,7 +82,7 @@
 
                         };
                         $scope.GetLatest = function () {
-                            console.log('Fetching data');
+                            //console.log('Fetching data');
                             var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                             MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
 
@@ -95,7 +94,22 @@
                                 return result;
                             });
                         };
-                        $scope.SearchResults = ['banana', 'apple', 'mango'];
+
+                        $scope.SearchNow = function () {
+                            $scope.SearchResults = ChatService.SearchChat.Search({
+                                ThreadID: $scope.SelectedThreadID, SearchText: "'" + $scope.SearchText + "'"
+                            }, function (result) {
+                                //console.log('result', result.length)
+                                return result;
+                            });
+                        };
+                        //$scope.SearchResults = ChatService.SearchChat.Search({
+                        //        ThreadID: $scope.SelectedThreadID, SearchText: 'Attachment'
+                        //}, function (result) {
+                        //    console.log('result', result.length)
+                        //    return result;
+                        //});
+
                         $scope.ListChat = ListChatPaged;
                         $scope.AllGroups = ChatService.ListGroups.query(function (result) {
                             return result;
@@ -103,13 +117,14 @@
                         $scope.ListThreadsForGroup = function (SelectedGroup) {
                             $scope.SelectedGroup = SelectedGroup.Description;
                             $scope.SelectedGroupID = SelectedGroup.GroupID;
-                            $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID }, function (result) {
+                            $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID
+                            }, function (result) {
                                 return result;
-                            });
+                        });
                         }
                         $scope.ListTopicsForThread = function (SelectedID) {
                             $scope.SelectedThreadID = SelectedID;
-                                 //$scope.AllTopics = [];
+                            //$scope.AllTopics = [];
                             TopicPageIndex = 0;
                             HasReachedTop = 0;
                             FreshLoad = true;
@@ -122,7 +137,7 @@
                             console.log('FreshLoad', FreshLoad)
                             if (FreshLoad) return;
 
-                            if (LoadedItems >= PageSize - 1) {
+                            if (LoadedItems >= PageSize -1) {
                                 LoadedItems = 0;
                                 //all items loaded irrespective inserts, push, replace array
 
@@ -130,15 +145,15 @@
                                     //console.log($(FirstTopicItem).text());
 
                                     $('#ChatHistory').animate({
-                                        scrollTop: FirstTopicItem.offset().top - 100
+                                            scrollTop: FirstTopicItem.offset().top -100
                                     }, 0);
                                     $('#ChatHistory').HideLoadingPanel();
-                                }
+                            }
                                 FirstTopicItem = $('#ChatHistory li').first();
 
                             } else {
                                 LoadedItems += 1;
-                            }
+                        }
 
                         };
 
@@ -146,32 +161,32 @@
                             BridgeService.BridgeUserProfile(UserID);
                         };
 
-                        /*****************  Last Item Loaded  ********************/
+                            /*****************  Last Item Loaded  ********************/
                         $scope.OnLastGroupLoaded = function (element) {
                             //self.alert("loaded");
                             //$('#ddlGroups').selectpicker('refresh');
                             if ($scope.AllGroups.length > 0) {
                                 $scope.SelectedGroup = $scope.AllGroups[0].Description;
                                 $scope.ListThreadsForGroup($scope.AllGroups[0]);
-                            }
+                        }
                         };
 
                         $scope.OnLastThreadLoaded = function (element) {
                             if ($scope.AllThreads.length > 0) {
 
                                 $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
-                                     $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
-                            }
+                                $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                        }
                         };
 
                         $scope.OnLastTopicLoaded = function (element) {
                             ScrollToLastMessage();
                             $('#ChatHistory').HideLoadingPanel();
-                            
+
                         };
 
 
-                        /*****************  Save routines   ********************/
+                            /*****************  Save routines   ********************/
                         $scope.OnEnterPress = function (keyEvent) {
                             if (keyEvent.which === 13) $scope.SaveChanges();
                         }
@@ -180,38 +195,40 @@
                             if ($scope.SelectedGroupID == undefined) {
                                 alert('Please select group first');
                                 return;
-                            }
+                        }
                             if ($scope.ThreadName == undefined) {
                                 alert('Please type new thread name!!');
                                 return;
-                            }
+                        }
 
                             var ThreadToSave = {
                                 "GroupID": $scope.SelectedGroupID,
                                 "Description": $scope.ThreadName,
                                 "Slug": null, "IsActive": true, "SeqNo": 1, "CreatedBy": 1, "CreatedDate": "2016-07-25T12:48:59.607", "ModifiedBy": 1, "ModifiedDate": "2016-07-25T12:48:59.607", "MyThread": null
 
-                            }
+                        }
                             ChatService.PostThread.save(ThreadToSave, function () {
-                                $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID }, function (result) {
+                                $scope.AllThreads = ChatService.GetThreads.query({ id: $scope.SelectedGroupID
+                                }, function (result) {
                                     return result;
-                                });
+                            });
                                 //  $scope.AllThreads.push(ThreadToSave);
-                            })
+                        })
                         };
                         $scope.SaveChanges = function () {
                             if ($scope.Message == undefined) {
                                 alert('Type your message !!');
                                 return;
-                            }
-                            if ($scope.SelectedThreadID == null) { return }
+                        }
+                            if ($scope.SelectedThreadID == null) { return
+                        }
                             $('#txtMessage').ShowLoadingPanel();
                             var UserDeviceID = 0;
 
                             if (typeof (RegisteredUserDeviceID) != undefined) {
                                 UserDeviceID = RegisteredUserDeviceID;
-                             //   alert(UserDeviceID);
-                            }
+                                //   alert(UserDeviceID);
+                        }
 
 
                             var TopicToSave = {
@@ -222,20 +239,21 @@
                                 "SeqNo": 1, "CreatedBy": CurrentUserID,
                                 "CreatedDate": GetUtcDateString(new Date()),
                                 "UserDeviceID": UserDeviceID
-                            }
+                        }
                             //console.log("Current Time is", new Date());
 
-                            var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
+                            var MaxID = $($scope.AllTopics).max(function () { return this.TopicID
+                        });
                             MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
-                          
+
                             var TopicToPush = {
                                 "UserName": CurrentUserName,
-                                "TopicID": MaxID + 1,
+                                "TopicID": MaxID +1,
                                 "ThreadID": $scope.SelectedThreadID,
                                 "Description": $scope.Message,
                                 "CreatedBy": CurrentUserID,
                                 "CreatedDate": new Date()
-                            };
+                        };
 
                             //alert(new Date());
                             //MaxID + 1 for tentative calcuation to avoid wrongly fetching data
@@ -250,31 +268,31 @@
                                 $(".emojionearea-editor").trigger('focus');
                                 //angular.element('#txtMessage').trigger('focus');
                                 ScrollToLastMessage();
-                            })
+                        })
                         };
                         $scope.SaveGroup = function () {
                             if ($scope.GroupName == undefined) {
                                 alert('Please type new group name!!');
                                 return;
-                            }
+                        }
                             var GroupToSave = {
                                 "Description": $scope.GroupName,
                                 "Slug": null, "IsActive": true, "SeqNo": 1, "CreatedBy": 1, "CreatedDate": "2016-07-25T12:48:59.607", "ModifiedBy": 1, "ModifiedDate": "2016-07-25T12:48:59.607", "MyThread": null
 
-                            }
+                        }
                             ChatService.PostGroup.save(GroupToSave, function () {
                                 $scope.AllGroups = ChatService.ListGroups.query(function (result) {
                                     return result;
-                                });
+                            });
                                 //  $scope.AllGroups.push(GroupToSave);
-                            })
+                        })
                         };
 
-                        /*****************  direct calls  ********************/
+                            /*****************  direct calls  ********************/
 
 
-                        ///  console.log('Call ListChat');
-                        // $scope.ListChat();
+                            ///  console.log('Call ListChat');
+                            // $scope.ListChat();
                     }
                     catch (ex) {
                         console.log("ChatController", ex);

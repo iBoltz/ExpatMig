@@ -6,13 +6,24 @@
     <title>@ViewBag.Title</title>
 
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-    <link href="@Url.Content("~/Scripts/Chat/PushManifest.json")" rel="manifest"  />
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand:300,400,700" />
-     @RenderSection("AdditionalJS", required: false)
+    <link href="@Url.Content("~/Scripts/Chat/PushManifest.json")" rel="manifest" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Quicksand:300,400,700" />
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/2.2.6/assets/css/emojione.min.css" />
+
+
+
+    @RenderSection("AdditionalJS", required: false)
     @RenderSection("PageSpecificStyles", required: false)
-        
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <script src="//cdn.jsdelivr.net/emojione/2.2.6/lib/js/emojione.min.js"></script>
+    @*----------PR Calculator-------------------*@
+
+
+     
 
 </head>
 <body>
@@ -24,28 +35,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="~/Images/iboltz.png"  class="img-square pull-left image-header"/>
-                @Html.ActionLink("Expat Migration", "Index", "Home", new { area = "" }, new { @class = "navbar-brand fontcolor-white header2 margin-xs-top no-margin-left" })
+                @Html.ActionLink("Expat Migration", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>  @Html.ActionLink("Home", "Index", "Home", new { @class = "fontcolor-white header3" })</li>*@
-                    @*<li>@Html.ActionLink("Chats", "ChatDetails", "Chat", new { @class = "fontcolor-white header3" })</li>*@
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Calculator", "PRCalculator", "PointsCalculator")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="body-content clear-padding">
+    <div class="container body-content ContentLayer">
         @RenderBody()
-        <hr />
-        <footer>
-            <p class="margin-xs-top">&copy; @DateTime.Now.Year - Expat Migration</p>
+       
+        <footer class="text-right">
+            <p class="text-white">&copy; @DateTime.Now.Year - Expat Migration</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/global")
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -16,7 +16,9 @@ namespace ExpatMig.ViewModels
         public DateTime CreatedDate { get; set; }
 
         public String AuthorName { get; set; }
-
+        public int UserDeviceID { get; set; }
+        public Boolean IsAndroid { get; set; }
+        public string AttachmentURL { get; set; }
 
     }
 }

@@ -1,10 +1,21 @@
 ﻿body
 {
     padding-top: 50px;
-    padding-bottom: 20px;
     font-family: Quicksand;
     font-weight: 400;
     background: url('../Images/ps_neutral.png');
+}
+
+a
+{
+    color: white;
+    text-decoration: none !important;
+}
+
+.info-text
+{
+    font-size: 50px;
+    color: white;
 }
 
 *, h1, h2, h3, h4, h5, h6
@@ -12,7 +23,7 @@
     font-family: Quicksand;
 }
 
-html, body
+html, body, form
 {
     height: 100%;
 }
@@ -30,6 +41,11 @@ html, body
 .dl-horizontal dt
 {
     white-space: normal;
+}
+
+.padding-m
+{
+    padding: 2%;
 }
 
 .margin-xs-top
@@ -123,7 +139,7 @@ html, body
 
 .Chat-height
 {
-    height: 93%;
+    height: 87%;
 }
 
 .Thread-height
@@ -158,30 +174,17 @@ html, body
 {
     margin-bottom: 0px !important;
 }
-.no-margin-left
-{
-    margin-left:0% !important;
-}
-.no-margin-right
-{
-    margin-right:0% !important;
-}
+
 .header2
 {
-    font-size: 2em !important;
+    font-size: 2em;
 }
-.header3
-{
-    font-size:1.5em!important;
-}
+
 .fontcolor-orange
 {
     color: orangered;
 }
-.fontcolor-white
-{
-    color: white!important;
-}
+
 .txtbox-default-width
 {
     width: 94% !important;
@@ -191,10 +194,280 @@ html, body
 {
     cursor: pointer;
 }
-.image-header
+
+.fontsize-jumbo-xl
 {
-    padding-right:15px;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    width: 25%;
+    font-size: 128px;
+}
+
+.rounded-panel
+{
+    border-radius: 10px;
+    border: solid 3px #ccc;
+    text-align: center;
+}
+
+.forecolor-dull
+{
+    color: #ccc;
+}
+
+/**************************          Loading panel           ***************************/
+
+.LoadingPanel
+{
+    position: absolute;
+    display: none;
+    background-color: white;
+    text-align: center;
+}
+
+    .LoadingPanel .Image
+    {
+        background: url('../Images//10.gif') no-repeat;
+        margin: 0 auto;
+        width: 120px;
+        position: relative;
+        top: 50%;
+        height: 20px;
+        margin-top: -10px;
+    }
+
+/*              **************  JqToast  ************************              */
+.ToastText
+{
+    color: white;
+    font-size: 2.5em;
+    font-weight: 100;
+}
+
+.JqToast
+{
+    width: 100%;
+    position: absolute;
+    background-color: #444;
+    overflow: hidden;
+    display: none;
+    opacity: 0;
+    padding: 4%;
+    float: left;
+    z-index: 101;
+}
+
+.ToastText h3
+{
+    color: yellow;
+    text-decoration: underline;
+    font-weight: 100;
+    display: inline;
+    text-transform: capitalize;
+}
+
+
+/***************************    Bootstrap Tabs    ******************/
+
+.tab-body
+{
+    background-color: white;
+}
+
+.tab-content
+{
+    background-color: white;
+    padding: 20px;
+    border-bottom: solid 1px #DDE;
+    border-left: solid 1px #DDE;
+    border-right: solid 1px #DDE;
+}
+/********************************  Home Pag e*****************************************/
+
+.ContentLayer
+{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    max-width: none !important;
+}
+
+.Bg-gray
+{
+    background: #545256;
+}
+
+.text-black
+{
+    color: rgba(0, 0, 0, 1);
+}
+
+.text-white
+{
+    color: rgba(250, 250, 250, 1);
+}
+
+.text-orange
+{
+    color: rgba(233, 202, 32, 1);
+}
+
+.Glass-bg
+{
+    background: rgba(0,0,0,0.5);
+}
+
+.Margin-l
+{
+    margin: 5%;
+}
+
+.Banner
+{
+    position: absolute;
+    top: 50px;
+}
+
+.Trans
+{
+    opacity: 0.7;
+}
+
+.Bg-Image
+{
+    background: url('../Images/pexels-photo (1).jpg') no-repeat;
+    background-size: cover;
+}
+
+/*******************************  OutLine Buttons    ******************************************/
+
+.btn-iboltz
+{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    margin-left: 10%;
+    width: 20%;
+    border: 2px solid rgba(233, 202, 32, 1);
+    color: rgba(233, 202, 32, 1);
+    padding: 4px 0px;
+    font-size: 2em;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 40px;
+}
+
+
+    .btn-iboltz:hover
+    {
+        background-color: rgba(233, 202, 32, 1); /* Green */
+        color: white;
+    }
+
+    .btn-iboltz a:hover
+    {
+        color: white;
+    }
+
+.Child_Banner
+{
+    position: absolute;
+    top: 80%;
+}
+
+footer
+{
+    background: rgba(0,0,0,1);
+    margin: 0px;
+    padding: 0.5% 0%;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+/***************************    Bootstrap Tabs    ******************/
+
+.tab-body
+{
+    background-color: white;
+}
+
+.tab-content
+{
+    background-color: white;
+    padding: 20px;
+    border-bottom: solid 1px #DDE;
+    border-left: solid 1px #DDE;
+    border-right: solid 1px #DDE;
+}
+/*              **************  JqToast  ************************              */
+.ToastText
+{
+    color: white;
+    font-size: 2.5em;
+    font-weight: 100;
+}
+
+.JqToast
+{
+    width: 100%;
+    position: absolute;
+    background-color: #444;
+    overflow: hidden;
+    display: none;
+    opacity: 0;
+    padding: 4%;
+    float: left;
+    z-index: 101;
+}
+
+.ToastText h3
+{
+    color: yellow;
+    text-decoration: underline;
+    font-weight: 100;
+    display: inline;
+    text-transform: capitalize;
+}
+/*              FileUploader            */
+.DropBox .PhotoUploader
+{
+    position: absolute;
+    z-index: 0;
+    opacity: 0.01;
+}
+
+.DropBox .FileUploader
+{
+    position: absolute;
+    z-index: 100;
+}
+
+.DropBox .Message
+{
+    position: relative;
+}
+
+.DropBox #imgPhoto
+{
+    border-radius: 30px;
+}
+
+@media (max-width: 767px)
+{
+    .hide-mbl
+    {
+        display: none !important;
+    }
+}
+/************** PR Calc  *********/
+.image-container
+{
+    height: 100%;
+    background-position: center center;
+    background-size: cover;
+    background-image: url('Images/sydney.jpg');
+}
+
+.back-bottom
+{
+    position: absolute;
+    left: 5%;
+    bottom: 7%;
 }

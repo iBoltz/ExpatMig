@@ -1,17 +1,21 @@
-﻿if ('serviceWorker' in navigator) {
+﻿var RegisteredUserDeviceID = 0;
+
+if ('serviceWorker' in navigator) {
     console.log('Service Worker is supported');
     navigator.serviceWorker.register('../PushServiceWorker.js').then(function (reg) {
         console.log(':^)', reg);
+        navigator.serviceWorker.ready.then(function (reg) {
 
-        reg.pushManager.subscribe({
-            userVisibleOnly: true
-        }).then(function (sub) {
-            var DeviceID = sub.endpoint.replace("https://android.googleapis.com/gcm/send/", "");
-            //call the register API here
-            console.log('DeviceID registerd in iBoltz System:', DeviceID);
+            reg.pushManager.subscribe({
+                userVisibleOnly: true
+            }).then(function (sub) {
+                var DeviceID = sub.endpoint.replace("https://android.googleapis.com/gcm/send/", "");
+                //call the register API here
+                console.log('DeviceID registerd in iBoltz System:', DeviceID);
 
-            RegisterForPushInServer(DeviceID)
+                RegisterForPushInServer(DeviceID)
 
+            });
         });
     }).catch(function (err) {
         console.log(':^(', err);
@@ -23,7 +27,7 @@
 function RegisterForPushInServer(DeviceID) {
     var ThisDevice = {
         "UserID": CurrentUserID,
-        "DeviceTypeID":2,//means chrome browser
+        "DeviceTypeID": 2,//means chrome browser
         "ApiRegistrationID": DeviceID,
         "IsActive": true, "SeqNo": 1, "CreatedBy": CurrentUserID
     };
@@ -34,7 +38,7 @@ function RegisterForPushInServer(DeviceID) {
         url: "/api/userdevices",
         data: ThisDevice,
         success: function (data) {
-
+            RegisteredUserDeviceID = data.UserDeviceID;
         },
         error: function (error) {
             jsonValue = jQuery.parseJSON(error.responseText);
@@ -55,7 +59,7 @@ if ('serviceWorker' in navigator) {
             console.log("Client 1 Received Message: " + event.data);
             angular.element(document.getElementById('divChatController')).scope().GetLatest();
 
-            
+
             event.ports[0].postMessage("Client 1 Says 'Hello back!'");
         }
         catch (ex) {

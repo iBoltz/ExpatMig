@@ -20,11 +20,5 @@ namespace ExpatMig.Utils
             public static string Topics = "topics";
 
         }
-
-        public class AttachmentTypes
-        {
-            public static string Images = "image/jpeg";
-
-        }
     }
 }

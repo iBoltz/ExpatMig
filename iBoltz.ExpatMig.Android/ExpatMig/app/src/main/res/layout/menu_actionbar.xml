@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="@dimen/header_text_size"
+            android:textSize="@dimen/med_text_size"
             android:layout_weight="0.1"
             android:visibility="visible"
             android:layout_margin="@dimen/margin_s"
@@ -29,20 +29,115 @@
 
         <TextView
             android:id="@+id/txtHeader"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/Ellip_Size_width_s"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:minLines="1"
-            android:ellipsize="none"
+            android:ellipsize="end"
             android:scrollHorizontally="true"
-            android:text="Chat"
-            android:textSize="@dimen/header_text_size"
+            android:text="left text"
+            android:textSize="@dimen/med_text_size"
             android:layout_margin="@dimen/margin_m"
             android:layout_gravity="center"
             android:layout_toEndOf="@id/btnGoBack"
             android:layout_centerVertical="true"
             android:textColor="@color/iBoltzDarkGray" />
 
+        <TextView
+            android:id="@+id/txtKitchenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:minLines="1"
+            android:ellipsize="end"
+            android:paddingLeft="2dp"
+            android:text=""
+            android:textSize="@dimen/text_size_m"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_m"
+            android:layout_toEndOf="@id/txtHeader"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:id="@+id/panelIcon"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+            <Button
+                android:id="@+id/btnServe"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/med_text_size"
+                android:visibility="visible"
+                android:layout_weight="0.2"
+                android:layout_gravity="center_vertical|right"
+                android:textColor="@color/iBoltzDarkGray"
+                android:padding="@dimen/padding_m" />
+            <Button
+                android:id="@+id/btnBill"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/med_text_size"
+                android:visibility="visible"
+                android:layout_weight="0.2"
+                android:layout_gravity="center_vertical|right"
+                android:textColor="@color/iBoltzDarkGray"
+                android:padding="@dimen/padding_m" />
+            <Button
+                android:id="@+id/btnTables"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/med_text_size"
+                android:visibility="visible"
+                android:layout_weight="0.2"
+                android:layout_gravity="center_vertical|right"
+                android:textColor="@color/iBoltzDarkGray"
+                android:padding="@dimen/padding_m" />
+            <Button
+                android:id="@+id/btnPromotions"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/med_text_size"
+                android:visibility="visible"
+                android:layout_weight="0.2"
+                android:layout_gravity="center_vertical|right"
+                android:textColor="@color/iBoltzDarkGray"
+                android:padding="@dimen/padding_m" />
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:id="@+id/panelCart"
+                android:visibility="visible"
+                android:padding="5dp">
+                <Button
+                    android:id="@+id/btnCart"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/iBoltzDarkGray"
+                    android:textSize="@dimen/med_text_size"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -1,24 +1,13 @@
-﻿.container
+﻿.container{
+    height:90%;
+}
+.form-group, .ChatController 
 {
-    height: 90%;
+    height:95%;
 }
 
-.form-group, .ChatController
-{
-    height: 95%;
+.listgroup{
+    height:95%;
+    overflow:auto;
+    padding-left:0%;
 }
-
-.listgroup
-{
-    height: 95%;
-    overflow: auto;
-    padding-left: 0%;
-}
-
-#txtMessage
-{
-    position: absolute;
-}
-
- 
- 

@@ -15,6 +15,5 @@ public class GroupsModel {
     public String CreatedDate;
     public int ModifiedBy;
     public String ModifiedDate;
-
 }
 

@@ -10,7 +10,6 @@ import java.util.List;
 
 import iboltz.expatmig.models.GroupsModel;
 import iboltz.expatmig.models.LocalCache;
-import iboltz.expatmig.models.ThreadsModel;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.models.UserRolesModel;
 import iboltz.expatmig.models.UsersModel;
@@ -33,12 +32,8 @@ public class AppCache {
     public static long SleepValue = 0;
     public static String AccessToken;
     public static List<LocalCache> Cached;
-    public static ArrayList<TopicsModel> CachedTopics=null;
-    public static ArrayList<ThreadsModel> CachedThreads;
-    public static ArrayList<GroupsModel> CachedGroups;
-    public static ThreadsModel SelectedThread=null;
-    public static GroupsModel SelectedGroup=null;
-    public static int CurrentItemPosition=0;
+    public static ArrayList<TopicsModel> CachedTopics;
+    public static ArrayList<GroupsModel> CachedModels;
 
     public static Typeface LinearIcons = null;
     public static Typeface IonIcons = null;
@@ -62,8 +57,7 @@ public class AppCache {
     public static ArrayList<UserRolesModel> HisRoles;
     public static String RegistrationID = "";
     public static Integer HisUserID = -1;
-
-    public static String UserName = "";
+    public static String HostPhoneNo = "";
     public static Integer ScreenWidth;
     public static Integer ScreenHeight;
 

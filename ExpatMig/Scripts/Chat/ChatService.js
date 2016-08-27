@@ -16,9 +16,7 @@
         }]).
         factory('BridgeService', function () {
             return {
-                BridgeUserProfile: {
-                    ShowUserProfile: function(){}
-                }
+                //Bridge: {},
                 //BridgeTextFilters: {} 
 
             }

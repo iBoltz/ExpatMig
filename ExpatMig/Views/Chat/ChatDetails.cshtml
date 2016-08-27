@@ -5,12 +5,11 @@
 }
 
 <!--    Chat Controller    -->
-<div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height">
+<div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height" >
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
             <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
-                <i class="ion-person-stalker"></i> Groups
-            </h4>
+                <i class="ion-person-stalker"></i> Groups </h4>
 
             <div class="dropdown pull-left dropWidth" id="ddlGroups">
                 <button class="btn btn-primary dropdown-toggle def-Width" type="button" id="btnSelectedGroup" data-toggle="dropdown">
@@ -19,114 +18,99 @@
                 </button>
 
                 <ul class="dropdown-menu def-Width">
-                    <li ng-repeat="EachGroup in AllGroups" last-item-loaded="OnLastGroupLoaded(element)">
+                    <li ng-repeat="EachGroup in AllGroups" last-item-loaded="OnLastGroupLoaded(element)" >
                         <a ng-click="ListThreadsForGroup(EachGroup)">{{EachGroup.Description}}</a>
                     </li>
 
                 </ul>
             </div>
-            <button type="button" data-toggle="modal" data-target="#pnlNewGroup" class="btn btn-info margin-s-left">
+            <button type="button"  data-toggle="modal" data-target="#pnlNewGroup" class="btn btn-info margin-s-left" >
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
-
+           
 
         </div>
         <hr />
 
-        <div class="Thread-height form-inline margin-s ">
+        <div class="Thread-height form-inline margin-s hidden-xs hidden-lg ">
             <h4 class="pull-left no-margin-top dropWidth">
-                <i class="ion-android-folder"></i> Threads
-            </h4>
+                <i class="ion-android-folder"></i> Threads</h4>
             <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success margin-s-left">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
             <div class="ThreadDetail-height  margin-s-top">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
-                    <h4> <a class="cursor-hand text-black" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)" >
+                    <h4> <a class="cursor-hand" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
 
                 </div>
             </div>
         </div>
+        <div class="form-inline margin-s  hidden-md hidden-sm" >
+            <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
+                <i class="ion-android-folder"></i> Threads
+            </h4>
+
+            <div class="dropdown pull-left dropWidth" id="ddlThreads">
+                <button class="btn btn-warning dropdown-toggle def-Width" type="button" id="btnSelectedThreads" data-toggle="dropdown">
+                    <span ng-bind="SelectedThread"></span>
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu def-Width">
+                    <li ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
+                        <a ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a>
+                    </li>
+
+                </ul>
+            </div>
+            <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-danger margin-s-left">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+
+
+        </div>
     </div>
-    <input type="hidden" id="hidSelectedThreadID" value="{{SelectedThreadID}}" />
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
-        <div class="Chat-height">
-            <div class=" MultiplePhotoUpload def-height">
-                <div id="DropBox" class="DropBox def-height">
-
-
-                    <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
-                        <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
-                            on-item-databound="OnItemDatabound(element)"
-                            last-item-loaded="OnLastTopicLoaded(element)">
-                            <!--    bindable -->
-                            <div class="row">
-                                <div class="col-md-9 ">
-                                    <i class="ion-person"></i>
-                                    <span data-toggle="modal"
-                                          ng-click="ShowUserPrfile(x.CreatedBy)"
-                                          data-target="#divUserProfiler"
-                                          class="cursor-hand"
-                                          style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})">
-                                        <strong>{{x.Nick == null ? x.UserName : x.Nick }}</strong>
-                                    </span>
-                                </div>
-                                <div class="col-md-3 text-right">
-                                    <small>{{x.CreatedDateString}}</small>
-                                </div>
-
+     
+            <div class="Chat-height" >
+                <ul class="listgroup"  id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
+                    <li ng-repeat="x in AllTopics" class="list-group-item" last-item-loaded="OnLastTopicLoaded(element)">
+                        <!--    bindable -->
+                        <div class="row">
+                            <div class="col-md-10 ">
+                                <i class="ion-person"></i>
+                                <span data-toggle="modal" data-target="#divUserProfiler" style="color:rgb({{x.Color.Red}},{{x.Color.Green}},{{x.Color.Blue}})"> <strong>{{x.UserName}}</strong></span>
                             </div>
-                            <div class="row">
-
-                                <div class="col-md-12" id="divTopic" ng-bind-html="RenderWithEmoji(x.Description)">
-
-                                </div>
+                            <div class="col-md-2 text-right">
+                                <small>{{x.CreatedDateString}}</small>
                             </div>
 
-
-                        </li>
-                    </ul>
-
-
-                    <div class="input-group margin-s clear-padding " id="divMessageInputPanel">
-                        <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="btnSendMessage" ng-keypress="OnEnterPress($event)" class="form-control" />
-                        <div class="input-group-btn">
-                            <button ng-click="SaveChanges()" id="btnSendMessage" class="btn btn-success">
-                                <span class="glyphicon glyphicon-send "></span>
-                            </button>
                         </div>
-                    </div>
-                    <div class="Message hidden">
-                        <div class="PhotoUploader">
-                            <input type="file" id="fluPhoto" class="FileUploader" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ x.Description }}
+                            </div>
+                        </div>
 
-                        </div>
-                        <div id="imgPhoto" class="rounded-panel fontsize-jumbo-xl forecolor-dull">
-                            <i class="ion-person "></i>
-                            +
-                        </div>
-                    </div>
-                    <div class="ProgressBar">
-                        <div class="Progress"></div>
+
+                    </li>
+                </ul>
+
+       
+                <div class="input-group margin-s clear-padding ">
+                    <input type="text" ng-model="Message" id="txtMessage" placeholder="type here ...." aria-describedby="sizing-addon1" ng-keypress="OnEnterPress($event)" class="form-control" />
+                    <div class="input-group-btn">
+                        <div ng-click="SaveChanges()" id="sizing-addon1" class="btn btn-success">
+                            <span class="glyphicon glyphicon-send "></span>
+                     </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-
-
+       
+     
     </div>
-    <div id="pnlEnlargePhoto" class="modal fade " role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img />
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div id="pnlNewThread" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -166,7 +150,7 @@
                         <div class="form-group def-Width">
 
                             <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here" ng-model="GroupName" />
-
+                            
                             <button type="submit" ng-click="SaveGroup()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>
 
@@ -180,93 +164,35 @@
     </div>
 </div>
 
-
-
 <!--    UserProfile Controller    -->
-<div id="divUserProfiler" ng-controller="UserProfileController" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div id="divUserProfiler" ng-controller="UserProfileController"  class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">
-                    <i class="ion-person"></i>  User Profile
-                    <a id="lnkEdutProfile" class="btn btn-xs btn-warning margin-s-hoz"
-                       target="_blank" href="@Url.Content("~/userprofiles/edit/"){{HisUserID}}"><i class="ion-edit"></i>Edit</a>
-                </h4>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">User Profile</h4>
+      </div>
+      <div class="modal-body">
 
-            </div>
-            <div class="modal-body">
+          <h1>User Profile</h1>
 
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" class="text-black" href="#personal"><i class="ion-person"></i> Personal</a></li>
-                    <li><a data-toggle="tab" class="text-black" href="#prof"><i class="ion-university"></i> Professional</a></li>
-                    <li><a data-toggle="tab" class="text-black" href="#migration"><i class="ion-plane"></i> Migration</a></li>
-                </ul>
-                <div class="row tab-content">
-
-                    <div id="personal" class="tab-pane fade in active tab-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <img class="margin-s" ng-src="/utils/photohandler.ashx?Width=150&frompath={{HisProfile.ProfilePic}}">
-                            </div>
-                            <div class="col-md-9">
-
-                                <div class="col-md-4">Name</div>
-                                <div class="col-md-8">{{HisProfile.FirstName}} {{HisProfile.LastName}}</div>
-                                <div class="col-md-4">Phone</div>
-                                <div class="col-md-8">{{HisProfile.PhoneNumber}}</div>
-                                <div class="col-md-4">Date of Birth</div>
-                                <div class="col-md-8">{{HisProfile.BirthDay |date:'dd-MMM-yy'}}</div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div id="migration" class="tab-pane fade">
-                        <div class="row">
-                            <div class="col-md-4">Native</div>
-                            <div class="col-md-8">{{HisProfile.NativeCity.Description}} </div>
-                            <div class="col-md-4">Migrating To</div>
-                            <div class="col-md-8">{{HisProfile.MigratingTo.Description}}</div>
-                            <div class="col-md-4">Visa Type</div>
-                            <div class="col-md-8">{{HisProfile.VisaType}}</div>
-                            <div class="col-md-4">Visa Granted On</div>
-                            <div class="col-md-8">{{HisProfile.VisaGrantOn|date:'dd-MMM-yy'}}</div>
-                            <div class="col-md-4">Suburb</div>
-                            <div class="col-md-8">{{HisProfile.Suburb}}</div>
-                        </div>
-                    </div>
-
-                    <div id="prof" class="tab-pane fade">
-                        <div class="row">
-                            <div class="col-md-4">Experience</div>
-                            <div class="col-md-8">{{HisProfile.Experience}} Years</div>
-                            <div class="col-md-4">Sector</div>
-                            <div class="col-md-8">{{HisProfile.Sector}}</div>
-                            <div class="col-md-4">LinkedIn</div>
-                            <div class="col-md-8">{{HisProfile.LinkedIn}}</div>
-                        </div>
-                    </div>
-
-
-                    @*<div class="item">
-                            <h4>Travel Plans</h4>
-                        </div>*@
-                </div>
-
-
-            </div>
+          here is what i want to see my photo and profile!
 
 
 
-
-        </div>
-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
 
+  </div>
+   
 
 </div>
+
 
 @section PageSpecificStyles
 {
@@ -285,6 +211,5 @@
         var CurrentUserID = @ViewBag.CurrentUserID;
 
         var CurrentUserName =@Html.Raw( string.Format("\"{0}\"", User.Identity.Name)) ;
-        var SelectedThreadID =null;
     </script>
 }

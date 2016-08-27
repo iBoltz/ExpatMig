@@ -1,7 +1,6 @@
 package iboltz.expatmig.facades;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,9 +39,9 @@ public class TopicsFacade {
         }
 
     }
-    public void GetTopicsByThreadID(int ThreadID,int PageIndex){
+    public void GetTopicsByThreadID(int ThreadID){
         try{
-            String UpdateUrl = WebServiceUrls.GetTopicsByThreadID + ThreadID +"/" + PageIndex;
+            String UpdateUrl = WebServiceUrls.GetTopicsByThreadID + ThreadID;
 
             WebClient Wc = new WebClient(CurrentContext);
             Wc.GetData(UpdateUrl);
@@ -57,22 +56,7 @@ public class TopicsFacade {
                                     e.ResponseData,
                                     (java.lang.reflect.Type) collectionType);
 
-                                    if (GetMyTopics.size()==0){
-                                        Toast.makeText(CurrentContext, "No more messages", Toast.LENGTH_SHORT).show();
-
-                                        return;
-                                    }
-                                    if(AppCache.CachedTopics.size()==0){
-                                        AppCache.CachedTopics = GetMyTopics;
-
-                                    }else{
-                                        ArrayList<TopicsModel> SwapToBottom=AppCache.CachedTopics;
-                                        AppCache.CachedTopics = new ArrayList<TopicsModel>();
-                                        AppCache.CachedTopics.addAll(GetMyTopics);
-                                        AppCache.CachedTopics.addAll(SwapToBottom);
-
-                                    }
-                    AppCache.CurrentItemPosition=GetMyTopics.size();
+                    AppCache.CachedTopics = GetMyTopics;
                     OnFinished();
                 }
             });

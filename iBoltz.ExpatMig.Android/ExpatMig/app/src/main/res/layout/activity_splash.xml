@@ -10,17 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pnlLogin"
-        android:paddingTop="@dimen/padding_l">
+       >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Login"
-            android:id="@+id/txtHeader"
+            android:id="@+id/textView"
             android:textAlignment="textEnd"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin_l" />
+            android:gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,8 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtUserName"
-            android:text=""
-            android:layout_marginBottom="@dimen/margin_s" />
+            android:text="pon.saravanan@iboltz.com" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,17 +45,13 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/txtPassword"
-            android:text=""
-            android:layout_marginBottom="@dimen/margin_s" />
+            android:text="Pwd4@dm!n" />
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_green"
-            android:textColor="@color/iBoltzWhite"
-            android:text=" Login"
-            android:id="@+id/btnLogin"
-            android:layout_marginTop="@dimen/margin_l" />
+            android:text="Login"
+            android:id="@+id/btnLogin" />
 
     </LinearLayout>
 </RelativeLayout>

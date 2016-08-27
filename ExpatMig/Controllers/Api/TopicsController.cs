@@ -49,6 +49,32 @@ namespace ExpatMig.Controllers.Api
             return ReverseOrdered.OrderBy(x => x.CreatedDate);
         }
 
+        [HttpPost, Route("api/Topics/Search")]
+        public IEnumerable Search(SearchInputViewModel SearchInput)
+        {
+            //var PageSize = 15;
+            var Output = from EachTopic in db.Topics
+                         join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics
+                         from EachProfile1 in GrpTopics.DefaultIfEmpty()
+                         where EachTopic.ThreadID == SearchInput.ThreadID && EachTopic.Description.Contains(SearchInput.SearchText)
+                         orderby EachTopic.CreatedDate descending
+                         select new
+                         {
+                             EachUser.UserName,
+                             EachProfile1.Nick,
+                             EachTopic.TopicID,
+                             EachTopic.ThreadID,
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
+                             EachTopic.CreatedBy,
+                             EachTopic.CreatedDate,
+                             EachTopic.AttachmentURL
+                         };
+
+            //var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
+            return Output.OrderBy(x => x.CreatedDate).Take(10);
+        }
+
 
         [HttpPost, Route("api/Topics/UploadPhoto")]
         public bool UploadPhoto([FromBody]ChatViewModel GivenTopic)

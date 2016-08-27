@@ -225,6 +225,7 @@
     <Compile Include="Models\Topics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\SearchInputViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

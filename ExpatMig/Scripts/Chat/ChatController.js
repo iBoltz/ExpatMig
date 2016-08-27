@@ -68,6 +68,7 @@
 
                             console.log(FullList);
                         };
+
                         $scope.SelectedGroup = "Select Group";
                         $scope.SelectedThreadID = 0;
                         $scope.LoadMoreTopics = function () {
@@ -94,6 +95,7 @@
                                 return result;
                             });
                         };
+                        $scope.SearchResults = ['banana', 'apple', 'mango'];
                         $scope.ListChat = ListChatPaged;
                         $scope.AllGroups = ChatService.ListGroups.query(function (result) {
                             return result;

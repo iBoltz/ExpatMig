@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.util.Date;
 import java.util.EventObject;
 
 import iboltz.expatmig.ListenerInterfaces.UsersFacadeListeners;
@@ -19,8 +21,11 @@ import iboltz.expatmig.facades.UsersFacade;
 import iboltz.expatmig.gcmutils.GcmManager;
 import iboltz.expatmig.models.LocalCache;
 import iboltz.expatmig.utils.AppCache;
+import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.utils.BaseActivity;
+import iboltz.expatmig.utils.DateUtils;
 import iboltz.expatmig.utils.LogHelper;
+import iboltz.expatmig.utils.StorageManager;
 import iboltz.expatmig.utils.UiUtils;
 
 public class SplashActivity extends BaseActivity
@@ -44,9 +49,33 @@ public class SplashActivity extends BaseActivity
 
     private void CheckLoginAndRegisterGcm() {
         if (CheckAlreadyLoggedIn()) {
+            CheckAndRefreshGcmCache();
+
+
             GcmManager gcmManager = new GcmManager((Activity) CurrentContext);
             gcmManager.registerGCM();
             RedirectToChat();
+        }
+    }
+
+    private void CheckAndRefreshGcmCache() {
+        //if the reg check at gcm server is more than 24 hrs old then
+        //clear the local store to refetch the rgistration id
+        //if registration id is same in the gcm server
+        // it will return the same gcm. wont fetch new one
+        try {
+            String LastUpdatedOnString = StorageManager.Get(CurrentContext, "LastRegisteredDate");
+            if (LastUpdatedOnString.trim() == "") return;
+            Date LastUpdatedOn = AppConstants.JsonDateFormat.parse(LastUpdatedOnString);
+
+            if (DateUtils.AddDays(LastUpdatedOn, 1).getTime() >= (new Date()).getTime()) {
+                //clear pref edit
+                StorageManager.Put(CurrentContext, "REG_ID", "");
+
+            }
+
+        } catch (Exception ex) {
+            LogHelper.HandleException(ex);
         }
     }
 
@@ -64,6 +93,10 @@ public class SplashActivity extends BaseActivity
 
     private boolean CheckAlreadyLoggedIn() {
         LocalCache ThatItemFromCache = AppCache.GetLocalCacheByName("HasLoggedIn");
+        LocalCache UserNameFromCache = AppCache.GetLocalCacheByName("UserName");
+        if(UserNameFromCache != null){
+            AppCache.UserName= String.valueOf(UserNameFromCache.CacheValue);
+        }
         if (ThatItemFromCache == null || ThatItemFromCache.CacheValue == null) return false;
         int UserID = Integer.parseInt(ThatItemFromCache.CacheValue);
         if (UserID >= 0) {
@@ -76,11 +109,20 @@ public class SplashActivity extends BaseActivity
     }
 
     private void InitCtrls() {
+        TextView lblUserName=(TextView) findViewById(R.id.lblUserName);
+        TextView lblPassword=(TextView) findViewById(R.id.lblPassword);
+        TextView txtHeader=(TextView) findViewById(R.id.txtHeader);
+
+
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUserName = (EditText) findViewById(R.id.txtUserName);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         pnlLogin = (LinearLayout) findViewById(R.id.pnlLogin);
-
+        btnLogin.setTypeface(AppCache.IonIcons);
+        txtUserName.setTypeface(AppCache.FontQuickRegular);
+        lblUserName .setTypeface(AppCache.FontQuickRegular);
+        lblPassword.setTypeface(AppCache.FontQuickRegular);
+        txtHeader.setTypeface(AppCache.FontQuickRegular);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +141,10 @@ public class SplashActivity extends BaseActivity
             public void OnProcesFinished(EventObject e) {
 //                        UiUtils.ShowToast((Activity) CurrentContext, "You Loged in " + e.toString());
                 LocalCache PassedValue = (LocalCache) e.getSource();
+                LocalCache UserNameFromCache = AppCache.GetLocalCacheByName("UserName");
+                if(UserNameFromCache != null){
+                    AppCache.UserName= String.valueOf( UserNameFromCache.CacheValue);
+                }
                 int UserID = Integer.parseInt(PassedValue.CacheValue);
 
                 if (UserID >= 0) {
@@ -118,7 +164,7 @@ public class SplashActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        //getMenuInflater().inflate(R.menu.menu_chat, menu);
         return true;
     }
 

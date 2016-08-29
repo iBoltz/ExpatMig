@@ -37,9 +37,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/iboltzlogo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppBaseTheme" >
 
         <receiver
             android:name="iboltz.expatmig.gcmutils.GcmBroadcastReceiver"
@@ -54,11 +54,17 @@
 
         <service android:name="iboltz.expatmig.gcmutils.GcmNotificationIntentService" />
 
+        <activity
+            android:name=".screens.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
 
+        </activity>
 
         <activity
             android:name=".screens.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

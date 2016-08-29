@@ -2,6 +2,7 @@ package iboltz.expatmig.gcmutils;
 
 import iboltz.expatmig.R;
 import iboltz.expatmig.models.NotificationModel;
+import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.screens.ChatActivity;
 import iboltz.expatmig.utils.LogHelper;
 
@@ -125,19 +126,33 @@ public class GcmNotificationIntentService extends IntentService {
 
         }
     }
+    private TopicsModel ConvertToTopic(String Message){
+        java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<TopicsModel>() {
+        }).getType();
+
+        TopicsModel LatestTopic = new Gson()
+                .fromJson(Message,
+                        (java.lang.reflect.Type) collectionType);
+        return LatestTopic;
+    }
     private void ChatNotification(String Message) {
         try {
+
+            TopicsModel RecentTopic=ConvertToTopic(Message);
+
+
             mNotificationManager = (NotificationManager) this
                     .getSystemService(Context.NOTIFICATION_SERVICE);
 
             Intent NotificationIndent = new Intent(this, ChatActivity.class);
             NotificationIndent.putExtra("Chat", Message);
 
+
             if (ChatActivity.IsRunningNow) {
                 iPostStatus Poster = (iPostStatus) ChatActivity.CurrentInstance;
                 if (Poster != null)
                     ChatActivity.NotificationMessage = Message;
-                Poster.PostStatusToOrder(null, null, null);
+                Poster.PostStatusToOrder(RecentTopic);
             } else {
                 /// Skip when other screens open
             }
@@ -150,8 +165,8 @@ public class GcmNotificationIntentService extends IntentService {
                     .setSmallIcon(R.drawable.iboltzlogo)
                     .setContentTitle("Chat: New Message")
                     .setStyle(
-                            new NotificationCompat.BigTextStyle().bigText(Message))
-                    .setContentText(Message);
+                            new NotificationCompat.BigTextStyle().bigText(RecentTopic.UserName + " : " + RecentTopic.Description))
+                    .setContentText(RecentTopic.UserName + " : " + RecentTopic.Description);
 
             mBuilder.setContentIntent(contentIntent);
             Notification ThatNotification = mBuilder.build();

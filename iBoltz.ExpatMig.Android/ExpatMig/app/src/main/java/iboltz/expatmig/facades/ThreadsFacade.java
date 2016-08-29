@@ -11,8 +11,11 @@ import java.util.EventObject;
 import iboltz.expatmig.ListenerInterfaces.OnLoadedListener;
 import iboltz.expatmig.ListenerInterfaces.WebClientEventObject;
 import iboltz.expatmig.ListenerInterfaces.WebClientListeners;
+import iboltz.expatmig.models.GroupsModel;
+import iboltz.expatmig.models.ThreadsModel;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.AppCache;
+import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.WebClient;
 import iboltz.expatmig.utils.WebServiceUrls;
 
@@ -40,6 +43,63 @@ public class ThreadsFacade {
         }
 
     }
+    public void SaveNewThread(ThreadsModel ThisThread) {
+        try {
+            Gson gson = new Gson();
+            String PostData = gson.toJson(ThisThread);
+
+            String UpdateUrl = WebServiceUrls.SaveNewThread;
+
+            WebClient Wc = new WebClient(CurrentContext);
+            Wc.PostData(UpdateUrl, PostData);
+            Wc.setOnResponseReceivedListener(new WebClientListeners() {
+                @Override
+                public void OnResponseReceived(WebClientEventObject e) {
+                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ThreadsModel>() {
+                    }).getType();
+
+                    ThreadsModel NewThread = new Gson()
+                            .fromJson(
+                                    e.ResponseData,
+                                    (java.lang.reflect.Type) collectionType);
+                    AppCache.SelectedThread=NewThread;
+                    OnFinished();
+                }
+            });
+        }
+        catch (Exception ex) {
+            LogHelper.HandleException(ex);
+        }
+    }
+    public void GetHisPermittedThreads(int UserID){
+        try{
+            String UpdateUrl = WebServiceUrls.GetThreadsByUser + UserID;
+
+            WebClient Wc = new WebClient(CurrentContext);
+            Wc.GetData(UpdateUrl);
+            Wc.setOnResponseReceivedListener(new WebClientListeners() {
+                @Override
+                public void OnResponseReceived(WebClientEventObject e) {
+                    if( e.ResponseData != null && ! e.ResponseData.equals("null")){
+                        java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<ThreadsModel>>() {
+                        }).getType();
+
+                        ArrayList<ThreadsModel> GetMyThreads = new Gson()
+                                .fromJson(
+                                        e.ResponseData,
+                                        (java.lang.reflect.Type) collectionType);
+
+                        AppCache.CachedAllowedThreads = GetMyThreads;
+                    }
+
+                    OnFinished();
+                }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void GetThreadsByGroupID(int GroupID){
         try{
             String UpdateUrl = WebServiceUrls.GetThreadsByGroupID + GroupID;
@@ -49,15 +109,15 @@ public class ThreadsFacade {
             Wc.setOnResponseReceivedListener(new WebClientListeners() {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
-                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<TopicsModel>>() {
+                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<ThreadsModel>>() {
                     }).getType();
 
-                    ArrayList<TopicsModel> GetMyTopics = new Gson()
+                    ArrayList<ThreadsModel> GetMyThreads = new Gson()
                             .fromJson(
                                     e.ResponseData,
                                     (java.lang.reflect.Type) collectionType);
 
-                    AppCache.CachedTopics = GetMyTopics;
+                    AppCache.CachedThreads = GetMyThreads;
                     OnFinished();
                 }
             });

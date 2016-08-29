@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var LastClickedSearchResultTopicID = -1;
+$(document).ready(function () {
 
     //HideLoadingChat();
     RegisterEmoji();
@@ -6,16 +7,29 @@
 
 });
 
+function RegisterSearchResultClick() {
+    $('.SearchResults li').bind('click', function () {
+        //alert('test');
+        $('.SearchResults li').removeClass('SelectedSearchResult');
+
+        $(this).addClass('SelectedSearchResult');
+        LastClickedSearchResultTopicID = $(this).find('#lblTopicID').text();
+        //alert(LastClickedSearchResultTopicID );
+    });
+}
 function xpand(thisitem) {
+    $('#pnlEnlargePhoto').on('shown.bs.modal', function () {
+        //alert('width ');
+        $('#pnlEnlargePhoto .modal-dialog').width($('#pnlEnlargePhoto img').width() + 40);//20px for padding each side
+
+    })
     //$('#divTopic img').bind('click', function () { alert($this) });
-    console.log('registerd img click ' + $(thisitem).attr('src'));
+    //console.log('registerd img click ' + $(thisitem).attr('src'));
     var imagePath = $(thisitem).attr('src');
     imagePath = imagePath.replace('Width=150&', '');
-    //    alert(imagePath);
+ 
 
     $('#pnlEnlargePhoto img').attr('src', imagePath);
-
-    $('#pnlEnlargePhoto .modal-dialog').width($('#pnlEnlargePhoto img').width());
     $('#pnlEnlargePhoto').modal('show');
 
 }
@@ -47,6 +61,16 @@ function ScrollToLastMessage() {
     var LastItem = $('#ChatHistory .row').last();
     var scroller = $('#ChatHistory');
     var height = scroller[0].scrollHeight - $('#ChatHistory .row').height();
+
+    if ($('.SearchResults li').length > 0) {
+        var FoundItem = $('#pnlSearchResult_' + LastClickedSearchResultTopicID);
+        FoundItem.addClass('SelectedTopicSearched');
+        //alert(FoundItem.length);
+        if (FoundItem.length > 0) {
+            height = FoundItem.offset().top;
+        }
+    }
+
     ////LastItem.offset().top + LastItem.height()
 
     $('#ChatHistory').animate({

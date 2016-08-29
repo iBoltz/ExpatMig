@@ -32,10 +32,10 @@
                      //console.log("in directive === ",  element);
                      $timeout(function () {
                          scope.$apply(attr.onItemDatabound);
-                        //attr.onItemDatabound(elem);
+                         //attr.onItemDatabound(elem);
                      });
                      //attr.onItemDatabound();
-                     
+
                      //if (!scope.$$phase) {
                      //    console.log($(elem).html());
                      //    scope.$apply(attr.OnItemDatabound)
@@ -44,7 +44,20 @@
              }
          }]);
 
+    angular.module('on-enter-keypress', []).
+       directive('onEnterKeypress', ['$timeout',
+           function ($timeout) {
+               return {
+                   link: function (scope, element, attr) {
+                       $(element).bind('keydown', function (e) {
+                           if (e.which == 13) {
+                               scope.$apply(attr.onEnterKeypress)
+                           }
+                       })
 
+                   }
+               }
+           }]);
 
     angular.module('upward-infinite-scroll', []).
         directive('upwardInfiniteScroll', ['$timeout',

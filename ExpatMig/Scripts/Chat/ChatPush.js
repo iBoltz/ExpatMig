@@ -1,4 +1,4 @@
-﻿var RegisteredUserDeviceID = 0;
+﻿var RegisteredUserDeviceID = -1;
 
 if ('serviceWorker' in navigator) {
     console.log('Service Worker is supported');
@@ -38,7 +38,10 @@ function RegisterForPushInServer(DeviceID) {
         url: "/api/userdevices",
         data: ThisDevice,
         success: function (data) {
+            console.log('userdeviceid',data);
             RegisteredUserDeviceID = data.UserDeviceID;
+            
+            SetCookie('RegisteredUserDeviceID', RegisteredUserDeviceID, 30);
         },
         error: function (error) {
             jsonValue = jQuery.parseJSON(error.responseText);

@@ -80,6 +80,34 @@ namespace ExpatMig.Controllers.Api
             return Output.OrderBy(x => x.CreatedDate).Take(10);
         }
 
+        [HttpGet, Route("api/Topics/ListContextualTopics/{TopicID}")]
+        public IEnumerable ListContextualTopics(int TopicID)
+        {
+
+             
+            //var PageSize = 15;
+            var Output = from EachTopic in db.Topics
+                         join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics
+                         from EachProfile1 in GrpTopics.DefaultIfEmpty()
+                         where EachTopic.TopicID > TopicID - 5 && EachTopic.TopicID < TopicID + 5
+                         orderby EachTopic.CreatedDate descending
+                         select new
+                         {
+                             EachUser.UserName,
+                             Nick = EachProfile1 == null ? string.Empty : EachProfile1.Nick,
+                             EachTopic.TopicID,
+                             EachTopic.ThreadID,
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + (EachTopic.AttachmentURL == null ? "" : EachTopic.AttachmentURL) + "' />").ToString(),
+                             EachTopic.CreatedBy,
+                             EachTopic.CreatedDate,
+                             AttachmentURL = EachTopic.AttachmentURL == null ? string.Empty : EachTopic.AttachmentURL
+                         };
+
+            //var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
+            return Output.OrderBy(x => x.CreatedDate).Take(10);
+        }
+
 
         [HttpPost, Route("api/Topics/UploadPhoto")]
         public bool UploadPhoto([FromBody]ChatViewModel GivenTopic)
@@ -116,7 +144,7 @@ namespace ExpatMig.Controllers.Api
                              EachUser.UserName,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             Description = EachTopic.Description.Replace("[attachment]", "<img src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate
                          };

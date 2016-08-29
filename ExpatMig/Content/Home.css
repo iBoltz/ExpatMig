@@ -32,3 +32,65 @@
 
 
 
+/********************************  Home Page    *****************************************/
+
+a
+{
+    color: white;
+    text-decoration: none !important;
+}
+.ContentLayer
+{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    max-width: none !important;
+}
+
+.Bg-gray
+{
+    background: #545256;
+}
+
+.text-black
+{
+    color: rgba(0, 0, 0, 1);
+}
+
+.text-white
+{
+    color: rgba(250, 250, 250, 1);
+}
+
+.text-orange
+{
+    color: rgba(233, 202, 32, 1);
+}
+
+.Glass-bg
+{
+    background: rgba(0,0,0,0.5);
+}
+
+.Margin-l
+{
+    margin: 5%;
+}
+
+.Banner
+{
+    position: absolute;
+    top: 50px;
+}
+
+.Trans
+{
+    opacity: 0.7;
+}
+
+.Bg-Image
+{
+    background: url('../Images/pexels-photo (1).jpg') no-repeat;
+    background-size: cover;
+}

@@ -183,6 +183,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\TopicsController.cs" />
     <Compile Include="Controllers\Api\UserAccessController.cs" />
+    <Compile Include="Controllers\Api\UserDevicesController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -190,7 +191,6 @@
     <Compile Include="Controllers\PointsCalculatorController.cs" />
     <Compile Include="Controllers\ThreadsController.cs" />
     <Compile Include="Controllers\ThreadSubscriptionsController.cs" />
-    <Compile Include="Controllers\UserDevicesController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -1569,7 +1569,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>false</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4501</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

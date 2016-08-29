@@ -23,7 +23,7 @@
             <li><a data-toggle="tab" class="text-black" href="#migration"><i class="ion-plane"></i> Migration</a></li>
             <li><a data-toggle="tab" class="text-black" href="#prof"><i class="ion-university"></i> Professional</a></li>
         </ul>
-        
+
         <div class="tab-content">
             <div id="personal" class="tab-pane fade in active tab-body row">
                 <div class="col-md-3 MultiplePhotoUpload">
@@ -82,9 +82,9 @@
                         @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
                             @Html.EditorFor(model => model.BirthDay, new
-                           {
-                               htmlAttributes = new { @class = "form-control" }
-                           })
+                       {
+                           htmlAttributes = new { @class = "form-control" }
+                       })
                             @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -178,7 +178,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/PhotoUploader")
+    @Scripts.Render("~/bundles/PhotoUploader")
     <script type="text/javascript">
         $(document).ready(function () {
             $('#BirthDay').datepicker({ dateFormat: 'dd-M-y' });
@@ -188,7 +188,7 @@
         });
 
         var CurrentUserID = @ViewBag.CurrentUserID;
-         
+
         var ProfilePic ='@ViewBag.ProfilePic' ;
     </script>
 }

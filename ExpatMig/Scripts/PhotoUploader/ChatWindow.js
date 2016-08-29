@@ -1,14 +1,21 @@
 ﻿var IsPhotoUploaderLoaded = true;
 $(document).ready(function () {
-    //alert('test-0');
-    //if (ProfilePic != undefined) {
-    //    $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ProfilePic + "'/>")
+    
+    if (RegisteredUserDeviceID <= 0)
+    {
+        if (ReadCookie('RegisteredUserDeviceID') == null)
+        {
+            //self.location.reload();
+        }
+        RegisteredUserDeviceID = ReadCookie('RegisteredUserDeviceID');
 
-    //}
-    //alert('test');
+        //alert(ReadCookie('RegisteredUserDeviceID'));
+
+    }
+
+
     var OnPhotoUploaded = function (ImagePath) {
         var UserDeviceID = 0;
-
         if (typeof (RegisteredUserDeviceID) != undefined) {
             UserDeviceID = RegisteredUserDeviceID;
             //   alert(UserDeviceID);

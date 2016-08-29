@@ -52,23 +52,56 @@ namespace ExpatMig.Controllers.Api
         [HttpPost, Route("api/Topics/Search")]
         public IEnumerable Search(SearchInputViewModel SearchInput)
         {
+
+            string SqlSearch = "select * from topics where ThreadID = " + SearchInput.ThreadID
+                + " and dbo.[fn_SearchCompareFoundWords](Description, " + SearchInput.SearchText + ") > 0 ";
+
+            var FoundTopics = db.Database.SqlQuery<Topic>(SqlSearch);
+
+            //var PageSize = 15;
+            var Output = from EachTopic in FoundTopics.ToList()
+                         join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics
+                         from EachProfile1 in GrpTopics.DefaultIfEmpty()
+                           orderby EachTopic.CreatedDate descending
+                         select new
+                         {
+                             EachUser.UserName,
+                             Nick= EachProfile1 ==null?string.Empty: EachProfile1.Nick,
+                             EachTopic.TopicID,
+                             EachTopic.ThreadID,
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + (EachTopic.AttachmentURL == null ? "" : EachTopic.AttachmentURL) + "' />").ToString(),
+                             EachTopic.CreatedBy,
+                             EachTopic.CreatedDate,
+                             AttachmentURL = EachTopic.AttachmentURL == null ? string.Empty : EachTopic.AttachmentURL
+                         };
+
+            //var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
+            return Output.OrderBy(x => x.CreatedDate).Take(10);
+        }
+
+        [HttpGet, Route("api/Topics/ListContextualTopics/{TopicID}")]
+        public IEnumerable ListContextualTopics(int TopicID)
+        {
+
+             
             //var PageSize = 15;
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
                          join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics
                          from EachProfile1 in GrpTopics.DefaultIfEmpty()
-                         where EachTopic.ThreadID == SearchInput.ThreadID && EachTopic.Description.Contains(SearchInput.SearchText)
+                         where EachTopic.TopicID > TopicID - 5 && EachTopic.TopicID < TopicID + 5
                          orderby EachTopic.CreatedDate descending
                          select new
                          {
                              EachUser.UserName,
-                             EachProfile1.Nick,
+                             Nick = EachProfile1 == null ? string.Empty : EachProfile1.Nick,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + (EachTopic.AttachmentURL == null ? "" : EachTopic.AttachmentURL) + "' />").ToString(),
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate,
-                             EachTopic.AttachmentURL
+                             AttachmentURL = EachTopic.AttachmentURL == null ? string.Empty : EachTopic.AttachmentURL
                          };
 
             //var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
@@ -88,7 +121,7 @@ namespace ExpatMig.Controllers.Api
             NewTopic.SeqNo = 0;
             NewTopic.IsActive = true;
             NewTopic.CreatedBy = int.Parse(User.Identity.GetUserId());
-            NewTopic.CreatedDate = GivenTopic.CreatedDate ;
+            NewTopic.CreatedDate = GivenTopic.CreatedDate;
 
             db.Topics.Add(NewTopic);
             db.SaveChanges();
@@ -111,7 +144,7 @@ namespace ExpatMig.Controllers.Api
                              EachUser.UserName,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             Description = EachTopic.Description.Replace("[attachment]", "<img src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
+                             Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + EachTopic.AttachmentURL + "' />").ToString(),
                              EachTopic.CreatedBy,
                              EachTopic.CreatedDate
                          };
@@ -213,7 +246,7 @@ namespace ExpatMig.Controllers.Api
             return CreatedAtRoute("DefaultApi", new { id = topic.TopicID }, topic);
         }
 
-        public void SendNotification(Topic topic,int UserDeviceID)
+        public void SendNotification(Topic topic, int UserDeviceID)
         {
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id

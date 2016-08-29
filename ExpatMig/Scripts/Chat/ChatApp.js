@@ -11,6 +11,7 @@
         //'iBoltzNumberFilters',
         // Directives
         'upward-infinite-scroll',
+        'on-enter-keypress',
         'last-item-loaded',
         //'ui.bootstrap'
     ]).config(['$httpProvider', function ($httpProvider) {

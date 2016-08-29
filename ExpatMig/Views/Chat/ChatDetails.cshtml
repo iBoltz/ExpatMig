@@ -8,6 +8,28 @@
 <div ng-controller="ChatController" id="divChatController" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 border-silver pull-left clear-padding ChatController def-height">
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12 clear-padding pull-left def-height Bg-silver ">
         <div class="form-inline margin-s">
+
+            <div class="input-group margin-s clear-padding " id="divSearch">
+                <input type="text" ng-model="SearchText" id="txtSearch" placeholder="Search ...." 
+                       on-enter-keypress="SearchNow()"  aria-describedby="btnSearch" class="form-control" />
+                <div class="input-group-btn">
+                    <button ng-click="SearchNow()" id="btnSearch" class="btn btn-success">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="SearchResults">
+
+                <ul class="listgroup" id="SearchList" >
+                    <li ng-repeat="EachResult in SearchResults" class="list-group-item chat-item margin-s" last-item-loaded="OnLastSearchResultLoaded(element)">
+                        <span ng-click="ListContextualTopics(EachResult.TopicID)">{{EachResult.Description }}</span>
+                        <span id="lblTopicID" class="hidden">{{EachResult.TopicID}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr />
+        <div class="form-inline margin-s">
             <h4 class="col-lg-12 col-sm-12 col-md-12 col-xs-12 pull-left clear-padding margin-xs-top">
                 <i class="ion-person-stalker"></i> Groups
             </h4>
@@ -57,11 +79,11 @@
 
 
                     <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
-                        <li ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
+                        <li id="pnlSearchResult_{{x.TopicID}}" ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
                             on-item-databound="OnItemDatabound(element)"
-                            last-item-loaded="OnLastTopicLoaded(element)">
+                            last-item-loaded="OnLastTopicLoaded(element)" last-item-loaded-rendered="OnLastTopicLoadedRendered(element)">
                             <!--    bindable -->
-                            <div class="row">
+                            <div class="row" >
                                 <div class="col-md-9 ">
                                     <i class="ion-person"></i>
                                     <span data-toggle="modal"

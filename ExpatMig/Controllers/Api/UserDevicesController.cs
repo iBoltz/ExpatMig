@@ -79,16 +79,24 @@ namespace ExpatMig.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            if (db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).Count() <= 0)
+            UserDevice ThisDevice;
+            var FoundDevices = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID);
+            if (FoundDevices.Count() > 0)
+            {
+                ThisDevice = FoundDevices.First();
+            }
+            else
             {
                 userDevice.CreatedDate = DateTime.Now;
                 db.UserDevices.Add(userDevice);
                 db.SaveChanges();
-
+                ThisDevice = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).First();
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = userDevice.UserDeviceID }, userDevice);
+            return CreatedAtRoute("DefaultApi", new
+            {
+                id = ThisDevice.UserDeviceID
+            }, ThisDevice);
         }
 
         // DELETE: api/UserDevices/5

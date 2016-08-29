@@ -6,6 +6,8 @@
             return {
                 ListChats: $resource('/api/topics/AllTopicsForThisThread/:id/:PageIndex'),
                 GetLatest: $resource('/api/topics/getlatest/:id'),
+                SearchChat: $resource('/api/topics/search:SearchInput','@SearchInput' ,{ 'Search': {method:'POST',isArray:true}}),
+                ListContextualTopics: $resource('/api/topics/listcontextualtopics/:id'),
                 PostChat: $resource('/api/topics'),
                 GetThreads: $resource('/api/Threads/GetThreadsByGroupID/:id'),
                 PostThread: $resource('/api/Threads'),

@@ -1,16 +1,29 @@
 ﻿.container
 {
+    height: 94%;
+}
+
+.Chat-height
+{
     height: 90%;
 }
 
-.form-group, .ChatController
+.Thread-height
 {
-    height: 95%;
+    height: 72%;
 }
+
+.ThreadDetail-height
+{
+    overflow: auto;
+    height: 92%;
+    width: 100%;
+}
+
 
 .listgroup
 {
-    height: 95%;
+    height: 100%;
     overflow: auto;
     padding-left: 0%;
 }
@@ -20,5 +33,39 @@
     position: absolute;
 }
 
- 
- 
+.SelectedSearchResult
+{
+    background-color: #333 !important;
+    color: #fa0;
+    font-weight: bold;
+}
+
+.SearchResults li:hover
+{
+    background-color: #999;
+    color: #fa0;
+    font-weight: bold;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.SelectedTopicSearched
+{
+    background-color: #FFA !important;
+    color: #333;
+    font-weight: bold;
+}
+
+.ChatController
+{
+    background-color: rgba(200,200,200,10);
+}
+
+.chat-item
+{
+   width: 80%;
+    margin: 10px;
+    background-color: rgba(215,215,215,1)!important;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px 4px #AAA;
+}

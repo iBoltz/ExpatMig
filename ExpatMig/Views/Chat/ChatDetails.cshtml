@@ -21,8 +21,8 @@
             <div class="SearchResults">
 
                 <ul class="listgroup" id="SearchList" >
-                    <li ng-repeat="EachResult in SearchResults" class="list-group-item chat-item margin-s" last-item-loaded="OnLastSearchResultLoaded(element)">
-                        <span ng-click="ListContextualTopics(EachResult.TopicID)">{{EachResult.Description }}</span>
+                    <li ng-repeat="EachResult in SearchResults" ng-click="ListContextualTopics(EachResult.TopicID)" class="list-group-item margin-s search-item" last-item-loaded="OnLastSearchResultLoaded(element)">
+                        <span >{{EachResult.Description }}</span>
                         <span id="lblTopicID" class="hidden">{{EachResult.TopicID}}</span>
                     </li>
                 </ul>

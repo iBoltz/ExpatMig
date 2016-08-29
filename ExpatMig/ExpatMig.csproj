@@ -184,6 +184,7 @@
     <Compile Include="Controllers\Api\TopicsController.cs" />
     <Compile Include="Controllers\Api\UserAccessController.cs" />
     <Compile Include="Controllers\Api\UserDevicesController.cs" />
+    <Compile Include="Controllers\Api\UserProfilesController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />

@@ -1,0 +1,194 @@
+﻿@model ExpatMig.ViewModels.UserProfileViewModel
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<h2>My Profile</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal">
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserProfileID)
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" class="text-black" href="#personal"><i class="ion-person"></i> Personal</a></li>
+            <li><a data-toggle="tab" class="text-black" href="#migration"><i class="ion-plane"></i> Migration</a></li>
+            <li><a data-toggle="tab" class="text-black" href="#prof"><i class="ion-university"></i> Professional</a></li>
+        </ul>
+        
+        <div class="tab-content">
+            <div id="personal" class="tab-pane fade in active tab-body row">
+                <div class="col-md-3 MultiplePhotoUpload">
+                    <div id="DropBox" class="DropBox">
+                        <div class="Message">
+                            <div class="PhotoUploader">
+                                <input type="file" id="fluPhoto" class="FileUploader" />
+
+                            </div>
+                            <div id="imgPhoto" class="rounded-panel fontsize-jumbo-xl forecolor-dull">
+                                <i class="ion-person "></i>
+                                +
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ProgressBar">
+                        <div class="Progress"></div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nick, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Nick, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Nick, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.BirthDay, new
+                           {
+                               htmlAttributes = new { @class = "form-control" }
+                           })
+                            @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="migration" class="tab-pane fade">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NativeCityID, "NativeCityID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownList("NativeCityID", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NativeCityID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MigratingToID, "MigratingToID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownList("MigratingToID", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MigratingToID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.VisaType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.VisaType, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.VisaType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.VisaGrantOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.VisaGrantOn, new { htmlAttributes = new { @class = "form-control VisaGrantOn" } })
+                        @Html.ValidationMessageFor(model => model.VisaGrantOn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Suburb, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Suburb, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Suburb, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div id="prof" class="tab-pane fade">
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Experience, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sector, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Sector, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Sector, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LinkedIn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.LinkedIn,
+                        new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LinkedIn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-6 margin-s-top">
+                <input type="submit" value="Save" class="btn btn-success col-md-3" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/PhotoUploader")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#BirthDay').datepicker({ dateFormat: 'dd-M-y' });
+            $('#VisaGrantOn').datepicker({ dateFormat: 'dd-M-y' });
+
+
+        });
+
+        var CurrentUserID = @ViewBag.CurrentUserID;
+         
+        var ProfilePic ='@ViewBag.ProfilePic' ;
+    </script>
+}

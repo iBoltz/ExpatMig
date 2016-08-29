@@ -3,34 +3,39 @@
 }
 <div class="Bg-gray def-height">
     <div class="Bg-Image def-height Trans"></div>
-        <div class="jumbotron pull-left Glass-bg Margin-l Banner  text-white">
-            <h1>Expat Migration</h1>
-            <p class="lead">Expat Migration community. Share and gain knowledge about the entire migration process from the community</p>
+    <div class="jumbotron pull-left Glass-bg Margin-l Banner  text-white">
+        <h1>Expat Migration</h1>
+        <p class="lead">Expat Migration community. Share and gain knowledge about the entire migration process from the community</p>
 
-        </div>
+    </div>
 
-        <div class="row Child_Banner def-Width">
-            <a id="registerLink" href="@Url.Action("Details", "Chat")">
-                <div class="col-md-4 btn btn-iboltz">
-                  
-                    <span><i class="ion-chatbubbles"></i> <span class="hide-mbl">Chat</span></span>
-                    @*@Html.ActionLink("Chat", "Details", "Chat", routeValues: null, htmlAttributes: new { id = "registerLink" })*@
+    <div class="row Child_Banner def-Width">
+        <a id="registerLink" href="@Url.Action("Details", "Chat")">
+            <div class="col-md-4 btn btn-iboltz">
 
-                </div>
-            </a>
-            <a id="registerLink" href="@Url.Action("Register", "Account")">
-                <div class="col-md-4 btn btn-iboltz">
-                   
-                    <span><i class="ion-person-add"></i> <span class="hide-mbl">Sign Up</span></span>
+                <span><i class="ion-chatbubbles"></i> <span class="hide-mbl">Chat</span></span>
+                @*@Html.ActionLink("Chat", "Details", "Chat", routeValues: null, htmlAttributes: new { id = "registerLink" })*@
 
-                </div>
-                </a>
-            <a id="registerLink" href="@Url.Action("Login", "Account")">
-                <div class="col-md-4 btn btn-iboltz">
-                    
-                    <span><i class="ion-log-in"></i> <span class="hide-mbl" >Sign In</span></span>
-  </div>
-                </a>
+            </div>
+        </a>
+        <a id="registerLink" href="@Url.Action("Register", "Account")">
+            <div class="col-md-4 btn btn-iboltz">
+
+                <span><i class="ion-person-add"></i> <span class="hide-mbl">Sign Up</span></span>
+
+            </div>
+        </a>
+        <a id="registerLink" href="@Url.Action("Login", "Account")">
+            <div class="col-md-4 btn btn-iboltz">
+
+                <span><i class="ion-log-in"></i> <span class="hide-mbl">Sign In</span></span>
+            </div>
+        </a>
+    </div>
+
 </div>
- 
-</div>
+
+@section PageSpecificStyles
+{
+    @Styles.Render("~/bundles/homestyle")
+}

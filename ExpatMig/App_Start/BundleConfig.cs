@@ -29,12 +29,14 @@ namespace ExpatMig
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/themes/base/jquery-ui.min.css",
                 "~/Content/themes/ui-darkness/jquery-ui.ui-darkness.min.css",
-                "~/Content/emojionearea.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/homestyle").Include(
+                     "~/Content/Home.css"));
 
             bundles.Add(new StyleBundle("~/bundles/chatstyle").Include(
+                 "~/Content/emojionearea.css",
                       "~/Content/Chat.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/global").Include(

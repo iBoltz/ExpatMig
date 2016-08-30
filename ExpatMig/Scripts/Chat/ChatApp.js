@@ -11,6 +11,7 @@
         //'iBoltzNumberFilters',
         // Directives
         'upward-infinite-scroll',
+        'on-item-databound',
         'on-enter-keypress',
         'last-item-loaded',
         //'ui.bootstrap'

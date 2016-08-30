@@ -11,12 +11,12 @@
 
     <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/2.2.6/assets/css/emojione.min.css" />
 
-
+    @Styles.Render("~/Content/css")
 
     @RenderSection("AdditionalJS", required: false)
     @RenderSection("PageSpecificStyles", required: false)
 
-    @Styles.Render("~/Content/css")
+  
     @Scripts.Render("~/bundles/modernizr")
 
     <script src="//cdn.jsdelivr.net/emojione/2.2.6/lib/js/emojione.min.js"></script>

@@ -39,6 +39,7 @@
                             return $sce.trustAsHtml(emojione.toImage(Description));
                         }
                         function ListChatPaged(SelectedThreadID, PageIndex) {
+
                             $('#ChatHistory').ShowLoadingPanel();
                             $scope.SelectedThreadID = SelectedThreadID;
                             var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
@@ -48,10 +49,11 @@
                                 var Formated = FormatViewModal(result);
                                 if (Formated.length <= 0 && PageIndex > 1) {
                                     HasReachedTop = true;
-                                    ShowToast('No more new messges');
+                                    ShowToast('no more new messges');
+                                    $('#ChatHistory').HideLoadingPanel();
                                     return;
                                 }
-                                console.log(" Existing data in memory " + $scope.AllTopics.length)
+                                //console.log(" Existing data in memory " + $scope.AllTopics.length)
 
                                 if (TopicPageIndex == 0) {
                                     $scope.AllTopics = Formated;//fresh load if pageindex=0;
@@ -65,7 +67,7 @@
 
                             // $scope.AllTopics = FullList;
 
-                            console.log(FullList);
+                            //console.log(FullList);
                         };
 
                         $scope.ListContextualTopics = function (TopicID) {
@@ -78,11 +80,15 @@
                         $scope.SelectedGroup = "Select Group";
                         $scope.SelectedThreadID = -1;
                         $scope.LoadMoreTopics = function () {
+                            if ($('.SearchResults li').length > 0) {
+                                //since during the search no need of pagination
+                                return;
+                            }
 
-                            console.log("In LoadMoreTopics", FreshLoad)
+                            //console.log("In LoadMoreTopics", FreshLoad)
                             FreshLoad = false;
                             TopicPageIndex += 1;
-                            console.log(" fetching page " + TopicPageIndex)
+                            //console.log(" fetching page " + TopicPageIndex)
                             if (HasReachedTop) return;
                             ListChatPaged($scope.SelectedThreadID, TopicPageIndex);
 
@@ -92,7 +98,7 @@
                             //console.log('Fetching data');
                             var MaxID = $($scope.AllTopics).max(function () { return this.TopicID });
                             MaxID = isNaN(MaxID) || !isFinite(MaxID) ? 0 : MaxID;
-                            console.log('test');
+                            //console.log('test');
                             ChatService.GetLatest.query({ id: MaxID }, function (result) {
 
                                 $scope.AllTopics = FormatViewModal($scope.AllTopics.concat(result));
@@ -108,7 +114,7 @@
                             }, function (result) {
                                 if (result.length == 0) {
                                     ShowToast('no records found');
-                                    
+
                                 }
 
                                 //console.log('result', result.length)
@@ -148,22 +154,26 @@
 
 
                         $scope.OnItemDatabound = function (element) {
-                            console.log('FreshLoad', FreshLoad)
+                            //
+                          
                             if (FreshLoad) return;
-
+                            //console.log('LoadedItems', LoadedItems);
+                            //console.log('PageSize ', PageSize);
                             if (LoadedItems >= PageSize - 1) {
                                 LoadedItems = 0;
+                                //console.log('Entered', FirstTopicItem);
                                 //all items loaded irrespective inserts, push, replace array
+                                FirstTopicItem = $('#ChatHistory li').first();
 
                                 if (FirstTopicItem != null) {
                                     //console.log($(FirstTopicItem).text());
 
                                     $('#ChatHistory').animate({
-                                        scrollTop: FirstTopicItem.offset().top - 100
+                                        scrollTop: FirstTopicItem.offset().top + 100
                                     }, 0);
                                     $('#ChatHistory').HideLoadingPanel();
                                 }
-                                FirstTopicItem = $('#ChatHistory li').first();
+                                
 
                             } else {
                                 LoadedItems += 1;
@@ -193,22 +203,14 @@
                             }
                         };
 
-                        $scope.OnLastTopicLoaded = function (element) {
-                            //ScrollToLastMessage();
-                            $('#ChatHistory').HideLoadingPanel();
-
-                        };
-
                         $scope.OnLastTopicLoadedRendered = function (element) {
+                            //alert('done');
                             ScrollToLastMessage();
-                            //$('#ChatHistory').HideLoadingPanel();
-
+                            $('#ChatHistory').HideLoadingPanel();
                         };
 
                         $scope.OnLastSearchResultLoaded = function (element) {
-
                             RegisterSearchResultClick();
-
                         };
 
 
@@ -286,7 +288,7 @@
 
                             //alert(new Date());
                             //MaxID + 1 for tentative calcuation to avoid wrongly fetching data
-                            console.log("TopicToPush :- ", TopicToPush);
+                            //console.log("TopicToPush :- ", TopicToPush);
 
                             ChatService.PostChat.save(TopicToSave, function () {
                                 $('#txtMessage').HideLoadingPanel();

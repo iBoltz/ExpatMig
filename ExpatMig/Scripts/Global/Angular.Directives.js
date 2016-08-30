@@ -29,7 +29,7 @@
              return {
                  link: function (scope, element, attr) {
                      //scope.$apply(attr.onItemDatabound);
-                     //console.log("in directive === ",  element);
+                     
                      $timeout(function () {
                          scope.$apply(attr.onItemDatabound);
                          //attr.onItemDatabound(elem);

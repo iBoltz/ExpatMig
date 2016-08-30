@@ -200,6 +200,7 @@
 
                                 $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
                                 $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                                RegisterThreadsClick();
                             }
                         };
 
@@ -239,6 +240,7 @@
                                 $scope.AllThreads = ChatService.GetThreads.query({
                                     id: $scope.SelectedGroupID
                                 }, function (result) {
+                                    $('#pnlNewThread').modal('toggle');
                                     return result;
                                 });
                                 //  $scope.AllThreads.push(ThreadToSave);

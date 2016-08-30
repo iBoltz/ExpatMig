@@ -17,6 +17,12 @@ function RegisterSearchResultClick() {
         //alert(LastClickedSearchResultTopicID );
     });
 }
+function RegisterThreadsClick() {
+    $('.thread-panel-list .list-item').bind('click', function () {
+        $('.thread-panel-list .list-item').removeClass('list-item-selected');
+        $(this).addClass('list-item-selected');
+    });
+}
 function xpand(thisitem) {
     $('#pnlEnlargePhoto').on('shown.bs.modal', function () {
         //alert('width ');

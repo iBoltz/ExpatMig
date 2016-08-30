@@ -21,7 +21,7 @@
             <div class="SearchResults">
 
                 <ul class="listgroup" id="SearchList" >
-                    <li ng-repeat="EachResult in SearchResults" ng-click="ListContextualTopics(EachResult.TopicID)" class="list-group-item margin-s search-item" last-item-loaded="OnLastSearchResultLoaded(element)">
+                    <li ng-repeat="EachResult in SearchResults" ng-click="ListContextualTopics(EachResult.TopicID)" class="list-group-item margin-s list-item search-item" last-item-loaded="OnLastSearchResultLoaded(element)">
                         <span >{{EachResult.Description }}</span>
                         <span id="lblTopicID" class="hidden">{{EachResult.TopicID}}</span>
                     </li>
@@ -55,16 +55,16 @@
         </div>
         <hr />
 
-        <div class="Thread-height form-inline margin-s ">
+        <div class="thread-panel form-inline margin-s ">
             <h4 class="pull-left no-margin-top dropWidth">
                 <i class="ion-android-folder"></i> Threads
             </h4>
             <button type="button" data-target="#pnlNewThread" data-toggle="modal" value=" + " class="btn btn-success margin-s-left">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
-            <div class="ThreadDetail-height  margin-s-top">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
-                    <h4> <a class="cursor-hand text-black" ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</a></h4>
+            <div class="thread-panel-list  margin-s-top">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider clear-padding" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
+                     <div class="cursor-hand text-black list-group-item margin-s-top list-item " ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</div>
 
                 </div>
             </div>
@@ -79,7 +79,7 @@
 
 
                     <ul class="listgroup" id="ChatHistory" upward-infinite-scroll="LoadMoreTopics()">
-                        <li id="pnlSearchResult_{{x.TopicID}}" ng-repeat="x in AllTopics" class="list-group-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
+                        <li id="pnlSearchResult_{{x.TopicID}}" ng-repeat="x in AllTopics" class="list-group-item list-item chat-item margin-s-top" style="margin-left:{{x.OwnerAlignLeft}}"
                             on-item-databound="OnItemDatabound(element)"
                             last-item-loaded="OnLastTopicLoaded(element)" last-item-loaded-rendered="OnLastTopicLoadedRendered(element)">
                             <!--    bindable -->
@@ -161,7 +161,7 @@
                 <div class="modal-body">
                     <div class="form-inline">
                         <div class="form-group def-Width">
-                            <input type="text" ng-model="ThreadName" placeholder="Type your new thread here.." class="form-control def-textbox pull-left" />
+                            <input type="text" ng-model="ThreadName" on-enter-keypress="SaveThread()" placeholder="Type your new thread here.." class="form-control def-textbox pull-left" />
                             <button type="submit" ng-click="SaveThread()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>
 
@@ -187,7 +187,7 @@
                     <div class="form-inline">
                         <div class="form-group def-Width">
 
-                            <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here" ng-model="GroupName" />
+                            <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here"  on-enter-keypress="SaveGroup()" ng-model="GroupName"  />
 
                             <button type="submit" ng-click="SaveGroup()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>

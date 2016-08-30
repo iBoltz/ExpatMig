@@ -25,13 +25,13 @@ namespace ExpatMig.Controllers.Api
         private ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet, Route("api/ThreadSubscriptions/GetHisThreads/{UserID}")]
-        public IQueryable<Thread> GetHisThreads(int UserID)
+        public IQueryable GetHisThreads(int UserID)
         {
          if(db.ThreadSubscriptions.Count() == 0) { return null; }
             var Output = from EachThreads in db.Threads
                          join EachThreadSun in db.ThreadSubscriptions on
                          EachThreads.ThreadID equals EachThreadSun.ThreadID
-                         where EachThreadSun.UserID == UserID select EachThreads;
+                         where EachThreadSun.UserID == UserID select EachThreads.ThreadID;
             return Output;
 
         }

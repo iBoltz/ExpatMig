@@ -257,11 +257,5 @@ captures/
 
 ### Android Patch ###
 gen-external-apklibs
-/ExpatMig/Content/emojionearea.css
-/ExpatMig/Scripts/Emoji/emojionearea.min.js
-/ExpatMig/UploadedImages/2016/8/12
-/ExpatMig/Controllers/TravelPlansController.cs
-/ExpatMig/Models/Partial/Topics.cs
-/ExpatMig/Models/TravelPlans.cs
-/ExpatMig/UploadedImages/2016/8/22
-/ExpatMig/UploadedImages/2016/8/27
+/ExpatMig/UploadedImages
+web.config

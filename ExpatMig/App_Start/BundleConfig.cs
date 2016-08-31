@@ -38,6 +38,11 @@ namespace ExpatMig
             bundles.Add(new StyleBundle("~/bundles/chatstyle").Include(
                  "~/Content/emojionearea.css",
                       "~/Content/Chat.css"));
+            bundles.Add(new StyleBundle("~/bundles/adminstyle").Include(
+                    "~/Content/Admin.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/adminjs").Include(
+               "~/Scripts/Admin/Admin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/global").Include(
                         "~/Scripts/Global/Utils.js",

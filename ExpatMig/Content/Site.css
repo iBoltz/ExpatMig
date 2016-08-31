@@ -4,7 +4,7 @@
     font-family: Quicksand;
     font-weight: 400;
     background: url('../Images/ps_neutral.png');
-    overflow:hidden;
+    overflow: hidden;
 }
 
 
@@ -192,6 +192,19 @@ html, body, form
 {
     color: #ccc;
 }
+
+.center-hoz-vert
+{
+     
+  overflow: auto;
+  margin: auto;
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 
 /**************************          Loading panel           ***************************/
 

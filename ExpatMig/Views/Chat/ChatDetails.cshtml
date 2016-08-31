@@ -10,8 +10,8 @@
         <div class="form-inline margin-s">
 
             <div class="input-group margin-s clear-padding " id="divSearch">
-                <input type="text" ng-model="SearchText" id="txtSearch" placeholder="Search ...." 
-                       on-enter-keypress="SearchNow()"  aria-describedby="btnSearch" class="form-control" />
+                <input type="text" ng-model="SearchText" id="txtSearch" placeholder="Search ...."
+                       on-enter-keypress="SearchNow()" aria-describedby="btnSearch" class="form-control" />
                 <div class="input-group-btn">
                     <button ng-click="SearchNow()" id="btnSearch" class="btn btn-success">
                         <span class="glyphicon glyphicon-search"></span>
@@ -20,9 +20,10 @@
             </div>
             <div class="SearchResults">
 
-                <ul class="listgroup" id="SearchList" >
-                    <li ng-repeat="EachResult in SearchResults" ng-click="ListContextualTopics(EachResult.TopicID)" class="list-group-item margin-s list-item search-item" last-item-loaded="OnLastSearchResultLoaded(element)">
-                        <span >{{EachResult.Description }}</span>
+                <ul class="listgroup" id="SearchList">
+                    <li ng-repeat="EachResult in SearchResults" ng-click="ListContextualTopics(EachResult.TopicID)"
+                        class="list-group-item margin-s list-item search-item" last-item-loaded="OnLastSearchResultLoaded(element)">
+                        <span>{{EachResult.Description }}</span>
                         <span id="lblTopicID" class="hidden">{{EachResult.TopicID}}</span>
                     </li>
                 </ul>
@@ -64,7 +65,9 @@
             </button>
             <div class="thread-panel-list  margin-s-top">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left divider clear-padding" ng-repeat="EachThread in AllThreads" last-item-loaded="OnLastThreadLoaded(element)">
-                     <div class="cursor-hand text-black list-group-item margin-s-top list-item " ng-click="ListTopicsForThread(EachThread.ThreadID)">{{EachThread.Description}}</div>
+                    <div class="cursor-hand text-black list-group-item margin-s-top list-item " ng-click="ListTopicsForThread(EachThread.ThreadID)">
+                        {{EachThread.Description}}<span class="pull-right glyphicon  " ng-class="EachThread.Subscribed ? 'glyphicon-ok': 'glyphicon-remove'"></span>
+                    </div>
 
                 </div>
             </div>
@@ -73,7 +76,7 @@
     <input type="hidden" id="hidSelectedThreadID" value="{{SelectedThreadID}}" />
     <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12 def-height clear-padding">
 
-        <div class="Chat-height">
+        <div class="chat-panel">
             <div class=" MultiplePhotoUpload def-height">
                 <div id="DropBox" class="DropBox def-height">
 
@@ -83,7 +86,7 @@
                             on-item-databound="OnItemDatabound(element)"
                             last-item-loaded="OnLastTopicLoaded(element)" last-item-loaded-rendered="OnLastTopicLoadedRendered(element)">
                             <!--    bindable -->
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-9 ">
                                     <i class="ion-person"></i>
                                     <span data-toggle="modal"
@@ -134,9 +137,14 @@
                     </div>
                 </div>
             </div>
-
+            
         </div>
-
+        <div id="divRequest" class='center-hoz-vert hidden'>
+            <h1><i class='ion-information-circled'></i> not subscribed yet</h1>
+            <div>
+                <span ng-click="RequestAccess()" class="cursor-hand btn-xs btn-success"> Request</span> and wait for the admin to approve your subscription
+            </div>
+        </div>
 
     </div>
     <div id="pnlEnlargePhoto" class="modal fade " role="dialog">
@@ -187,7 +195,7 @@
                     <div class="form-inline">
                         <div class="form-group def-Width">
 
-                            <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here"  on-enter-keypress="SaveGroup()" ng-model="GroupName"  />
+                            <input type="text" class="form-control def-textbox pull-left" placeholder="Type your new group here" on-enter-keypress="SaveGroup()" ng-model="GroupName" />
 
                             <button type="submit" ng-click="SaveGroup()" data-dismiss="modal" value="Post" class="btn btn-success margin-m-left">Save</button>
                         </div>

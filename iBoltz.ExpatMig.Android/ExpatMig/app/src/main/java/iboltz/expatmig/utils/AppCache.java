@@ -35,7 +35,7 @@ public class AppCache {
     public static List<LocalCache> Cached;
     public static ArrayList<TopicsModel> CachedTopics=null;
     public static ArrayList<ThreadsModel> CachedThreads;
-    public static ArrayList<ThreadsModel> CachedAllowedThreads =null;
+    public static ArrayList<Integer> CachedAllowedThreads =null;
     public static ArrayList<GroupsModel> CachedGroups;
     public static ThreadsModel SelectedThread=null;
     public static GroupsModel SelectedGroup=null;

@@ -51,7 +51,7 @@ public class ThreadSubscriptionFacade {
             Wc.setOnResponseReceivedListener(new WebClientListeners() {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
-
+                   // Toast.makeText(CurrentContext, " " +e.ResponseData, Toast.LENGTH_SHORT).show();
                     OnFinished();
                 }
             });

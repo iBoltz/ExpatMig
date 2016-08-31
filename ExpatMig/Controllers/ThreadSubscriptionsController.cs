@@ -31,25 +31,28 @@ namespace ExpatMig.Controllers.Api
             var Output = from EachThreads in db.Threads
                          join EachThreadSun in db.ThreadSubscriptions on
                          EachThreads.ThreadID equals EachThreadSun.ThreadID
-                         where EachThreadSun.UserID == UserID select EachThreads.ThreadID;
+                         where EachThreadSun.UserID == UserID && EachThreadSun.IsActive==true
+                         select EachThreads.ThreadID;
             return Output;
 
         }
 
         [HttpPost, Route("api/ThreadSubscriptions/PostThreadSubscriptions")]
-        public IHttpActionResult PostThreadSubscriptions(ThreadSubscription InputThreadSub)
+        public String PostThreadSubscriptions(ThreadSubscription InputThreadSub)
         {
+            try
+            {           
             ThreadSubscription NewThreadSub = new ThreadSubscription();
             if (db.ThreadSubscriptions.Count() != 0)
             {
-                var ExisitingThreadSub = db.ThreadSubscriptions.First(x => x.ThreadID == InputThreadSub.ThreadID && x.UserID == InputThreadSub.UserID);
-                if (ExisitingThreadSub == null)
+                var ExisitingThreadSub = db.ThreadSubscriptions.Where(x => x.ThreadID == InputThreadSub.ThreadID && x.UserID == InputThreadSub.UserID);
+                if (ExisitingThreadSub.Count() >0)
                 {
-                    NewThreadSub = ExisitingThreadSub;
+                    NewThreadSub = ExisitingThreadSub.First();
+                    return "your request in pipeline";
                 }
             }          
-            else
-            {               
+                          
                 NewThreadSub.ThreadID = InputThreadSub.ThreadID;
                 NewThreadSub.UserID = InputThreadSub.UserID;
                 NewThreadSub.SeqNo = 0;
@@ -58,10 +61,15 @@ namespace ExpatMig.Controllers.Api
                 NewThreadSub.CreatedDate = InputThreadSub.CreatedDate;
                 db.ThreadSubscriptions.Add(NewThreadSub);
                 db.SaveChanges();
+                return "your request send successfully";
+         
             }
-           
-            return CreatedAtRoute("DefaultApi", new { id = NewThreadSub.ThreadSubscriptionID }, NewThreadSub);
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
+
 
     }
 }

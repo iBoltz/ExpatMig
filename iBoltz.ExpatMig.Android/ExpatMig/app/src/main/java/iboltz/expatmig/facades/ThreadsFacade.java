@@ -81,10 +81,10 @@ public class ThreadsFacade {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
                     if( e.ResponseData != null && ! e.ResponseData.equals("null")){
-                        java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<ThreadsModel>>() {
+                        java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<Integer>>() {
                         }).getType();
 
-                        ArrayList<ThreadsModel> GetMyThreads = new Gson()
+                        ArrayList<Integer> GetMyThreads = new Gson()
                                 .fromJson(
                                         e.ResponseData,
                                         (java.lang.reflect.Type) collectionType);

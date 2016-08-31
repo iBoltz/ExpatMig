@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,7 +66,6 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         SetBackButtonAction();
         InitControls();
         ButtonListener();
-
 
     }
 
@@ -205,9 +205,7 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         tf.setOnFinishedEventListener(new OnLoadedListener() {
             @Override
             public void OnLoaded(EventObject e) {
-
                 LoadGroups();
-
             }
         });
         tf.GetHisPermittedThreads(AppCache.HisUserID);
@@ -324,7 +322,7 @@ private void SaveThreadSub(){
         @Override
         public void OnLoaded(EventObject e) {
            // skip now
-            Toast.makeText(GroupsActivity.this, "your Request send successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GroupsActivity.this, "your request send successfully", Toast.LENGTH_SHORT).show();
             GetHisAllowedThreads();
         }
     });
@@ -374,10 +372,10 @@ private void SaveThreadSub(){
                 return;
             }
 
-            for (ThreadsModel EachThread : AppCache.CachedAllowedThreads) {
+            for (Integer EachThreadID : AppCache.CachedAllowedThreads) {
 
                 if ( AppCache.SelectedThread ==  null) {return;}
-            if(EachThread.ThreadID == AppCache.SelectedThread.ThreadID)
+            if(EachThreadID.equals(AppCache.SelectedThread.ThreadID))
                 {
                     btnChat.setVisibility(View.VISIBLE);
                     btnReqToAccess.setVisibility(View.GONE);

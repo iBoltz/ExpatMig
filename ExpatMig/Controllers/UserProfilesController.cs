@@ -142,15 +142,13 @@ namespace ExpatMig.Controllers
                     userProfile.Suburb = HisViewModel.Suburb;
                     userProfile.VisaGrantOn = HisViewModel.VisaGrantOn;
                     userProfile.VisaType = HisViewModel.VisaType;
-
-
+                    
 
                     if (IsNew)
                     {
                         userProfile.CreatedBy = int.Parse(User.Identity.GetUserId());
                         userProfile.CreatedDate = DateTime.Now;
                         db.UserProfiles.Add(userProfile);
-                        db.SaveChanges();
                     }
                     else
                     {
@@ -159,7 +157,8 @@ namespace ExpatMig.Controllers
                         userProfile.ModifiedDate = DateTime.Now;
                     }
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    ViewBag.UpdateResult = "Saved";
+                    //return RedirectToAction("Edit");
                 }
                 catch (Exception ex)
                 {
@@ -167,9 +166,14 @@ namespace ExpatMig.Controllers
                 }
 
             }
+            ViewBag.CurrentUserID = User.Identity.GetUserId();
+            if (!string.IsNullOrEmpty(userProfile.ProfilePic))
+            {
+                ViewBag.ProfilePic = userProfile.ProfilePic.Trim();
+            }
             ViewBag.MigratingToID = new SelectList(db.Cities, "CityID", "Description", userProfile.MigratingToID);
             ViewBag.NativeCityID = new SelectList(db.Cities, "CityID", "Description", userProfile.NativeCityID);
-            return View(userProfile);
+            return View(HisViewModel);
         }
 
         // GET: UserProfiles/Delete/5

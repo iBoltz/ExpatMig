@@ -11,6 +11,7 @@
                 PostChat: $resource('/api/topics'),
                 GetThreads: $resource('/api/Threads/GetThreadsByGroupID/:id'),
                 PostThread: $resource('/api/Threads'),
+                ListSubscriptions: $resource('/api/ThreadSubscriptions/GetHisThreads/:id'),
                 ListGroups: $resource('/api/Groups/:id'),
                 PostGroup: $resource('/api/Groups')
             }

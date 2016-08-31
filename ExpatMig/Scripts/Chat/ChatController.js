@@ -13,6 +13,8 @@
                     var PageSize = 15;
                     var FreshLoad = true;
                     $scope.AllTopics = [];
+
+
                     try {
 
                         function FormatViewModal(Topics) {
@@ -70,12 +72,21 @@
                             //console.log(FullList);
                         };
 
+                        $scope.MySubscriptions = ChatService.ListSubscriptions.query({ id: CurrentUserID }, function (result) {
+                            console.log("Subscriptions", result);
+                            return result;
+                        });
+
+
                         $scope.ListContextualTopics = function (TopicID) {
                             $scope.ContextualTopics = ChatService.ListContextualTopics.query({ id: TopicID }, function (result) {
                                 $scope.AllTopics = FormatViewModal(result);
 
                             });
                         };
+
+
+                        
 
                         $scope.SelectedGroup = "Select Group";
                         $scope.SelectedThreadID = -1;
@@ -121,17 +132,14 @@
                                 return result;
                             });
                         };
-                        //$scope.SearchResults = ChatService.SearchChat.Search({
-                        //        ThreadID: $scope.SelectedThreadID, SearchText: 'Attachment'
-                        //}, function (result) {
-                        //    console.log('result', result.length)
-                        //    return result;
-                        //});
+
 
                         $scope.ListChat = ListChatPaged;
                         $scope.AllGroups = ChatService.ListGroups.query(function (result) {
+                            console.log("Groups", result);
                             return result;
                         });
+
                         $scope.ListThreadsForGroup = function (SelectedGroup) {
                             $scope.SelectedGroup = SelectedGroup.Description;
                             $scope.SelectedGroupID = SelectedGroup.GroupID;
@@ -155,7 +163,7 @@
 
                         $scope.OnItemDatabound = function (element) {
                             //
-                          
+
                             if (FreshLoad) return;
                             //console.log('LoadedItems', LoadedItems);
                             //console.log('PageSize ', PageSize);
@@ -173,7 +181,7 @@
                                     }, 0);
                                     $('#ChatHistory').HideLoadingPanel();
                                 }
-                                
+
 
                             } else {
                                 LoadedItems += 1;
@@ -200,6 +208,7 @@
 
                                 $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
                                 $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                                RegisterThreadsClick();
                             }
                         };
 
@@ -239,6 +248,7 @@
                                 $scope.AllThreads = ChatService.GetThreads.query({
                                     id: $scope.SelectedGroupID
                                 }, function (result) {
+                                    $('#pnlNewThread').modal('toggle');
                                     return result;
                                 });
                                 //  $scope.AllThreads.push(ThreadToSave);

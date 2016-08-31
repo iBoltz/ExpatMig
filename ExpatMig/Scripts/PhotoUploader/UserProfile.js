@@ -1,6 +1,6 @@
 ﻿var IsPhotoUploaderLoaded = true;
 $(document).ready(function () {
-    
+    alert(ProfilePic);
     if (ProfilePic != undefined)
     {
         $('.MultiplePhotoUpload #imgPhoto').html("<img style='margin:15%;border-radius:15px;' src='/utils/photohandler.ashx?Width=150&frompath=" + ProfilePic + "'/>")

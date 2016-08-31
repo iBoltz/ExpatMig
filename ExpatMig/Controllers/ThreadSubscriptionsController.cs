@@ -27,29 +27,28 @@ namespace ExpatMig.Controllers.Api
         [HttpGet, Route("api/ThreadSubscriptions/GetHisThreads/{UserID}")]
         public IQueryable GetHisThreads(int UserID)
         {
-         if(db.ThreadSubscriptions.Count() == 0) { return null; }
+            if (db.ThreadSubscriptions.Count() == 0) { return null; }
             var Output = from EachThreads in db.Threads
                          join EachThreadSun in db.ThreadSubscriptions on
                          EachThreads.ThreadID equals EachThreadSun.ThreadID
-                         where EachThreadSun.UserID == UserID select EachThreads.ThreadID;
+                         where EachThreadSun.UserID == UserID && EachThreads.IsActive==true
+                         select EachThreads.ThreadID;
             return Output;
 
         }
 
-        [HttpPost, Route("api/ThreadSubscriptions/PostThreadSubscriptions")]
+        [HttpPost, Route("api/ThreadSubscriptions/PostThreadSubscriptions",Name ="RequestSubscription")]
         public IHttpActionResult PostThreadSubscriptions(ThreadSubscription InputThreadSub)
         {
             ThreadSubscription NewThreadSub = new ThreadSubscription();
-            if (db.ThreadSubscriptions.Count() != 0)
+
+            var ExisitingThreadSub = db.ThreadSubscriptions.Where(x => x.ThreadID == InputThreadSub.ThreadID && x.UserID == InputThreadSub.UserID);
+            if (ExisitingThreadSub.Count() > 0)
             {
-                var ExisitingThreadSub = db.ThreadSubscriptions.First(x => x.ThreadID == InputThreadSub.ThreadID && x.UserID == InputThreadSub.UserID);
-                if (ExisitingThreadSub == null)
-                {
-                    NewThreadSub = ExisitingThreadSub;
-                }
-            }          
+                NewThreadSub = ExisitingThreadSub.First();
+            }
             else
-            {               
+            {
                 NewThreadSub.ThreadID = InputThreadSub.ThreadID;
                 NewThreadSub.UserID = InputThreadSub.UserID;
                 NewThreadSub.SeqNo = 0;
@@ -59,8 +58,8 @@ namespace ExpatMig.Controllers.Api
                 db.ThreadSubscriptions.Add(NewThreadSub);
                 db.SaveChanges();
             }
-           
-            return CreatedAtRoute("DefaultApi", new { id = NewThreadSub.ThreadSubscriptionID }, NewThreadSub);
+
+            return CreatedAtRoute("RequestSubscription", new { id = NewThreadSub.ThreadSubscriptionID }, NewThreadSub);
         }
 
     }

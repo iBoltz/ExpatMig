@@ -86,7 +86,7 @@
                         };
 
 
-                        
+
 
                         $scope.SelectedGroup = "Select Group";
                         $scope.SelectedThreadID = -1;
@@ -136,7 +136,7 @@
 
                         $scope.ListChat = ListChatPaged;
                         $scope.AllGroups = ChatService.ListGroups.query(function (result) {
-                            console.log("Groups", result);
+                            //console.log("Groups", result);
                             return result;
                         });
 
@@ -146,7 +146,12 @@
                             $scope.AllThreads = ChatService.GetThreads.query({
                                 id: $scope.SelectedGroupID
                             }, function (result) {
-                                return result;
+                                var Threads = [];
+                                result.forEach(function (item, index) {
+                                    item.Subscribed = ($scope.MySubscriptions.indexOf(item.ThreadID) > -1);
+                                    Threads.push(item);
+                                });
+                                return Threads;
                             });
                         }
                         $scope.ListTopicsForThread = function (SelectedID) {
@@ -156,8 +161,16 @@
                             TopicPageIndex = 0;
                             HasReachedTop = 0;
                             FreshLoad = true;
-                            $scope.ListChat(SelectedID, TopicPageIndex);
-
+                            //alert($scope.MySubscriptions.indexOf(SelectedID));
+                            if ($scope.MySubscriptions.indexOf(SelectedID) > -1) {
+                                $scope.ListChat(SelectedID, TopicPageIndex);
+                                $('.chat-panel').removeClass('hidden');
+                                $('#divRequest').addClass('hidden');
+                            }
+                            else {
+                                $('.chat-panel').addClass('hidden');
+                                $('#divRequest').removeClass('hidden');
+                            }
                         }
 
 
@@ -253,6 +266,31 @@
                                 });
                                 //  $scope.AllThreads.push(ThreadToSave);
                             })
+                        };
+
+                        $scope.RequestAccess = function () {
+                            //alert($scope.SelectedThreadID);
+                            var SubscriptionRequest = {
+                                "ThreadID": $scope.SelectedThreadID,
+                                "UserID": CurrentUserID,
+                                "CreatedDate": GetUtcDateString(new Date())
+                            };
+
+                            //console.log("request", SubscriptionRequest);
+
+                            ChatService.RequestSubscriptions.save(SubscriptionRequest, function (result) {
+                                console.log('RequestSubscriptions-result', result)
+                                ShowToast("request sent successfully!")
+
+
+                            }, function (error) {
+                                console.log('Error', error)
+                                alert('error');
+                            });
+
+
+
+
                         };
                         $scope.SaveChanges = function () {
                             if ($scope.Message == undefined) {

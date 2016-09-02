@@ -53,6 +53,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EventObject;
@@ -71,6 +72,7 @@ import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
+import iboltz.expatmig.utils.DateUtils;
 import iboltz.expatmig.utils.EndlessScrollListener;
 import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.StorageManager;
@@ -161,11 +163,11 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
             lvChat = (ListView) findViewById(R.id.lvChat);
             submit_btn = (ImageView) findViewById(R.id.submit_btn);
-            emojiconEditText=(EmojiconEditText) findViewById(R.id.emojicon_edit_text);
+            emojiconEditText = (EmojiconEditText) findViewById(R.id.emojicon_edit_text);
             emojiButton = (ImageView) findViewById(R.id.emoji_btn);
-            attach_img=(TextView) findViewById(R.id.attach_img);
+            attach_img = (TextView) findViewById(R.id.attach_img);
             attach_img.setTypeface(AppCache.IonIcons);
-         //   attach_img.setVisibility(View.GONE);
+            //   attach_img.setVisibility(View.GONE);
             attach_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,6 +193,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             ex.printStackTrace();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -201,7 +204,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
 
                 Uri URI = data.getData();
-                String[] FILE = { MediaStore.Images.Media.DATA };
+                String[] FILE = {MediaStore.Images.Media.DATA};
 
 
                 Cursor cursor = getContentResolver().query(URI,
@@ -239,12 +242,19 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                     bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
                     byte[] data = bos.toByteArray();
 
-                    String UpdateUrl = "http://" + WebServiceUrls.WebServiceUrl + "/api/Topics/AttachPhoto";
+                    String UpdateUrl = "http://" + WebServiceUrls.WebServiceUrl + "/api/Topics/AttachPhoto/";
+//
+//                    UpdateUrl += AppCache.SelectedThread.ThreadID + "/" +
+//                            AppCache.HisUserID + "/" +
+//                            GetUserDeviceID() + "/" +
+//                            URLEncoder.encode(DateUtils.DisplayDate(new Date()));
 
                     Log.d("MyApp", "UpdateUrl:" + UpdateUrl);
 
-                    HttpPost request = new HttpPost(UpdateUrl);
 
+                    HttpPost request = new HttpPost(UpdateUrl);
+                    request.addHeader("Accept", "application/json");
+                    request.addHeader("Content-Type", "application/json");
                     request.setEntity(new ByteArrayEntity(data));
 
                     HttpClient httpClient = new DefaultHttpClient();
@@ -283,100 +293,101 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         }.execute(picturePath, null, null);
     }
 
-private void LoadEmojiEvents(){
-    final View rootView = findViewById(R.id.root_view);
-    final EmojiconsPopup popup = new EmojiconsPopup(rootView, this);
+    private void LoadEmojiEvents() {
+        final View rootView = findViewById(R.id.root_view);
+        final EmojiconsPopup popup = new EmojiconsPopup(rootView, this);
 
-    //Will automatically set size according to the soft keyboard size
-    popup.setSizeForSoftKeyboard();
+        //Will automatically set size according to the soft keyboard size
+        popup.setSizeForSoftKeyboard();
 
-    //If the emoji popup is dismissed, change emojiButton to smiley icon
-    popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        //If the emoji popup is dismissed, change emojiButton to smiley icon
+        popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
-        @Override
-        public void onDismiss() {
-            changeEmojiKeyboardIcon(emojiButton, R.drawable.smiley);
-        }
-    });
+            @Override
+            public void onDismiss() {
+                changeEmojiKeyboardIcon(emojiButton, R.drawable.smiley);
+            }
+        });
 
-    //If the text keyboard closes, also dismiss the emoji popup
-    popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+        //If the text keyboard closes, also dismiss the emoji popup
+        popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
 
-        @Override
-        public void onKeyboardOpen(int keyBoardHeight) {
+            @Override
+            public void onKeyboardOpen(int keyBoardHeight) {
 
-        }
+            }
 
-        @Override
-        public void onKeyboardClose() {
-            if (popup.isShowing())
-                popup.dismiss();
-        }
-    });
+            @Override
+            public void onKeyboardClose() {
+                if (popup.isShowing())
+                    popup.dismiss();
+            }
+        });
 //On emoji clicked, add it to edittext
-    popup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+        popup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
 
-        @Override
-        public void onEmojiconClicked(Emojicon emojicon) {
-            if (emojiconEditText == null || emojicon == null) {
-                return;
-            }
-            int start = emojiconEditText.getSelectionStart();
-            int end = emojiconEditText.getSelectionEnd();
-            if (start < 0) {
-                emojiconEditText.append(emojicon.getEmoji());
-            } else {
-                emojiconEditText.getText().replace(Math.min(start, end),
-                        Math.max(start, end), emojicon.getEmoji(), 0,
-                        emojicon.getEmoji().length());
-            }
-        }
-    });
-            //On backspace clicked, emulate the KEYCODE_DEL key event
-            popup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
-
-                @Override
-                public void onEmojiconBackspaceClicked(View v) {
-                    KeyEvent event = new KeyEvent(
-                            0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                    emojiconEditText.dispatchKeyEvent(event);
+            @Override
+            public void onEmojiconClicked(Emojicon emojicon) {
+                if (emojiconEditText == null || emojicon == null) {
+                    return;
                 }
-            });
-    // To toggle between text keyboard and emoji keyboard keyboard(Popup)
-    emojiButton.setOnClickListener(new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            //If popup is not showing => emoji keyboard is not visible, we need to show it
-            if (!popup.isShowing()) {
-
-                //If keyboard is visible, simply show the emoji popup
-                if (popup.isKeyBoardOpen()) {
-                    popup.showAtBottom();
-                    changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                int start = emojiconEditText.getSelectionStart();
+                int end = emojiconEditText.getSelectionEnd();
+                if (start < 0) {
+                    emojiconEditText.append(emojicon.getEmoji());
+                } else {
+                    emojiconEditText.getText().replace(Math.min(start, end),
+                            Math.max(start, end), emojicon.getEmoji(), 0,
+                            emojicon.getEmoji().length());
                 }
-                //else, open the text keyboard first and immediately after that show the emoji popup
+            }
+        });
+        //On backspace clicked, emulate the KEYCODE_DEL key event
+        popup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+
+            @Override
+            public void onEmojiconBackspaceClicked(View v) {
+                KeyEvent event = new KeyEvent(
+                        0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                emojiconEditText.dispatchKeyEvent(event);
+            }
+        });
+        // To toggle between text keyboard and emoji keyboard keyboard(Popup)
+        emojiButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //If popup is not showing => emoji keyboard is not visible, we need to show it
+                if (!popup.isShowing()) {
+
+                    //If keyboard is visible, simply show the emoji popup
+                    if (popup.isKeyBoardOpen()) {
+                        popup.showAtBottom();
+                        changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                    }
+                    //else, open the text keyboard first and immediately after that show the emoji popup
+                    else {
+                        emojiconEditText.setFocusableInTouchMode(true);
+                        emojiconEditText.requestFocus();
+                        popup.showAtBottomPending();
+                        final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.showSoftInput(emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
+                        changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                    }
+                }
+
+                //If popup is showing, simply dismiss it to show the undelying text keyboard
                 else {
-                    emojiconEditText.setFocusableInTouchMode(true);
-                    emojiconEditText.requestFocus();
-                    popup.showAtBottomPending();
-                    final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.showSoftInput(emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
-                    changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                    popup.dismiss();
                 }
             }
-
-            //If popup is showing, simply dismiss it to show the undelying text keyboard
-            else {
-                popup.dismiss();
-            }
-        }
-    });
+        });
 
 
-}
-    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId){
+    }
+
+    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         Resources resources = getResources();
         iconToBeChanged.setImageDrawable(resources.getDrawable(drawableResourceId));
     }
@@ -400,7 +411,6 @@ private void LoadEmojiEvents(){
                     SaveTopic(FillTopic(Inputtxt));
                     emojiconEditText.setText("");
                     AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
-
 
 
                 }
@@ -445,21 +455,23 @@ private void LoadEmojiEvents(){
             item.ModifiedBy = 0;
             item.ModifiedDate = AppConstants.StandardDateFormat
                     .format(new Date());
-            item.IsAndroid=true;
-            item.UserDeviceID=GetUserDeviceID();
+            item.IsAndroid = true;
+            item.UserDeviceID = GetUserDeviceID();
             return item;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
     }
-public int GetUserDeviceID(){
-    String ThisUserDevicejson= StorageManager.Get(this, "gcmdeviceid");
-    Type collectionType = (Type) (new TypeToken<UserDevicesModel>() {
-    }).getType();
-    UserDevicesModel ThisUserDevice = new Gson().fromJson(ThisUserDevicejson, (Type) collectionType);
-    return ThisUserDevice.UserDeviceID;
-}
+
+    public int GetUserDeviceID() {
+        String ThisUserDevicejson = StorageManager.Get(this, "gcmdeviceid");
+        Type collectionType = (Type) (new TypeToken<UserDevicesModel>() {
+        }).getType();
+        UserDevicesModel ThisUserDevice = new Gson().fromJson(ThisUserDevicejson, (Type) collectionType);
+        return ThisUserDevice.UserDeviceID;
+    }
+
     public void FetchTopicsFromServer(int PageIndex) {
         try {
             if (AppCache.SelectedThread == null) {
@@ -503,24 +515,25 @@ public int GetUserDeviceID(){
         overridePendingTransition(R.anim.activity_move_left_open,
                 R.anim.activity_move_left_close);
     }
-public String EncodeMsg(){
-    try{
-        byte[] data = emojiconEditText.getText().toString().getBytes("UTF-8");
-        String baseString = Base64.encodeToString(data, Base64.DEFAULT);
 
-return baseString;
-    }
-    catch(Exception ex){
-        LogHelper.HandleException(ex);
-    }
-    return null;
+    public String EncodeMsg() {
+        try {
+            byte[] data = emojiconEditText.getText().toString().getBytes("UTF-8");
+            String baseString = Base64.encodeToString(data, Base64.DEFAULT);
 
-}
+            return baseString;
+        } catch (Exception ex) {
+            LogHelper.HandleException(ex);
+        }
+        return null;
+
+    }
+
     public void SaveTopic(TopicsModel InputTopic) {
         try {
-            TopicsModel ConvertedTopics= new TopicsModel();
-            ConvertedTopics=InputTopic;
-            ConvertedTopics.Description=EncodeMsg();
+            TopicsModel ConvertedTopics = new TopicsModel();
+            ConvertedTopics = InputTopic;
+            ConvertedTopics.Description = EncodeMsg();
 
             TopicsFacade tf = new TopicsFacade(CurrentContext);
 

@@ -17,6 +17,8 @@ using System.Collections;
 using ExpatMig.ViewModels;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Web;
+using System.Threading.Tasks;
 
 namespace ExpatMig.Controllers.Api
 {
@@ -64,11 +66,11 @@ namespace ExpatMig.Controllers.Api
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
                          join EachProfile in db.UserProfiles on (int)EachUser.Id equals EachProfile.UserID into GrpTopics
                          from EachProfile1 in GrpTopics.DefaultIfEmpty()
-                           orderby EachTopic.CreatedDate descending
+                         orderby EachTopic.CreatedDate descending
                          select new
                          {
                              EachUser.UserName,
-                             Nick= EachProfile1 ==null?string.Empty: EachProfile1.Nick,
+                             Nick = EachProfile1 == null ? string.Empty : EachProfile1.Nick,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
                              Description = EachTopic.Description.Replace("[attachment]", "<img onclick='xpand(this)' src='/utils/photohandler.ashx?Width=150&frompath=" + (EachTopic.AttachmentURL == null ? "" : EachTopic.AttachmentURL) + "' />").ToString(),
@@ -85,7 +87,7 @@ namespace ExpatMig.Controllers.Api
         public IEnumerable ListContextualTopics(int TopicID)
         {
 
-             
+
             //var PageSize = 15;
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
@@ -109,48 +111,35 @@ namespace ExpatMig.Controllers.Api
             return Output.OrderBy(x => x.CreatedDate).Take(10);
         }
 
-        [HttpPost, Route("api/Topics/AttachPhoto")]
-        public String AttachPhotos(Stream InputStream)
+        [HttpPost, Route("api/Topics/AttachPhoto/")]
+        public async Task<HttpResponseMessage> AttachPhoto()
         {
+            byte[] InputByteArray = await Request.Content.ReadAsByteArrayAsync();
 
             var WebPath = "~/UploadedImages/" + DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day + "/";
+            dynamic UploadedFileName = DateTime.Now.Ticks + ".jpg";
 
-            dynamic FolderPath = "G:\\GitHubProjects\\ExpatMig\\ExpatMig\\ExpatMig" + "UploadedImages\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + DateTime.Now.Day + "\\";
+            dynamic FolderPath = HttpContext.Current.Server.MapPath(WebPath);
             if ((!Directory.Exists(FolderPath)))
                 Directory.CreateDirectory(FolderPath);
 
-            dynamic NewFileName = DateTime.Now.Ticks + ".jpeg";
+              File.WriteAllBytes(FolderPath + UploadedFileName, InputByteArray);
 
 
-           
-            dynamic buf = new byte[1025];
-            dynamic path = FolderPath + NewFileName;
-            dynamic len = 0;
-            using (var fs = File.Create(path))
-            {
-                len = InputStream.Read(buf, 0, buf.Length);
-                while ((len > 0))
-                {
-                    fs.Write(buf, 0, len);
-                    len = InputStream.Read(buf, 0, buf.Length);
-                }
-            }
+            //Topic NewTopic = new Topic();
+            //NewTopic.AttachmentURL = WebPath & UploadedFileName;
+            //NewTopic.CreatedBy = UploadedUserID;
+            ////NewTopic.CreatedDate = CreatedDate;
+            //NewTopic.CreatedDate = DateTime.Now;
+            //NewTopic.ThreadID = ThreadID;
+            //NewTopic.SeqNo = 0;
+            //NewTopic.IsActive = true;
+            //NewTopic.AttachmentType = "image/jpeg";
 
+            //SendNotification(NewTopic, UserDeviceID);
 
+            return new HttpResponseMessage { Content = new StringContent(WebPath & UploadedFileName) };
 
-            //using (var stream = new MemoryStream())
-            //{
-            //    byte[] buffer = new byte[2048]; // read in chunks of 2KB
-            //    int bytesRead;
-            //    while ((bytesRead = InputStream.Read(buffer, 0, buffer.Length)) > 0)
-            //    {
-            //        stream.Write(buffer, 0, bytesRead);
-            //    }
-            //    byte[] result = stream.ToArray();
-            //    // TODO: do something with the result
-            //}
-
-            return WebPath;
         }
 
 
@@ -304,23 +293,23 @@ namespace ExpatMig.Controllers.Api
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
                              EachTopic.CreatedBy,
-                             CreatedDate = EachTopic.CreatedDate.ToString(),                             
+                             CreatedDate = EachTopic.CreatedDate.ToString(),
                              Description = EachTopic.Description
 
                          };
 
-          //var filter = Output.Select(x => new {
-          //    x.CreatedDate,
-          //   temp= EncodeMsg(x.Description)
-          //});
+            //var filter = Output.Select(x => new {
+            //    x.CreatedDate,
+            //   temp= EncodeMsg(x.Description)
+            //});
 
-          //  var temp = Output.ToList();
-          //  temp.ForEach(x =>x.Description = EncodeMsg(x.Description));
+            //  var temp = Output.ToList();
+            //  temp.ForEach(x =>x.Description = EncodeMsg(x.Description));
 
 
             var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
-     
-           
+
+
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
@@ -340,9 +329,9 @@ namespace ExpatMig.Controllers.Api
                         NotificationCreatedDate = DateTime.Now.ToString()
                     };
 
-                 
+
                     var NotifierMessage = new JavaScriptSerializer().Serialize(Notification);
-                   
+
                     PushNotificationsFacade.SendNotification(EachDevice, NotifierMessage);
                 }
             }

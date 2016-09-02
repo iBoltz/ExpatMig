@@ -19,6 +19,6 @@ namespace ExpatMig.ViewModels
         public int UserDeviceID { get; set; }
         public Boolean IsAndroid { get; set; }
         public string AttachmentURL { get; set; }
-
+        public string AttachmentType { get; set; }
     }
 }

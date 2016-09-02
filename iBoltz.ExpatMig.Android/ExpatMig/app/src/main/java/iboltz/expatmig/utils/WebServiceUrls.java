@@ -19,6 +19,7 @@ public class WebServiceUrls {
    public static final String CreateTopics = "http://192.168.1.118:5001/api/Topics";
     public static final String GetTopicsByThreadID = "http://192.168.1.118:5001/api/Topics/AllTopicsForThisThread/";
     public static final String ImageServiceUrl = "http://192.168.1.118:5001/utils/photohandler.ashx?Width=150&frompath=";
+    public static final String PostImagesUrl = "http://192.168.1.118:5001/api/Topics/AttachPhoto/";
 
     //Group Page
     public static final String ListGroups="http://192.168.1.118:5001/api/Groups";

@@ -31,15 +31,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -59,12 +50,14 @@ import java.util.Date;
 import java.util.EventObject;
 
 import iboltz.expatmig.ListenerInterfaces.OnLoadedListener;
+import iboltz.expatmig.ListenerInterfaces.OnPhotoSavedListener;
 import iboltz.expatmig.R;
 import iboltz.expatmig.adapters.ChatMessageAdapter;
 import iboltz.expatmig.emojicon.EmojiconEditText;
 import iboltz.expatmig.emojicon.EmojiconGridView;
 import iboltz.expatmig.emojicon.EmojiconsPopup;
 import iboltz.expatmig.emojicon.emoji.Emojicon;
+import iboltz.expatmig.facades.PhotoAttachmentFacade;
 import iboltz.expatmig.models.UserDevicesModel;
 import iboltz.expatmig.models.UsersModel;
 import iboltz.expatmig.utils.AppCache;
@@ -76,6 +69,7 @@ import iboltz.expatmig.utils.DateUtils;
 import iboltz.expatmig.utils.EndlessScrollListener;
 import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.StorageManager;
+import iboltz.expatmig.utils.UiUtils;
 import iboltz.expatmig.utils.WebServiceUrls;
 
 public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
@@ -229,68 +223,28 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     }
 
     private void AttachPhoto(String picturePath) {
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... params) {
-                String msg = "";
-                try {
-                    File ThatPhoto = new File(params[0]);
-                    String fileName = ThatPhoto.getName();
-
-                    Bitmap bm = BitmapFactory.decodeFile(params[0]);
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
-                    byte[] data = bos.toByteArray();
-
-                    String UpdateUrl = "http://" + WebServiceUrls.WebServiceUrl + "/api/Topics/AttachPhoto/";
+//        File ThatPhoto = new File(picturePath);
+//        String fileName = ThatPhoto.getName();
 //
-//                    UpdateUrl += AppCache.SelectedThread.ThreadID + "/" +
-//                            AppCache.HisUserID + "/" +
-//                            GetUserDeviceID() + "/" +
-//                            URLEncoder.encode(DateUtils.DisplayDate(new Date()));
-
-                    Log.d("MyApp", "UpdateUrl:" + UpdateUrl);
-
-
-                    HttpPost request = new HttpPost(UpdateUrl);
-                    request.addHeader("Accept", "application/json");
-                    request.addHeader("Content-Type", "application/json");
-                    request.setEntity(new ByteArrayEntity(data));
-
-                    HttpClient httpClient = new DefaultHttpClient();
-                    HttpResponse response = httpClient.execute(request);
-
-                    msg = EntityUtils.toString(response.getEntity());
-                    Log.d("MyApp", "Img Upload Response is: " + msg);
-
-                } catch (Exception ex) {
-                    msg = "Error :" + ex.getMessage();
-                    Log.d("MyApp", "Exception: " + msg);
-                    LogHelper.HandleException(ex);
-                }
-
-                return msg;
-            }
-
+        Bitmap bm = BitmapFactory.decodeFile(picturePath);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+        byte[] data = bos.toByteArray();
+        PhotoAttachmentFacade Attacher = new PhotoAttachmentFacade(CurrentContext);
+        Attacher.setOnFinishedEventListener(new OnPhotoSavedListener() {
             @Override
-            protected void onPostExecute(String msg) {
-                JSONObject jObject;
-                String CreatedID = "";
+            public void OnPhotoPosted(EventObject e, String SavedUrlPath) {
+                UiUtils.ShowToast((Activity) CurrentContext, SavedUrlPath);
 
-
-                // {"CreateNewListingResult":279747}
-
-                // Log.d("MyApp", "AsyncTask completed: " + msg + "- ID is -"
-                // + CreatedID);
-
-                Toast.makeText(getApplicationContext(),
-                        "Photo attached Successfully " + msg, Toast.LENGTH_LONG)
-                        .show();
-                //LoadPhotos();
+                TopicsModel InputTopic = FillTopic("[attachment]", SavedUrlPath);
+                AppCache.CachedTopics.add(InputTopic);
+                LoadTopics();
+                SaveTopic(InputTopic);
 
 
             }
-        }.execute(picturePath, null, null);
+        });
+        Attacher.AttachNewPhoto(data);
     }
 
     private void LoadEmojiEvents() {
@@ -405,10 +359,10 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                     }
 
                     String Inputtxt = emojiconEditText.getText().toString();
-                    TopicsModel InputTopic = FillTopic(Inputtxt);
+                    TopicsModel InputTopic = FillTopic(Inputtxt, "");
                     AppCache.CachedTopics.add(InputTopic);
                     LoadTopics();
-                    SaveTopic(FillTopic(Inputtxt));
+                    SaveTopic(InputTopic);
                     emojiconEditText.setText("");
                     AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
 
@@ -439,7 +393,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         }
     }
 
-    private TopicsModel FillTopic(String TopicsMessage) {
+    private TopicsModel FillTopic(String TopicsMessage, String ImagePath) {
         try {
 
             TopicsModel item = new TopicsModel();
@@ -455,6 +409,10 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             item.ModifiedBy = 0;
             item.ModifiedDate = AppConstants.StandardDateFormat
                     .format(new Date());
+            if (ImagePath != "") {
+                item.AttachmentType = "image/jpeg";
+                item.AttachmentURL = ImagePath;
+            }
             item.IsAndroid = true;
             item.UserDeviceID = GetUserDeviceID();
             return item;
@@ -516,9 +474,9 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                 R.anim.activity_move_left_close);
     }
 
-    public String EncodeMsg() {
+    public String EncodeMsg(String TextToEncode) {
         try {
-            byte[] data = emojiconEditText.getText().toString().getBytes("UTF-8");
+            byte[] data = TextToEncode.getBytes("UTF-8");
             String baseString = Base64.encodeToString(data, Base64.DEFAULT);
 
             return baseString;
@@ -533,14 +491,14 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
         try {
             TopicsModel ConvertedTopics = new TopicsModel();
             ConvertedTopics = InputTopic;
-            ConvertedTopics.Description = EncodeMsg();
+            ConvertedTopics.Description = EncodeMsg(InputTopic.Description);
 
             TopicsFacade tf = new TopicsFacade(CurrentContext);
 
             tf.setOnFinishedEventListener(new OnLoadedListener() {
                 @Override
                 public void OnLoaded(EventObject e) {
-
+                    UiUtils.ShowToast((Activity) CurrentContext, "Saved Successfully!");
                 }
             });
             tf.SaveTopics(ConvertedTopics);

@@ -126,19 +126,9 @@ namespace ExpatMig.Controllers.Api
               File.WriteAllBytes(FolderPath + UploadedFileName, InputByteArray);
 
 
-            //Topic NewTopic = new Topic();
-            //NewTopic.AttachmentURL = WebPath & UploadedFileName;
-            //NewTopic.CreatedBy = UploadedUserID;
-            ////NewTopic.CreatedDate = CreatedDate;
-            //NewTopic.CreatedDate = DateTime.Now;
-            //NewTopic.ThreadID = ThreadID;
-            //NewTopic.SeqNo = 0;
-            //NewTopic.IsActive = true;
-            //NewTopic.AttachmentType = "image/jpeg";
+           
 
-            //SendNotification(NewTopic, UserDeviceID);
-
-            return new HttpResponseMessage { Content = new StringContent(WebPath & UploadedFileName) };
+            return new HttpResponseMessage { Content = new StringContent(WebPath + UploadedFileName) };
 
         }
 
@@ -250,8 +240,8 @@ namespace ExpatMig.Controllers.Api
             topic.IsActive = true;
             topic.ModifiedBy = null;
             topic.ModifiedDate = null;
-            topic.AttachmentType = null;
-            topic.AttachmentURL = null;
+            topic.AttachmentType = Inputtopic.AttachmentType;
+            topic.AttachmentURL = Inputtopic.AttachmentURL;
             return topic;
         }
 

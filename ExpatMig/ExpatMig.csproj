@@ -669,6 +669,7 @@
     <Content Include="Content\themes\vader\images\ui-icons_f29a00_256x240.png" />
     <Content Include="Content\themes\vader\jquery-ui.vader.css" />
     <Content Include="Content\themes\vader\jquery-ui.vader.min.css" />
+    <Content Include="Content\UserProfile.css" />
     <Content Include="Docs\AndroidFCM.txt" />
     <Content Include="Docs\WebFCM.txt" />
     <Content Include="favicon.ico" />

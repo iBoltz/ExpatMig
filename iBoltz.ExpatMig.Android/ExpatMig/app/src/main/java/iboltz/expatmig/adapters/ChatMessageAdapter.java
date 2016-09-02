@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -17,6 +18,7 @@ import iboltz.expatmig.emojicon.EmojiconTextView;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.DateUtils;
+import iboltz.expatmig.utils.ImageLoader;
 
 /**
  * Created by ucfpriya on 26-07-2016.
@@ -24,14 +26,16 @@ import iboltz.expatmig.utils.DateUtils;
 public class ChatMessageAdapter extends ArrayAdapter<TopicsModel> {
     private final Context context;
     private final ArrayList<TopicsModel> values;
+    public ImageLoader imageLoader;
 
     public ChatMessageAdapter(Context context,
                               ArrayList<TopicsModel> objects) {
         super(context, R.layout.rightsidechat_itemtemplate, objects);
+        imageLoader = new ImageLoader(context.getApplicationContext());
 
         this.context = context;
         this.values = objects;
-
+        imageLoader = new ImageLoader(context.getApplicationContext());
     }
 
     @Override
@@ -54,9 +58,25 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel> {
                     .findViewById(R.id.lblUserName);
             TextView lblCreatedDate = (TextView) rowView
                     .findViewById(R.id.lblCreatedDate);
-if(item.CreatedBy == AppCache.HisUserID){
-    lblRightSideMsg.setGravity(Gravity.RIGHT);
-}
+
+            ImageView imgMsg=(ImageView) rowView.findViewById(R.id.imgMsg);
+            String ImageUrl = item.AttachmentURL;
+
+            if (ImageUrl != null) {
+                ImageUrl = AppCache.EncodeUrl(ImageUrl);
+                imgMsg.setVisibility(View.VISIBLE);
+                lblRightSideMsg.setVisibility(View.GONE);
+                imageLoader.DisplayImage(ImageUrl, imgMsg);
+            }
+            else{
+                imgMsg.setVisibility(View.GONE);
+
+                lblRightSideMsg.setVisibility(View.VISIBLE);
+            }
+
+            if(item.CreatedBy == AppCache.HisUserID){
+                lblRightSideMsg.setGravity(Gravity.RIGHT);
+            }
 
             lblRightSideMsg.setText(item.Description);
             lblRightSideMsg.setTypeface(AppCache.FontQuickRegular);

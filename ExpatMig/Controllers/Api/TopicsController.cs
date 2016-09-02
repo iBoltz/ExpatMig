@@ -16,6 +16,7 @@ using System.Web.Script.Serialization;
 using System.Collections;
 using ExpatMig.ViewModels;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace ExpatMig.Controllers.Api
 {
@@ -106,6 +107,50 @@ namespace ExpatMig.Controllers.Api
 
             //var ReverseOrdered = Output.Skip(StartIndex * PageSize).Take(PageSize).ToList();
             return Output.OrderBy(x => x.CreatedDate).Take(10);
+        }
+
+        [HttpPost, Route("api/Topics/AttachPhoto")]
+        public String AttachPhotos(Stream InputStream)
+        {
+
+            var WebPath = "~/UploadedImages/" + DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day + "/";
+
+            dynamic FolderPath = "G:\\GitHubProjects\\ExpatMig\\ExpatMig\\ExpatMig" + "UploadedImages\\" + DateTime.Now.Year + "\\" + DateTime.Now.Month + "\\" + DateTime.Now.Day + "\\";
+            if ((!Directory.Exists(FolderPath)))
+                Directory.CreateDirectory(FolderPath);
+
+            dynamic NewFileName = DateTime.Now.Ticks + ".jpeg";
+
+
+           
+            dynamic buf = new byte[1025];
+            dynamic path = FolderPath + NewFileName;
+            dynamic len = 0;
+            using (var fs = File.Create(path))
+            {
+                len = InputStream.Read(buf, 0, buf.Length);
+                while ((len > 0))
+                {
+                    fs.Write(buf, 0, len);
+                    len = InputStream.Read(buf, 0, buf.Length);
+                }
+            }
+
+
+
+            //using (var stream = new MemoryStream())
+            //{
+            //    byte[] buffer = new byte[2048]; // read in chunks of 2KB
+            //    int bytesRead;
+            //    while ((bytesRead = InputStream.Read(buffer, 0, buffer.Length)) > 0)
+            //    {
+            //        stream.Write(buffer, 0, bytesRead);
+            //    }
+            //    byte[] result = stream.ToArray();
+            //    // TODO: do something with the result
+            //}
+
+            return WebPath;
         }
 
 
@@ -231,6 +276,7 @@ namespace ExpatMig.Controllers.Api
             }
             if (Inputtopic.IsAndroid)
             {
+                //Decode here
                 var base64EncodedBytes = System.Convert.FromBase64String(Inputtopic.Description);
                 var AndroidMsg = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
                 Inputtopic.Description = AndroidMsg;
@@ -257,13 +303,24 @@ namespace ExpatMig.Controllers.Api
                              EachUser.UserName,
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
-                             EachTopic.Description,
                              EachTopic.CreatedBy,
-                             CreatedDate = EachTopic.CreatedDate.ToString()
+                             CreatedDate = EachTopic.CreatedDate.ToString(),                             
+                             Description = EachTopic.Description
+
                          };
 
-            var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
+          //var filter = Output.Select(x => new {
+          //    x.CreatedDate,
+          //   temp= EncodeMsg(x.Description)
+          //});
 
+          //  var temp = Output.ToList();
+          //  temp.ForEach(x =>x.Description = EncodeMsg(x.Description));
+
+
+            var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
+     
+           
 
             foreach (var ThatUserID in db.Topics.Select(x => x.CreatedBy).Distinct())
             {
@@ -283,11 +340,20 @@ namespace ExpatMig.Controllers.Api
                         NotificationCreatedDate = DateTime.Now.ToString()
                     };
 
+                 
                     var NotifierMessage = new JavaScriptSerializer().Serialize(Notification);
-
+                   
                     PushNotificationsFacade.SendNotification(EachDevice, NotifierMessage);
                 }
             }
+
+        }
+
+        public String EncodeMsg(String TopicMessage)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(TopicMessage);
+            var TopicEncodeMessage = System.Convert.ToBase64String(plainTextBytes);
+            return TopicEncodeMessage;
 
         }
 

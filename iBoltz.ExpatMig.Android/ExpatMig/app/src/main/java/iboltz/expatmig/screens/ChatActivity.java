@@ -10,10 +10,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +23,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,9 +31,27 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +74,7 @@ import iboltz.expatmig.utils.BaseActivity;
 import iboltz.expatmig.utils.EndlessScrollListener;
 import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.StorageManager;
+import iboltz.expatmig.utils.WebServiceUrls;
 
 public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
     private static int IMG_RESULT = 1;
@@ -144,7 +165,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
             emojiButton = (ImageView) findViewById(R.id.emoji_btn);
             attach_img=(TextView) findViewById(R.id.attach_img);
             attach_img.setTypeface(AppCache.IonIcons);
-            attach_img.setVisibility(View.GONE);
+         //   attach_img.setVisibility(View.GONE);
             attach_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,6 +212,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                 int columnIndex = cursor.getColumnIndex(FILE[0]);
                 ImageDecode = cursor.getString(columnIndex);
                 cursor.close();
+                AttachPhoto(ImageDecode);
 
                /* imageViewLoad.setImageBitmap(BitmapFactory
                         .decodeFile(ImageDecode));*/
@@ -201,6 +223,64 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
                     .show();
         }
 
+    }
+
+    private void AttachPhoto(String picturePath) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                String msg = "";
+                try {
+                    File ThatPhoto = new File(params[0]);
+                    String fileName = ThatPhoto.getName();
+
+                    Bitmap bm = BitmapFactory.decodeFile(params[0]);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+                    byte[] data = bos.toByteArray();
+
+                    String UpdateUrl = "http://" + WebServiceUrls.WebServiceUrl + "/api/Topics/AttachPhoto";
+
+                    Log.d("MyApp", "UpdateUrl:" + UpdateUrl);
+
+                    HttpPost request = new HttpPost(UpdateUrl);
+
+                    request.setEntity(new ByteArrayEntity(data));
+
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpResponse response = httpClient.execute(request);
+
+                    msg = EntityUtils.toString(response.getEntity());
+                    Log.d("MyApp", "Img Upload Response is: " + msg);
+
+                } catch (Exception ex) {
+                    msg = "Error :" + ex.getMessage();
+                    Log.d("MyApp", "Exception: " + msg);
+                    LogHelper.HandleException(ex);
+                }
+
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                JSONObject jObject;
+                String CreatedID = "";
+
+
+                // {"CreateNewListingResult":279747}
+
+                // Log.d("MyApp", "AsyncTask completed: " + msg + "- ID is -"
+                // + CreatedID);
+
+                Toast.makeText(getApplicationContext(),
+                        "Photo attached Successfully " + msg, Toast.LENGTH_LONG)
+                        .show();
+                //LoadPhotos();
+
+
+            }
+        }.execute(picturePath, null, null);
     }
 
 private void LoadEmojiEvents(){

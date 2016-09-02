@@ -34,7 +34,7 @@
             android:id="@+id/attach_img"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_weight="0.2"
             android:contentDescription=""
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/text_size_l"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             emojicon:emojiconSize="28sp"
-            android:layout_weight="0.6" />
+            android:layout_weight="0.4" />
 
         <ImageView
             android:id="@+id/submit_btn"

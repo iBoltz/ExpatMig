@@ -40,15 +40,25 @@
 
         </LinearLayout>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/imgMsg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
-        <iboltz.expatmig.emojicon.EmojiconTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_m"
-            android:textColor="#000"
-            android:textSize="@dimen/text_size_m"
-            android:id="@+id/lblRightSideMsg"
-            />
+    <iboltz.expatmig.emojicon.EmojiconTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_m"
+        android:textColor="#000"
+        android:textSize="@dimen/text_size_m"
+        android:id="@+id/lblRightSideMsg"
+        />
+</RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

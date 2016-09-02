@@ -18,6 +18,8 @@ public class WebServiceUrls {
    //Chat Page
    public static final String CreateTopics = "http://192.168.1.105:125/api/Topics";
     public static final String GetTopicsByThreadID = "http://192.168.1.105:125/api/Topics/AllTopicsForThisThread/";
+    public static final String ImageServiceUrl = "http://192.168.1.105:125/utils/photohandler.ashx?Width=150&frompath=";
+
 
     //Group Page
     public static final String ListGroups="http://192.168.1.105:125/api/Groups";

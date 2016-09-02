@@ -20,11 +20,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.UnsupportedEncodingException;
 
 import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.utils.UiUtils;
@@ -114,6 +117,7 @@ public class GcmNotificationIntentService extends IntentService {
 
             switch (Recvd.NotificationType) {
                 case "topics":
+
                     ChatNotification(Recvd.NotificationData);
                     break;
 
@@ -126,13 +130,28 @@ public class GcmNotificationIntentService extends IntentService {
 
         }
     }
+    private String DecodeText(String base64)
+    {
+        byte[] data1 = Base64.decode(base64, Base64.DEFAULT);
+        String text1 = null;
+        try {
+            text1 = new String(data1, "UTF-8");
+            return text1;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return  null;
+    }
     private TopicsModel ConvertToTopic(String Message){
+
+     //   Message = DecodeText(Message);
         java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<TopicsModel>() {
         }).getType();
 
         TopicsModel LatestTopic = new Gson()
                 .fromJson(Message,
                         (java.lang.reflect.Type) collectionType);
+        LatestTopic.Description=DecodeText(LatestTopic.Description);
         return LatestTopic;
     }
     private void ChatNotification(String Message) {

@@ -379,7 +379,7 @@ private void SaveThreadSub(){
                 {
                     btnChat.setVisibility(View.VISIBLE);
                     btnReqToAccess.setVisibility(View.GONE);
-
+                    break;
                 }
             else{
                 btnChat.setVisibility(View.GONE);

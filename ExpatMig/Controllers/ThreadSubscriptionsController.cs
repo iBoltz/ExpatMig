@@ -29,9 +29,9 @@ namespace ExpatMig.Controllers.Api
         {
             if (db.ThreadSubscriptions.Count() == 0) { return null; }
             var Output = from EachThreads in db.Threads
-                         join EachThreadSun in db.ThreadSubscriptions on
-                         EachThreads.ThreadID equals EachThreadSun.ThreadID
-                         where EachThreadSun.UserID == UserID && EachThreads.IsActive==true
+                         join EachThreadSub in db.ThreadSubscriptions on
+                         EachThreads.ThreadID equals EachThreadSub.ThreadID
+                         where EachThreadSub.UserID == UserID && EachThreadSub.IsActive==true
                          select EachThreads.ThreadID;
             return Output;
 

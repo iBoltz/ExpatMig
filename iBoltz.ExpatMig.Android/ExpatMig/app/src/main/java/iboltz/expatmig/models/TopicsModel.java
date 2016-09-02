@@ -16,7 +16,9 @@ public class TopicsModel {
     public int SeqNo;
     public int ModifiedBy;
     public String ModifiedDate;
-public  int UserDeviceID;
+    public String AttachmentType;
+    public String AttachmentURL;
+    public  int UserDeviceID;
     public Boolean IsAndroid;
 }
 

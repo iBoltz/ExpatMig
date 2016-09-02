@@ -80,7 +80,7 @@ public class ThreadsFacade {
             Wc.setOnResponseReceivedListener(new WebClientListeners() {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
-                    if( e.ResponseData != null && ! e.ResponseData.equals("null")){
+                    if( e.ResponseData != null && ! e.ResponseData.equals("null") && ! e.ResponseData.equals("[]")){
                         java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<Integer>>() {
                         }).getType();
 

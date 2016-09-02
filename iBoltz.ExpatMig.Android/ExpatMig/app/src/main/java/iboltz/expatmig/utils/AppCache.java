@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import iboltz.expatmig.models.GroupsModel;
+import iboltz.expatmig.models.ImageLoaderModel;
 import iboltz.expatmig.models.LocalCache;
 import iboltz.expatmig.models.ThreadsModel;
 import iboltz.expatmig.models.TopicsModel;
@@ -40,6 +41,7 @@ public class AppCache {
     public static ThreadsModel SelectedThread=null;
     public static GroupsModel SelectedGroup=null;
     public static int CurrentItemPosition=0;
+    public static ArrayList<ImageLoaderModel> CachedImages;
 
     public static Typeface LinearIcons = null;
     public static Typeface IonIcons = null;
@@ -81,20 +83,18 @@ public class AppCache {
 
     /*****************************  End App Specific Cache    **********************************/
 
-
-//    public static String EncodeUrl(String ImagePath) {
-//        try {
-///* String urlStr = ImagePath.replace("~", ImageServiceUrl); */
-//            final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()~'%";
-//            String urlEncoded = Uri.encode(ImagePath, ALLOWED_URI_CHARS);
-//            urlEncoded = WebServiceUrls.ImageServiceUrl + urlEncoded;
-//            Log.d("MyApp", "Image URl" + urlEncoded);
-//            return urlEncoded.trim();
-//        } catch (Exception ex) {
-//            LogHelper.HandleException(ex);
-//        }
-//        return null;
-//    }
+   public static String EncodeUrl(String ImagePath) {
+       try {
+           final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()~'%";
+           String urlEncoded = Uri.encode(ImagePath, ALLOWED_URI_CHARS);
+           urlEncoded = WebServiceUrls.ImageServiceUrl + urlEncoded;
+           Log.d("MyApp", "Image URl" + urlEncoded);
+           return urlEncoded.trim();
+       } catch (Exception ex) {
+           LogHelper.HandleException(ex);
+       }
+       return null;
+   }
 
     public static void SaveToStore(Activity ctx) {
         try {

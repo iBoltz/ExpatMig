@@ -288,16 +288,21 @@ namespace ExpatMig.Controllers.Api
 
                          };
 
-            //var filter = Output.Select(x => new {
-            //    x.CreatedDate,
-            //   temp= EncodeMsg(x.Description)
-            //});
+      //Encode Topic Msg
 
-            //  var temp = Output.ToList();
-            //  temp.ForEach(x =>x.Description = EncodeMsg(x.Description));
+             var FinalList = Output.ToList();
+            var RecentTopics = from EachItem in FinalList
+                               select new
+                         {                             
+                             EachItem.UserName,
+                             EachItem.TopicID,
+                             EachItem.CreatedBy,
+                             EachItem.CreatedDate,
+                             Description = EncodeMsg(EachItem.Description)
+                         };
+          
 
-
-            var TopicMessage = new JavaScriptSerializer().Serialize(Output.First());
+            var TopicMessage = new JavaScriptSerializer().Serialize(RecentTopics.First());
 
 
 

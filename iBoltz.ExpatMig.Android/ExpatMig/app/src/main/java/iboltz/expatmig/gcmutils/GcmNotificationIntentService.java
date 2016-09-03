@@ -14,11 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Base64;
 import android.util.Log;
@@ -30,7 +26,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.UnsupportedEncodingException;
 
 import iboltz.expatmig.utils.AppConstants;
-import iboltz.expatmig.utils.UiUtils;
 
 public class GcmNotificationIntentService extends IntentService {
 
@@ -151,6 +146,7 @@ public class GcmNotificationIntentService extends IntentService {
         TopicsModel LatestTopic = new Gson()
                 .fromJson(Message,
                         (java.lang.reflect.Type) collectionType);
+
         LatestTopic.Description=DecodeText(LatestTopic.Description);
         return LatestTopic;
     }
@@ -168,10 +164,10 @@ public class GcmNotificationIntentService extends IntentService {
 
 
             if (ChatActivity.IsRunningNow) {
-                iPostStatus Poster = (iPostStatus) ChatActivity.CurrentInstance;
+                iNotifyTopic Poster = (iNotifyTopic) ChatActivity.CurrentInstance;
                 if (Poster != null)
                     ChatActivity.NotificationMessage = Message;
-                Poster.PostStatusToOrder(RecentTopic);
+                Poster.AddRecentTopic(RecentTopic);
             } else {
                 /// Skip when other screens open
             }

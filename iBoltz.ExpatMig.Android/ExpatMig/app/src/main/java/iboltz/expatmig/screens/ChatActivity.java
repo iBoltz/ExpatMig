@@ -10,12 +10,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,20 +29,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.lang.reflect.Type;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EventObject;
@@ -58,21 +47,18 @@ import iboltz.expatmig.emojicon.EmojiconGridView;
 import iboltz.expatmig.emojicon.EmojiconsPopup;
 import iboltz.expatmig.emojicon.emoji.Emojicon;
 import iboltz.expatmig.facades.PhotoAttachmentFacade;
+import iboltz.expatmig.gcmutils.iNotifyTopic;
 import iboltz.expatmig.models.UserDevicesModel;
-import iboltz.expatmig.models.UsersModel;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.facades.TopicsFacade;
 import iboltz.expatmig.models.TopicsModel;
 import iboltz.expatmig.utils.BaseActivity;
-import iboltz.expatmig.utils.DateUtils;
-import iboltz.expatmig.utils.EndlessScrollListener;
 import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.StorageManager;
 import iboltz.expatmig.utils.UiUtils;
-import iboltz.expatmig.utils.WebServiceUrls;
 
-public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmutils.iPostStatus {
+public class ChatActivity extends BaseActivity implements iNotifyTopic {
     private static int IMG_RESULT = 1;
     ListView lvChat;
     Intent intent;
@@ -91,7 +77,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     private int pageCount = 0;
 
     @Override
-    public void PostStatusToOrder(TopicsModel Message) {
+    public void AddRecentTopic(TopicsModel Message) {
         AppCache.CachedTopics.add(Message);
         AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
         runOnUiThread(new Runnable() {

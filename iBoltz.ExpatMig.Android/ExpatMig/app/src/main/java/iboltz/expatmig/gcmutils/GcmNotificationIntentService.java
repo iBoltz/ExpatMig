@@ -178,7 +178,7 @@ public class GcmNotificationIntentService extends IntentService {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                     this)
                     .setSmallIcon(R.drawable.iboltzlogo)
-                    .setContentTitle("Chat: New Message")
+                    .setContentTitle(""+ RecentTopic.ThreadName)
                     .setStyle(
                             new NotificationCompat.BigTextStyle().bigText(RecentTopic.UserName + " : " + RecentTopic.Description))
                     .setContentText(RecentTopic.UserName + " : " + RecentTopic.Description);

@@ -24,6 +24,7 @@ public class TopicsModel {
         this.AttachmentURL=Item.AttachmentURL;
         this.UserDeviceID=Item.UserDeviceID;
         this.IsAndroid=Item.IsAndroid;
+        this.ThreadName=Item.ThreadName;
     }
     public String UserName;
     public int TopicID;
@@ -40,5 +41,6 @@ public class TopicsModel {
     public String AttachmentURL;
     public  int UserDeviceID;
     public Boolean IsAndroid;
+    public String ThreadName;
 }
 

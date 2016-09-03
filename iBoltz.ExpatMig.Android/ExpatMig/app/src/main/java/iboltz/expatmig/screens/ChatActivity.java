@@ -64,7 +64,7 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
     Intent intent;
     String ImageDecode;
     ImageView submit_btn;
-    TextView attach_img;
+    Button attach_img;
     EmojiconEditText emojiconEditText;
     ImageView emojiButton;
     //    Button btnRefresh;
@@ -78,14 +78,17 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
 
     @Override
     public void AddRecentTopic(TopicsModel Message) {
-        AppCache.CachedTopics.add(Message);
-        AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                LoadTopics();
-            }
-        });
+        if(Message.ThreadID == AppCache.SelectedThread.ThreadID){
+            AppCache.CachedTopics.add(Message);
+            AppCache.CurrentItemPosition = AppCache.CachedTopics.size();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    LoadTopics();
+                }
+            });
+        }
+
 
     }
 
@@ -145,9 +148,9 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
             submit_btn = (ImageView) findViewById(R.id.submit_btn);
             emojiconEditText = (EmojiconEditText) findViewById(R.id.emojicon_edit_text);
             emojiButton = (ImageView) findViewById(R.id.emoji_btn);
-            attach_img = (TextView) findViewById(R.id.attach_img);
+            attach_img = (Button) findViewById(R.id.attach_img);
             attach_img.setTypeface(AppCache.IonIcons);
-            //   attach_img.setVisibility(View.GONE);
+
             attach_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -481,7 +484,7 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
             tf.setOnFinishedEventListener(new OnLoadedListener() {
                 @Override
                 public void OnLoaded(EventObject e) {
-                    UiUtils.ShowToast((Activity) CurrentContext, "Saved Successfully!");
+                 //   UiUtils.ShowToast((Activity) CurrentContext, "Saved Successfully!");
                 }
             });
             tf.SaveTopics(ConvertedTopics);

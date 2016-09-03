@@ -9,8 +9,14 @@
         <li>
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "userprofiles/edit/" + User.Identity.GetUserId(), routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        <li>@Html.ActionLink("Admin", "index", "AdminManage", routeValues: null, htmlAttributes: new { id = "AdminManageLink" })</li>
+        @{
+            if (User.IsInRole("Admin"))
+            {
+                <li>@Html.ActionLink("Thread Requests", "index", "AdminManage", routeValues: null, htmlAttributes: new { id = "AdminManageLink" })</li>
+            }
+        }
+          <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+      
     </ul>
     }
 }

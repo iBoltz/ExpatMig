@@ -5,6 +5,26 @@ package iboltz.expatmig.models;
  */
 public class TopicsModel {
     private static final long serialVersionUID = 85681452;
+    public TopicsModel(){
+
+    }
+    public TopicsModel(TopicsModel Item){
+        this.UserName=Item.UserName;
+        this.TopicID=Item.TopicID;
+        this.ThreadID=Item.ThreadID;
+        this.Description=Item.Description;
+        this.CreatedBy=Item.CreatedBy;
+        this.CreatedDate=Item.CreatedDate;
+        this.Slug=Item.Slug;
+        this.IsActive=Item.IsActive;
+        this.SeqNo=Item.SeqNo;
+        this.ModifiedBy=Item.ModifiedBy;
+        this.ModifiedDate=Item.ModifiedDate;
+        this.AttachmentType=Item.AttachmentType;
+        this.AttachmentURL=Item.AttachmentURL;
+        this.UserDeviceID=Item.UserDeviceID;
+        this.IsAndroid=Item.IsAndroid;
+    }
     public String UserName;
     public int TopicID;
     public int ThreadID;

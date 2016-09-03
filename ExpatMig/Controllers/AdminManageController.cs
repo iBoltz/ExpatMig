@@ -93,7 +93,6 @@ namespace ExpatMig.Controllers
                 foreach (ThreadSubscription element in SelectedThreadSubs)
                 {
                    
-                        //Here is a new thread
                         UpdateThreadSubscription(element, true);
                   
 
@@ -139,8 +138,17 @@ namespace ExpatMig.Controllers
         // GET: AdminManage
         public ActionResult Index()
         {
-           return View(Bindable());
-           
+            if (User.IsInRole("Admin"))
+            {
+                return View(Bindable());
+            }
+            else
+            {
+                return View();
+
+            }
+
+
         }
     }
 }

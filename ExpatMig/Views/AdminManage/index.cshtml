@@ -6,45 +6,51 @@
 }
 
 
-
-<h2>AdminManage</h2>
-
-    <h4>Manage Users</h4>
+    <h4>Thread Requests</h4>
     <hr />
-    @using (Html.BeginForm("Index", "AdminManage", FormMethod.Post))
+@{
+  
+   
+    using (Html.BeginForm("Index", "AdminManage", FormMethod.Post))
     {
+        if (User.IsInRole("Admin"))
+        {
         <div>
             @grid.GetHtml(
-                    tableStyle: "gridtable",
-                    htmlAttributes: new { id = "checkableGrid" },
-                    columns: grid.Columns
-                        (
-                            //Here I am going to add checkbox column
-                             grid.Column(
-                                format: @<text> <input type="checkbox" checked="@item.IsActive" value="@item.ThreadSubscriptionID" name="ids" /> </text>,
-                                header: "{checkall}"
-                            ),
-                           grid.Column(format: @<text> <span>@item.User.UserName</span></text>,
-                                header: "UserName"
-                            ),
-                         grid.Column(format: @<text> <span>@item.MyThread.Description</span></text>,
-                                header: "Thread Name"
-                            ),
-                         grid.Column(format: @<text> <span>@item.CreatedDate</span></text>,
-                                header: "CreatedDate"
-                            )))
+                              tableStyle: "gridtable",
+                              htmlAttributes: new { id = "checkableGrid" },
+                              columns: grid.Columns
+                                  (
+                                       //Here I am going to add checkbox column
+                                       grid.Column(
+                                          format: @<text> <input type="checkbox" checked="@item.IsActive" value="@item.ThreadSubscriptionID" name="ids" /> </text>,
+                                          header: "{checkall}"
+                                      ),
+                                     grid.Column(format: @<text> <span>@item.User.UserName</span></text>,
+                                          header: "UserName"
+                                      ),
+                                   grid.Column(format: @<text> <span>@item.MyThread.Description</span></text>,
+                                          header: "Thread Name"
+                                      ),
+                                   grid.Column(format: @<text> <span>@item.CreatedDate</span></text>,
+                                          header: "CreatedDate"
+                                      )))
            
         </div>
         <div class="margin-s-top">
             <input type="submit" value="Submit" class="btn btn-success" />
         </div>
+        }
+        else{
+            ViewBag.Message =  "Access Denied";
+        }
     }
-
+    }
 
 @if (ViewBag.Message != null)
             {
     <div>
-        @ViewBag.Message
+ <h2>@ViewBag.Message  </h2>  
     </div>
 }
 

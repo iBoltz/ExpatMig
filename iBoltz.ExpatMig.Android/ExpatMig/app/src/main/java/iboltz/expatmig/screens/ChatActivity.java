@@ -223,9 +223,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
     }
 
     private void AttachPhoto(String picturePath) {
-//        File ThatPhoto = new File(picturePath);
-//        String fileName = ThatPhoto.getName();
-//
+
         Bitmap bm = BitmapFactory.decodeFile(picturePath);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
@@ -489,8 +487,7 @@ public class ChatActivity extends BaseActivity implements iboltz.expatmig.gcmuti
 
     public void SaveTopic(TopicsModel InputTopic) {
         try {
-            TopicsModel ConvertedTopics = new TopicsModel();
-            ConvertedTopics = InputTopic;
+            TopicsModel ConvertedTopics = new TopicsModel(InputTopic);
             ConvertedTopics.Description = EncodeMsg(InputTopic.Description);
 
             TopicsFacade tf = new TopicsFacade(CurrentContext);

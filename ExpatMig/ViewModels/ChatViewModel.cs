@@ -20,5 +20,6 @@ namespace ExpatMig.ViewModels
         public Boolean IsAndroid { get; set; }
         public string AttachmentURL { get; set; }
         public string AttachmentType { get; set; }
+        public string ThreadName { get; set; }
     }
 }

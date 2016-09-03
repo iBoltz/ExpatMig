@@ -149,9 +149,6 @@ namespace ExpatMig.Controllers.Api
 
             db.Topics.Add(NewTopic);
             db.SaveChanges();
-
-
-
             SendNotification(NewTopic, GivenTopic.UserDeviceID);
 
             return true;
@@ -242,6 +239,7 @@ namespace ExpatMig.Controllers.Api
             topic.ModifiedDate = null;
             topic.AttachmentType = Inputtopic.AttachmentType;
             topic.AttachmentURL = Inputtopic.AttachmentURL;
+
             return topic;
         }
 
@@ -275,6 +273,7 @@ namespace ExpatMig.Controllers.Api
         {
             var Output = from EachTopic in db.Topics
                          join EachUser in db.Users on EachTopic.CreatedBy equals EachUser.Id
+                         join EachThread in db.Threads on EachTopic.ThreadID equals EachThread.ThreadID
                          where EachTopic.TopicID == topic.TopicID
                          orderby EachTopic.CreatedDate descending
                          select new
@@ -284,8 +283,8 @@ namespace ExpatMig.Controllers.Api
                              EachTopic.ThreadID,
                              EachTopic.CreatedBy,
                              CreatedDate = EachTopic.CreatedDate.ToString(),
-                             Description = EachTopic.Description
-
+                             Description = EachTopic.Description,
+                             ThreadName= EachThread.Description
                          };
 
       //Encode Topic Msg
@@ -298,8 +297,9 @@ namespace ExpatMig.Controllers.Api
                              EachItem.TopicID,
                              EachItem.CreatedBy,
                              EachItem.CreatedDate,
-                             Description = EncodeMsg(EachItem.Description)
-                         };
+                             Description = EncodeMsg(EachItem.Description),
+                             EachItem.ThreadName
+                               };
           
 
             var TopicMessage = new JavaScriptSerializer().Serialize(RecentTopics.First());

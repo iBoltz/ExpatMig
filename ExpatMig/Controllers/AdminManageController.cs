@@ -69,7 +69,7 @@ namespace ExpatMig.Controllers
 
             if (ids != null)
             {
-                ViewBag.Message = "Access Granded";
+                ViewBag.Message = "Saved Successfully";
             }
             else
             {
@@ -82,7 +82,11 @@ namespace ExpatMig.Controllers
 
         private List<ThreadSubscription> Bindable()
         {
-            return db.ThreadSubscriptions.Include(u => u.MyThread).Include(u => u.User).ToList();
+            ApplicationDbContext CurrentDB = new ApplicationDbContext();
+
+            return CurrentDB.ThreadSubscriptions.Include(u => u.MyThread).Include(u => u.User).ToList();
+         
+               
         }
         private void ActivateNewRequests(List<ThreadSubscription> SelectedThreadSubs)
         {
@@ -118,22 +122,22 @@ namespace ExpatMig.Controllers
         }
         private void UpdateThreadSubscription(ThreadSubscription item,Boolean IsChecked)
         {
-            Task.Run(() => {
            
               
             if (IsChecked)
             {
                 item.IsActive = true;
-                item.ModifiedBy = item.CreatedBy;
-                item.ModifiedDate = DateTime.Now;
+            
             }
             else
             {
                 item.IsActive = false;
             }
+                item.ModifiedBy = item.CreatedBy;
+                item.ModifiedDate = DateTime.Now;
                 db.Entry(item).State = EntityState.Modified;
                 db.SaveChanges();
-            });
+         
         }
         // GET: AdminManage
         public ActionResult Index()

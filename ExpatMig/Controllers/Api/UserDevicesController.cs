@@ -84,15 +84,19 @@ namespace ExpatMig.Controllers
             if (FoundDevices.Count() > 0)
             {
                 ThisDevice = FoundDevices.First();
+                ThisDevice.UserID = userDevice.UserID;
+                db.Entry(ThisDevice).State = EntityState.Modified;
+              
+
             }
             else
             {
                 userDevice.CreatedDate = DateTime.Now;
                 db.UserDevices.Add(userDevice);
-                db.SaveChanges();
-                ThisDevice = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).First();
+               
             }
-
+            db.SaveChanges();
+            ThisDevice = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).First();
             return CreatedAtRoute("DefaultApi", new
             {
                 id = ThisDevice.UserDeviceID

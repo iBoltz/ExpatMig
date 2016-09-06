@@ -298,7 +298,8 @@ namespace ExpatMig.Controllers.Api
                              EachItem.CreatedBy,
                              EachItem.CreatedDate,
                              Description = EncodeMsg(EachItem.Description),
-                             EachItem.ThreadName
+                             EachItem.ThreadName,
+                             EachItem.ThreadID
                                };
           
 

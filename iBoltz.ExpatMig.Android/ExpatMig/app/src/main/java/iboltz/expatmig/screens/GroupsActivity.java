@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import iboltz.expatmig.utils.BaseActivity;
 public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
     Spinner ddlGroups;
     Spinner ddlThreads;
+    RelativeLayout progress_panel;
     Button btnChat;
     Button btnReqToAccess;
     Button btnNewGroup;
@@ -61,10 +63,11 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
+        InitControls();
         GetHisAllowedThreads();
         CurrentInstance = this;
         SetBackButtonAction();
-        InitControls();
+
         ButtonListener();
 
     }
@@ -142,6 +145,7 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
             ddlThreads.setSelection(spinnerPosition);
 
         }
+        progress_panel.setVisibility(View.GONE);
     }
 
     private void BindGroups() {
@@ -172,10 +176,11 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
           //  LoadThreads(AppCache.SelectedGroup.GroupID);
         }
 
-
+        progress_panel.setVisibility(View.GONE);
     }
 
     private void LoadGroups() {
+        progress_panel.setVisibility(View.VISIBLE);
         GroupsFacade gf = new GroupsFacade(CurrentContext);
         gf.setOnFinishedEventListener(new OnLoadedListener() {
             @Override
@@ -187,7 +192,7 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
     }
 
     private void LoadThreads(int GroupID) {
-
+        progress_panel.setVisibility(View.VISIBLE);
         ThreadsFacade tf = new ThreadsFacade(CurrentContext);
         tf.setOnFinishedEventListener(new OnLoadedListener() {
             @Override
@@ -200,6 +205,7 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         tf.GetThreadsByGroupID(GroupID);
     }
     private void GetHisAllowedThreads(){
+        progress_panel.setVisibility(View.VISIBLE);
         ThreadsFacade tf = new ThreadsFacade(CurrentContext);
 
         tf.setOnFinishedEventListener(new OnLoadedListener() {
@@ -209,11 +215,12 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
             }
         });
         tf.GetHisPermittedThreads(AppCache.HisUserID);
+      //  progress_panel.setVisibility(View.GONE);
     }
 
     private void InitControls() {
         try {
-
+            progress_panel=(RelativeLayout)findViewById(R.id.progress_panel);
             ddlGroups = (Spinner) findViewById(R.id.ddlGroups);
             ddlThreads = (Spinner) findViewById(R.id.ddlThreads);
             btnChat = (Button) findViewById(R.id.btnChat);
@@ -236,6 +243,7 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
 
     private void ButtonListener() {
         try {
+
             btnNewThread.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

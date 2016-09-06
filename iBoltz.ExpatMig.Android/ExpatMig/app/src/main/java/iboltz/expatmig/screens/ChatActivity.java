@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
     Intent intent;
     String ImageDecode;
     ImageView submit_btn;
+    RelativeLayout progress_panel;
     Button attach_img;
     EmojiconEditText emojiconEditText;
     ImageView emojiButton;
@@ -143,7 +145,8 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
         try {
 
             AppCache.CachedTopics = new ArrayList<TopicsModel>();
-
+            progress_panel=(RelativeLayout) findViewById(R.id.progress_panel);
+            progress_panel.setVisibility(View.VISIBLE);
             lvChat = (ListView) findViewById(R.id.lvChat);
             submit_btn = (ImageView) findViewById(R.id.submit_btn);
             emojiconEditText = (EmojiconEditText) findViewById(R.id.emojicon_edit_text);
@@ -172,8 +175,10 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
             LinearLayout layout = (LinearLayout) findViewById(R.id.root_view);
             layout.setBackgroundDrawable(bitmapDrawable);
 
+
         } catch (Exception ex) {
             ex.printStackTrace();
+            progress_panel.setVisibility(View.GONE);
         }
     }
 
@@ -368,13 +373,14 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
 
     private void LoadTopics() {
         try {
+            progress_panel.setVisibility(View.VISIBLE);
             ListView lvChat = (ListView) findViewById(R.id.lvChat);
             ChatMessageAdapter chatMessageAdapter;
 
             chatMessageAdapter = new ChatMessageAdapter(getApplicationContext(), AppCache.CachedTopics);
             lvChat.setAdapter(chatMessageAdapter);
             ScrollToRecentPosition();
-
+            progress_panel.setVisibility(View.GONE);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -419,6 +425,7 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
 
     public void FetchTopicsFromServer(int PageIndex) {
         try {
+            progress_panel.setVisibility(View.VISIBLE);
             if (AppCache.SelectedThread == null) {
                 return;
             }
@@ -430,7 +437,7 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
                 }
             });
             tf.GetTopicsByThreadID(AppCache.SelectedThread.ThreadID, PageIndex);
-
+            progress_panel.setVisibility(View.GONE);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -478,7 +485,7 @@ public class ChatActivity extends BaseActivity implements iNotifyTopic {
         try {
             TopicsModel ConvertedTopics = new TopicsModel(InputTopic);
             ConvertedTopics.Description = EncodeMsg(InputTopic.Description);
-
+            ConvertedTopics.CreatedDate= AppCache.GetUTCTime();
             TopicsFacade tf = new TopicsFacade(CurrentContext);
 
             tf.setOnFinishedEventListener(new OnLoadedListener() {

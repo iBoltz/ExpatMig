@@ -83,7 +83,8 @@ public class ChatMessageAdapter extends ArrayAdapter<TopicsModel> {
 
             lblUserName.setText(item.UserName);
             lblUserName.setTypeface(AppCache.FontQuickRegular);
-                String CreatedDate = DateUtils.DisplayDate(item.CreatedDate);
+
+            String CreatedDate = AppCache.GetLocalTime(item.CreatedDate);
 
             lblCreatedDate.setText(CreatedDate);
 

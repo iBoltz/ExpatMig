@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import iboltz.expatmig.models.GroupsModel;
 import iboltz.expatmig.models.ImageLoaderModel;
@@ -82,6 +83,38 @@ public class AppCache {
 
 
     /*****************************  End App Specific Cache    **********************************/
+
+    public static String GetUTCTime(){
+        try{
+            String format = "yyyy-MM-dd HH:mm:ss";
+            final SimpleDateFormat sdf = new SimpleDateFormat(format);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String utcTime = sdf.format(new Date());
+            return utcTime;
+        }
+        catch (Exception ex){
+            LogHelper.HandleException(ex);
+        }
+return null;
+    }
+
+    public static String GetLocalTime(String UtcDate){
+        try{
+            UtcDate =UtcDate.replace('T',' ');
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date value = formatter.parse(UtcDate);
+
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm aa"); //this format changeable
+            dateFormatter.setTimeZone(TimeZone.getDefault());
+            return dateFormatter.format(value);
+        }
+        catch (Exception ex){
+            LogHelper.HandleException(ex);
+        }
+        return null;
+    }
+
 
    public static String EncodeUrl(String ImagePath) {
        try {

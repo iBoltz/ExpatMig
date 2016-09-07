@@ -40,7 +40,7 @@ function RegisterForPushInServer(DeviceID) {
         success: function (data) {
             console.log('userdeviceid',data);
             RegisteredUserDeviceID = data.UserDeviceID;
-            
+           // alert('RegisteredUserDeviceID ' + RegisteredUserDeviceID);
             SetCookie('RegisteredUserDeviceID', RegisteredUserDeviceID, 30);
         },
         error: function (error) {

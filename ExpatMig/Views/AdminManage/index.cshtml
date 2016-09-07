@@ -15,7 +15,7 @@
     {
         if (User.IsInRole("Admin"))
         {
-        <div>
+        <div class="table_height">
             @grid.GetHtml(
                               tableStyle: "gridtable",
                               htmlAttributes: new { id = "checkableGrid" },
@@ -39,6 +39,8 @@
         </div>
         <div class="margin-s-top">
             <input type="submit" value="Submit" class="btn btn-success" />
+            <br/>
+            <h2>@ViewBag.Message  </h2>  
         </div>
         }
         else{
@@ -49,9 +51,7 @@
 
 @if (ViewBag.Message != null)
             {
-    <div>
- <h2>@ViewBag.Message  </h2>  
-    </div>
+   
 }
 
 @section PageSpecificStyles

@@ -79,12 +79,31 @@ namespace ExpatMig.Controllers
             {
                 return BadRequest(ModelState);
             }
-            UserDevice ThisDevice;
-            var FoundDevices = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID);
-            if (FoundDevices.Count() > 0)
+            UserDevice ThisDevice =null;
+
+            if (userDevice.DeviceID == null)
             {
-                ThisDevice = FoundDevices.First();
+                // for Browsers
+                var FoundDevices = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).ToList();
+
+                if (FoundDevices.Count > 0) { ThisDevice = FoundDevices.OrderByDescending(x => x.UserDeviceID).First(); }
+            }
+            else
+            {
+                // for Androids
+                var ExistingDevices = db.UserDevices.Where(x => x.DeviceID == userDevice.DeviceID).ToList();
+
+                if (ExistingDevices.Count > 0) { ThisDevice = ExistingDevices.OrderByDescending(x => x.UserDeviceID).First(); }
+
+            }
+
+            if (ThisDevice != null)
+            {
+               
                 ThisDevice.UserID = userDevice.UserID;
+                ThisDevice.ApiRegistrationID = userDevice.ApiRegistrationID;
+                ThisDevice.ModifiedBy = userDevice.ModifiedBy;
+                ThisDevice.ModifiedDate = DateTime.Now;
                 db.Entry(ThisDevice).State = EntityState.Modified;
               
 

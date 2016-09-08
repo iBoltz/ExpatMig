@@ -36,7 +36,6 @@ public class GcmNotificationIntentService extends IntentService {
 
     public GcmNotificationIntentService() {
         super("GcmIntentService");
-
     }
 
     public static final String TAG = "GcmNotificationIntentService";
@@ -127,6 +126,7 @@ public class GcmNotificationIntentService extends IntentService {
     }
     private String DecodeText(String base64)
     {
+        base64=base64.replace(" ","+");
         byte[] data1 = Base64.decode(base64, Base64.DEFAULT);
         String text1 = null;
         try {

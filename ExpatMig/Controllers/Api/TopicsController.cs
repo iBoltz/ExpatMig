@@ -123,10 +123,10 @@ namespace ExpatMig.Controllers.Api
             if ((!Directory.Exists(FolderPath)))
                 Directory.CreateDirectory(FolderPath);
 
-              File.WriteAllBytes(FolderPath + UploadedFileName, InputByteArray);
+            File.WriteAllBytes(FolderPath + UploadedFileName, InputByteArray);
 
 
-           
+
 
             return new HttpResponseMessage { Content = new StringContent(WebPath + UploadedFileName) };
 
@@ -282,26 +282,30 @@ namespace ExpatMig.Controllers.Api
                              EachTopic.TopicID,
                              EachTopic.ThreadID,
                              EachTopic.CreatedBy,
+                             EachTopic.AttachmentType,
+                             EachTopic.AttachmentURL,
                              CreatedDate = EachTopic.CreatedDate.ToString(),
                              Description = EachTopic.Description,
-                             ThreadName= EachThread.Description
+                             ThreadName = EachThread.Description
                          };
 
-      //Encode Topic Msg
+            //Encode Topic Msg
 
-             var FinalList = Output.ToList();
+            var FinalList = Output.ToList();
             var RecentTopics = from EachItem in FinalList
                                select new
-                         {                             
-                             EachItem.UserName,
-                             EachItem.TopicID,
-                             EachItem.CreatedBy,
-                             EachItem.CreatedDate,
-                             Description = EncodeMsg(EachItem.Description),
-                             EachItem.ThreadName,
-                             EachItem.ThreadID
+                               {
+                                   EachItem.UserName,
+                                   EachItem.TopicID,
+                                   EachItem.CreatedBy,
+                                   EachItem.CreatedDate,
+                                   Description = EncodeMsg(EachItem.Description),
+                                   EachItem.ThreadName,
+                                   EachItem.ThreadID,
+                                   EachItem.AttachmentType,
+                                   EachItem.AttachmentURL
                                };
-          
+
 
             var TopicMessage = new JavaScriptSerializer().Serialize(RecentTopics.First());
 

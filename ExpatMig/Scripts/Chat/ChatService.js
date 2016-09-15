@@ -13,7 +13,7 @@
                 PostThread: $resource('/api/Threads'),
                 ListSubscriptions: $resource('/api/ThreadSubscriptions/GetHisThreads/:id'),
                 RequestSubscriptions: $resource('/api/ThreadSubscriptions/PostThreadSubscriptions'),
-                ListGroups: $resource('/api/Groups/:id'),
+                ListGroups: $resource('/api/Groups/All'),
                 PostGroup: $resource('/api/Groups')
             }
 

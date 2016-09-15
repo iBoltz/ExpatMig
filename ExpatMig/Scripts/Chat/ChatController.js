@@ -218,9 +218,20 @@
 
                         $scope.OnLastThreadLoaded = function (element) {
                             if ($scope.AllThreads.length > 0) {
-
+                                  
                                 $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
+                               // alert("" + $scope.SelectedThreadID);
+
+
+                                $.each($scope.AllThreads, function (key, value) {
+                                 //   alert("" + value);
+                                    if (value.Subscribed) {
+                                        $scope.SelectedThreadID = value.ThreadID;
+                                        return false;
+                                    }
+                                });
                                 $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                             //   alert("" + $scope.SelectedThreadID);
                                 RegisterThreadsClick();
                             }
                         };

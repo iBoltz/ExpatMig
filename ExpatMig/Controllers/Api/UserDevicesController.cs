@@ -80,20 +80,35 @@ namespace ExpatMig.Controllers
                 return BadRequest(ModelState);
             }
             UserDevice ThisDevice =null;
-
+            List<UserDevice> ExistingDevices = new List<UserDevice>();
             if (userDevice.DeviceID == null)
             {
                 // for Browsers
-                var FoundDevices = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).ToList();
+                ExistingDevices = db.UserDevices.Where(x => x.ApiRegistrationID == userDevice.ApiRegistrationID).ToList();
 
-                if (FoundDevices.Count > 0) { ThisDevice = FoundDevices.OrderByDescending(x => x.UserDeviceID).First(); }
+                if (ExistingDevices.Count > 0) {
+
+                    ThisDevice = ExistingDevices.OrderByDescending(x => x.UserDeviceID).First();
+               
+                   
+                }
             }
             else
             {
                 // for Androids
-                var ExistingDevices = db.UserDevices.Where(x => x.DeviceID == userDevice.DeviceID).ToList();
+                 ExistingDevices = db.UserDevices.Where(x => x.DeviceID == userDevice.DeviceID).ToList();
 
                 if (ExistingDevices.Count > 0) { ThisDevice = ExistingDevices.OrderByDescending(x => x.UserDeviceID).First(); }
+
+            }
+            //Delete Existing UserDevices
+            foreach (UserDevice item in ExistingDevices)
+            {
+                if (item.UserDeviceID != ThisDevice.UserDeviceID)
+                {
+                    db.UserDevices.Remove(item);
+                    db.SaveChanges();
+                }
 
             }
 
@@ -104,8 +119,7 @@ namespace ExpatMig.Controllers
                 ThisDevice.ApiRegistrationID = userDevice.ApiRegistrationID;
                 ThisDevice.ModifiedBy = userDevice.ModifiedBy;
                 ThisDevice.ModifiedDate = DateTime.Now;
-                db.Entry(ThisDevice).State = EntityState.Modified;
-              
+                db.Entry(ThisDevice).State = EntityState.Modified;              
 
             }
             else

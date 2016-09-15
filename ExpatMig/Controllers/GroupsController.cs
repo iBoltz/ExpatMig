@@ -10,18 +10,77 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ExpatMig.Data;
 using ExpatMig.Models;
+using System.Web.Script.Serialization;
+using ExpatMig.ViewModels;
 
 namespace ExpatMig.Controllers
 {
     public class GroupsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: api/Groups
-        public IQueryable<Group> GetGroups()
+        [HttpGet, Route("api/Groups/Full")]
+        public IQueryable GetGroups()
         {
-            
-            return db.Groups;
+          
+            var GroupList = db.Groups.Include(x => x.MyThreads).ToList();
+
+
+            var filter = from EachGroup in GroupList
+                         group EachGroup.MyThreads.Select(x => ConvertToThread(x.ThreadID, x.GroupID, x.Description, x.SeqNo, x.IsActive, x.CreatedBy, x.CreatedDate, x.ModifiedBy, x.ModifiedDate))
+                         by new { EachGroup.GroupID, EachGroup.Description, EachGroup.SeqNo, EachGroup.IsActive, EachGroup.CreatedBy, EachGroup.CreatedDate, EachGroup.ModifiedBy, EachGroup.ModifiedDate } into g
+                         select new GroupViewModel
+                         {
+                             ParentGroup = ConvertToGroup(g.Key.GroupID, g.Key.Description, g.Key.SeqNo,
+                           g.Key.IsActive, g.Key.CreatedBy, g.Key.CreatedDate, g.Key.ModifiedBy, g.Key.ModifiedDate),
+                             ChildThreads = g.First().ToList()
+                         };
+
+           
+           return filter.AsQueryable();
+        }
+       
+        private Thread ConvertToThread(int ThreadID,int GroupID, String Description, int SeqNo, Boolean IsActive,
+           int CreatedBy, DateTime CreatedDate, int ModifiedBy, DateTime ModifiedDate)
+        {
+            var ThisThread = new Thread();
+            ThisThread.ThreadID = ThreadID;
+            ThisThread.GroupID = GroupID;
+            ThisThread.Description = Description;
+            ThisThread.SeqNo = SeqNo;
+            ThisThread.IsActive = IsActive;
+            ThisThread.CreatedBy = CreatedBy;
+            ThisThread.CreatedDate = CreatedDate;
+            ThisThread.ModifiedBy = ModifiedBy;
+            ThisThread.ModifiedDate = ModifiedDate;
+            return ThisThread;
+        }
+
+        private Group ConvertToGroup(int GroupID,String Description,int SeqNo,Boolean IsActive,
+            int CreatedBy,DateTime CreatedDate,int ModifiedBy,DateTime ModifiedDate)
+        {
+            var NewGroup = new Group();
+            NewGroup.GroupID = GroupID;
+            NewGroup.Description = Description;
+            NewGroup.SeqNo = SeqNo;
+            NewGroup.IsActive = IsActive;
+            NewGroup.CreatedBy = CreatedBy;
+            NewGroup.CreatedDate = CreatedDate;
+            NewGroup.ModifiedBy = ModifiedBy;
+            NewGroup.ModifiedDate = ModifiedDate;
+            return NewGroup;
+        }
+        private List<Thread> GetThreads()
+        {
+            var AllThreads= db.Threads.ToList();
+            return AllThreads;
+        }
+
+     
+        [HttpGet, Route("api/Groups/All")]
+        public IQueryable<Group> GetGroup()
+        {
+           return db.Groups;
+           
         }
 
         // GET: api/Groups/5

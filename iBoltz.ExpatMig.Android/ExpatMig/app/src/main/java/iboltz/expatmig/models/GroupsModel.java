@@ -1,5 +1,7 @@
 package iboltz.expatmig.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by ucfpriya on 26-07-2016.
  */
@@ -15,6 +17,16 @@ public class GroupsModel {
     public String CreatedDate;
     public int ModifiedBy;
     public String ModifiedDate;
+    public ArrayList<ThreadsModel> AllThreads;
+
+    public GroupsModel(){
+
+    }
+    public GroupsModel(String Description, ArrayList<ThreadsModel> MyThreads) {
+        super();
+        this.Description = Description;
+        this.AllThreads = MyThreads;
+    }
 
 }
 

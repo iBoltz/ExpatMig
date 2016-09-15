@@ -1,5 +1,7 @@
 package iboltz.expatmig.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by ucfpriya on 26-07-2016.
  */
@@ -16,5 +18,6 @@ public class ThreadsModel {
     public String CreatedDate;
     public int ModifiedBy;
     public String ModifiedDate;
+    public boolean IsAccessible;
 }
 

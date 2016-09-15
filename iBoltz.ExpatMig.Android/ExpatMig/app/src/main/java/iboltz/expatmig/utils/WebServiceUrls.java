@@ -22,13 +22,12 @@ public class WebServiceUrls {
     public static final String PostImagesUrl = "http://192.168.1.105:125/api/Topics/AttachPhoto/";
 
     //Group Page
-    public static final String ListGroups="http://192.168.1.105:125/api/Groups";
+    public static final String ListGroups="http://192.168.1.105:125/api/Groups/Full";
     public static final String GetThreadsByGroupID="http://192.168.1.105:125/api/Threads/GetThreadsByGroupID/";
     public static final String SaveNewGroup="http://192.168.1.105:125/api/Groups";
     public static final String SaveNewThread="http://192.168.1.105:125/api/Threads";
     public static final String GetThreadsByUser = "http://192.168.1.105:125/api/ThreadSubscriptions/GetHisThreads/";
     public static final String SaveThreadSubRequests = "http://192.168.1.105:125/api/ThreadSubscriptions/PostThreadSubscriptions/";
-
 
     //My Profile
     public static final String UserUpdationService = "http://192.168.1.105:125/users/updateuser/";

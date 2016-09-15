@@ -3,140 +3,33 @@
     android:layout_height="match_parent"
     android:background="@color/appwhite"
     tools:context=".GroupsActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:id="@+id/pnlLogin">
 <LinearLayout
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:weightSum="1">
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_m"
-        android:layout_weight=".7"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal">
-
-        <Spinner
-            android:id="@+id/ddlGroups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:spinnerMode="dropdown" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/drop" />
-
-    </RelativeLayout>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <Button
-        android:id="@+id/btnNewGroup"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_m"
-        android:layout_weight="0.3"
+        android:id="@+id/btnAddNewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/button_green"
         android:textColor="@color/iBoltzWhite"
-        android:text="">
+        android:text=" New Group"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_s"
+        android:textSize="@dimen/text_size_s" />
 
-    </Button>
-</LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <ExpandableListView
+        android:id="@+id/Group_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:weightSum="1">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_m"
-            android:layout_weight=".7"
-            android:background="@drawable/spinner_border"
-            android:orientation="horizontal">
-        <Spinner
-            android:id="@+id/ddlThreads"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:spinnerMode="dropdown" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/drop" />
-        </RelativeLayout>
-        <Button
-            android:id="@+id/btnNewThread"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_m"
-            android:layout_weight="0.3"
-            android:background="@drawable/button_green"
-            android:textColor="@color/iBoltzWhite"
-            android:text="">
-
-        </Button>
+        android:layout_height="fill_parent"></ExpandableListView>
 </LinearLayout>
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/btnChat"
-        android:layout_width="fill_parent"
-        android:layout_margin="@dimen/margin_m"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_orange"
-        android:textColor="@color/iBoltzWhite"
-        android:text=" Let's Chat"/>
-    <Button
-        android:id="@+id/btnReqToAccess"
-        android:layout_width="fill_parent"
-        android:layout_margin="@dimen/margin_m"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_orange"
-        android:textColor="@color/iBoltzWhite"
-        android:text=" Sent Request"
-        android:visibility="gone"/>
-</RelativeLayout>
-
-
-
-    </LinearLayout>
-        <include
+      <!--  <include
             android:id="@+id/progress_panel"
             layout="@layout/pb_layout"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+            android:layout_height="match_parent" />-->
+
+
 </LinearLayout>

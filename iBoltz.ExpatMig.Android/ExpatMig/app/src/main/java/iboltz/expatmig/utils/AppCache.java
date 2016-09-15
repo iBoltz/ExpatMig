@@ -40,7 +40,7 @@ public class AppCache {
     public static ArrayList<Integer> CachedAllowedThreads =null;
     public static ArrayList<GroupsModel> CachedGroups;
     public static ThreadsModel SelectedThread=null;
-    public static GroupsModel SelectedGroup=null;
+    public static GroupsModel SelectedGroup=new GroupsModel();
     public static int CurrentItemPosition=0;
     public static ArrayList<ImageLoaderModel> CachedImages;
 

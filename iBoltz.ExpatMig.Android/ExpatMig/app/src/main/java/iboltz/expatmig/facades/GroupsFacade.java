@@ -11,7 +11,9 @@ import java.util.EventObject;
 import iboltz.expatmig.ListenerInterfaces.OnLoadedListener;
 import iboltz.expatmig.ListenerInterfaces.WebClientEventObject;
 import iboltz.expatmig.ListenerInterfaces.WebClientListeners;
+import iboltz.expatmig.models.GroupMenuModel;
 import iboltz.expatmig.models.GroupsModel;
+import iboltz.expatmig.models.ThreadsModel;
 import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.utils.LogHelper;
 import iboltz.expatmig.utils.WebClient;
@@ -62,7 +64,7 @@ public class GroupsFacade {
                                     (java.lang.reflect.Type) collectionType);
 
                    AppCache.SelectedGroup=NewModel;
-                    OnFinished();
+                   OnFinished();
                 }
             });
         }
@@ -80,16 +82,30 @@ public class GroupsFacade {
             Wc.setOnResponseReceivedListener(new WebClientListeners() {
                 @Override
                 public void OnResponseReceived(WebClientEventObject e) {
-                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<GroupsModel>>() {
+                    try{
+
+                    java.lang.reflect.Type collectionType = (java.lang.reflect.Type) (new TypeToken<ArrayList<GroupMenuModel>>() {
                     }).getType();
 
-                    ArrayList<GroupsModel> ListAllModels = new Gson()
+                    ArrayList<GroupMenuModel> ListAllModels = new Gson()
                             .fromJson(
                                     e.ResponseData,
                                     (java.lang.reflect.Type) collectionType);
 
-                    AppCache.CachedGroups = ListAllModels;
+                        AppCache.CachedGroups=new ArrayList<GroupsModel>();
+
+                    for (GroupMenuModel item:  ListAllModels ) {
+                    item.ParentGroup.AllThreads=new ArrayList<ThreadsModel>();
+                       item.ParentGroup.AllThreads.addAll(item.ChildThreads);
+
+                        AppCache.CachedGroups.add(item.ParentGroup);
+                    }
                     OnFinished();
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
             });
         } catch (Exception ex) {

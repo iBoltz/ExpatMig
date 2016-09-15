@@ -87,7 +87,7 @@ public class NewGroupControl extends LinearLayout {
 
     private void CreateGroup(String GroupName) {
         try {
-            GroupsModel ThisGroup = new GroupsModel();
+          GroupsModel ThisGroup = new GroupsModel();
             ThisGroup.Description = GroupName;
             ThisGroup.Slug = "";
             ThisGroup.IsActive = true;

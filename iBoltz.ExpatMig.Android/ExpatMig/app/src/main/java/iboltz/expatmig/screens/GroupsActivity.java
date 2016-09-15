@@ -5,12 +5,14 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import java.util.List;
 import iboltz.expatmig.ListenerInterfaces.OnCreatedListener;
 import iboltz.expatmig.ListenerInterfaces.OnLoadedListener;
 import iboltz.expatmig.R;
+import iboltz.expatmig.adapters.ExpandableThreadsAdapter;
 import iboltz.expatmig.controls.NewGroupControl;
 import iboltz.expatmig.controls.NewThreadControl;
 import iboltz.expatmig.facades.GroupsFacade;
@@ -36,10 +39,14 @@ import iboltz.expatmig.utils.AppCache;
 import iboltz.expatmig.utils.AppConstants;
 import iboltz.expatmig.utils.BaseActivity;
 
-public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
-    Spinner ddlGroups;
-    Spinner ddlThreads;
-    RelativeLayout progress_panel;
+public class GroupsActivity extends BaseActivity implements
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+   /* Spinner ddlGroups;
+    Spinner ddlThreads;*/
+    ExpandableListView Group_list;
+  //  RelativeLayout progress_panel;
+    private ExpandableThreadsAdapter ThreadAdapter;
+
     Button btnChat;
     Button btnReqToAccess;
     Button btnNewGroup;
@@ -67,8 +74,6 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         GetHisAllowedThreads();
         CurrentInstance = this;
         SetBackButtonAction();
-
-        ButtonListener();
 
     }
 
@@ -119,68 +124,46 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         return super.onOptionsItemSelected(item);
     }
 
-    private void BindThreads() {
-        ArrayList<String> AllThreads = new ArrayList<String>();
-        AllThreads.add("Select Thread");
-        for (ThreadsModel EachThread : AppCache.CachedThreads) {
-            AllThreads.add(EachThread.Description);
-        }
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(CurrentInstance, R.layout.spinner_text, AllThreads);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        ddlThreads.setAdapter(dataAdapter);
-        if (AppCache.CachedThreads.size() != 0) {
-
-            if (AppCache.SelectedThread == null) {
-
-                AppCache.SelectedThread = AppCache.CachedThreads.get(0);
-            }
-            String compareValue = AppCache.SelectedThread.Description;
-            int spinnerPosition = dataAdapter.getPosition(compareValue);
-            ddlThreads.setSelection(spinnerPosition);
-
-        }
-        progress_panel.setVisibility(View.GONE);
-    }
 
     private void BindGroups() {
-        List<String> AllGroups = new ArrayList<String>();
 
-        AllGroups.add("Select Group");
         for (GroupsModel EachGroup : AppCache.CachedGroups) {
-            AllGroups.add(EachGroup.Description);
-        }
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(CurrentInstance, R.layout.spinner_text, AllGroups);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-
-        // attaching data adapter to spinner
-        ddlGroups.setAdapter(dataAdapter);
-        if (AppCache.CachedGroups.size() != 0) {
-
-            if (AppCache.SelectedGroup == null) {
-
-                AppCache.SelectedGroup = AppCache.CachedGroups.get(0);
+            for(ThreadsModel EachThread :EachGroup.AllThreads){
+                for (Integer EachThreadID : AppCache.CachedAllowedThreads) {
+                if(EachThread.ThreadID == EachThreadID){
+                    EachThread.IsAccessible=true;
+                }
+                    else{
+                    EachThread.IsAccessible=false;
+                }
+                }
             }
-            String compareValue = AppCache.SelectedGroup.Description;
-            int spinnerPosition = dataAdapter.getPosition(compareValue);
-            ddlGroups.setSelection(spinnerPosition);
-            //Load Their Topics
-          //  LoadThreads(AppCache.SelectedGroup.GroupID);
         }
 
-        progress_panel.setVisibility(View.GONE);
+        ThreadAdapter = new ExpandableThreadsAdapter(CurrentContext, AppCache.CachedGroups);
+        ThreadAdapter.setEventListener(new OnCreatedListener() {
+            @Override
+            public void OnCreated(EventObject e) {
+                GetHisAllowedThreads();
+            }
+        });
+        Group_list.setAdapter(ThreadAdapter);
+
+
+        Group_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+                return true;
+            }
+        });
+
+
     }
 
     private void LoadGroups() {
-        progress_panel.setVisibility(View.VISIBLE);
+       /* progress_panel.setVisibility(View.VISIBLE);*/
         GroupsFacade gf = new GroupsFacade(CurrentContext);
         gf.setOnFinishedEventListener(new OnLoadedListener() {
             @Override
@@ -191,21 +174,9 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         gf.LoadAllGroups();
     }
 
-    private void LoadThreads(int GroupID) {
-        progress_panel.setVisibility(View.VISIBLE);
-        ThreadsFacade tf = new ThreadsFacade(CurrentContext);
-        tf.setOnFinishedEventListener(new OnLoadedListener() {
-            @Override
-            public void OnLoaded(EventObject e) {
 
-                BindThreads();
-
-            }
-        });
-        tf.GetThreadsByGroupID(GroupID);
-    }
     private void GetHisAllowedThreads(){
-        progress_panel.setVisibility(View.VISIBLE);
+     //   progress_panel.setVisibility(View.VISIBLE);
         ThreadsFacade tf = new ThreadsFacade(CurrentContext);
 
         tf.setOnFinishedEventListener(new OnLoadedListener() {
@@ -217,51 +188,39 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
         tf.GetHisPermittedThreads(AppCache.HisUserID);
       //  progress_panel.setVisibility(View.GONE);
     }
+    private void expandAll() {
+        int count = ThreadAdapter.getGroupCount();
+        for (int i = 0; i < count; i++) {
+            Group_list.expandGroup(i);
+        }
+    }
+    private void CollapseAll() {
+        int count = ThreadAdapter.getGroupCount();
+        for (int i = 0; i < count; i++) {
+            Group_list.collapseGroup(i);
+        }
+    }
+    @Override
+    public boolean onQueryTextChange(String query) {
+       // ThreadAdapter.filterData(query);
+        expandAll();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+       // ThreadAdapter.filterData(query);
+        expandAll();
+        return false;
+    }
+
 
     private void InitControls() {
         try {
-            progress_panel=(RelativeLayout)findViewById(R.id.progress_panel);
-            ddlGroups = (Spinner) findViewById(R.id.ddlGroups);
-            ddlThreads = (Spinner) findViewById(R.id.ddlThreads);
-            btnChat = (Button) findViewById(R.id.btnChat);
-            btnReqToAccess=(Button) findViewById(R.id.btnReqToAccess);
-            btnNewGroup = (Button) findViewById(R.id.btnNewGroup);
-            btnNewThread = (Button) findViewById(R.id.btnNewThread);
-            ddlGroups.setOnItemSelectedListener(this);
-            ddlThreads.setOnItemSelectedListener(this);
-            btnReqToAccess.setTypeface(AppCache.IonIcons);
-            btnChat.setTypeface(AppCache.IonIcons);
+
+            Group_list=(ExpandableListView)findViewById(R.id.Group_list);
+            btnNewGroup=(Button)findViewById(R.id.btnAddNewGroup);
             btnNewGroup.setTypeface(AppCache.IonIcons);
-            btnNewThread.setTypeface(AppCache.IonIcons);
-            if (AppCache.SelectedGroup == null) {
-                btnNewThread.setVisibility(View.INVISIBLE);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void ButtonListener() {
-        try {
-
-            btnNewThread.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Dialog dialog = new Dialog(CurrentContext);
-                    NewThreadControl Threadpop = new NewThreadControl(CurrentContext, dialog);
-                    Threadpop.setEventListener(new OnCreatedListener() {
-                        @Override
-                        public void OnCreated(EventObject e) {
-
-                            LoadThreads(AppCache.SelectedGroup.GroupID);
-
-                        }
-                    });
-                    dialog.setContentView(Threadpop);
-                    dialog.setTitle("New Thread");
-                    dialog.show();
-                }
-            });
             btnNewGroup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -281,126 +240,19 @@ public class GroupsActivity extends BaseActivity implements AdapterView.OnItemSe
                     dialog.show();
 
                 }
+
             });
-
-
-            btnChat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (AppCache.SelectedThread == null || AppCache.SelectedGroup == null) {
-                        Toast.makeText(GroupsActivity.this, "Please select group & thread !", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    Intent myIntent = new Intent(getApplicationContext(),
-                            ChatActivity.class);
-
-                    startActivity(myIntent);
-                }
-            });
-            btnReqToAccess.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SaveThreadSub();
-                }
-            });
+           // progress_panel=(RelativeLayout)findViewById(R.id.progress_panel);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    private ThreadSubscriptionsModel GetNewThreadSub(){
-        ThreadSubscriptionsModel item=new ThreadSubscriptionsModel();
-        item.ThreadID=AppCache.SelectedThread.ThreadID;
-        item.UserID=AppCache.HisUserID;
-        item.IsActive = true;
-        item.SeqNo = 1;
-        item.CreatedBy = AppCache.HisUserID;
-        item.CreatedDate = AppConstants.StandardDateFormat
-                .format(new Date());
-        item.ModifiedBy = 0;
-        item.ModifiedDate = AppConstants.StandardDateFormat
-                .format(new Date());
-        return item;
-    }
-private void SaveThreadSub(){
 
-    ThreadSubscriptionFacade tf = new ThreadSubscriptionFacade(CurrentContext);
-    tf.setOnFinishedEventListener(new OnLoadedListener() {
-        @Override
-        public void OnLoaded(EventObject e) {
-           // skip now
-            Toast.makeText(GroupsActivity.this, "your request send successfully", Toast.LENGTH_SHORT).show();
-            GetHisAllowedThreads();
-        }
-    });
-    tf.SaveThreadSubscriptions(GetNewThreadSub());
-}
+
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Spinner spinner = (Spinner) parent;
-        if (spinner.getId() == R.id.ddlGroups) {
-
-            if (parent.getItemAtPosition(position).toString() == "Select Group" ) {
-                AppCache.CachedThreads=new ArrayList<ThreadsModel>();
-                AppCache.SelectedGroup = null;
-                AppCache.SelectedThread =null;
-                BindThreads();
-                btnNewThread.setVisibility(View.INVISIBLE);
-               return;
-            }
-            for (GroupsModel EachModel : AppCache.CachedGroups) {
-                if (EachModel.Description == parent.getItemAtPosition(position).toString()) {
-                    AppCache.SelectedGroup = EachModel;
-                    btnNewThread.setVisibility(View.VISIBLE);
-                    AppCache.SelectedThread =null;
-                    LoadThreads(EachModel.GroupID);
-                    break;
-                }
-            }
-            //do this
-
-        } else if (spinner.getId() == R.id.ddlThreads) {
-            if (parent.getItemAtPosition(position).toString() == "Select Thread") {
-                AppCache.SelectedThread = null;
-                return;
-            }
-
-            for (ThreadsModel EachThread : AppCache.CachedThreads) {
-                if (EachThread.Description == parent.getItemAtPosition(position).toString()) {
-                    AppCache.SelectedThread = EachThread;
-                    break;
-                }
-            }
-            // check here Selected Thread has Current User Access
-            if(AppCache.CachedAllowedThreads == null){
-                btnChat.setVisibility(View.GONE);
-                btnReqToAccess.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            for (Integer EachThreadID : AppCache.CachedAllowedThreads) {
-
-                if ( AppCache.SelectedThread ==  null) {return;}
-            if(EachThreadID.equals(AppCache.SelectedThread.ThreadID))
-                {
-                    btnChat.setVisibility(View.VISIBLE);
-                    btnReqToAccess.setVisibility(View.GONE);
-                    break;
-                }
-            else{
-                btnChat.setVisibility(View.GONE);
-                btnReqToAccess.setVisibility(View.VISIBLE);
-                }
-            }
-            //do this
-
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public boolean onClose() {
+        return false;
     }
 }

@@ -45,7 +45,7 @@
                             $('#ChatHistory').ShowLoadingPanel();
                             $scope.SelectedThreadID = SelectedThreadID;
                             var FullList = ChatService.ListChats.query({ id: SelectedThreadID, PageIndex: PageIndex }, function (result) {
-                                //ScrollToLastMessage();
+                               
                                 // alert('PageIndex ' + PageIndex);
                                 // alert('SelectedThreadID ' + SelectedThreadID);
                                 var Formated = FormatViewModal(result);
@@ -62,7 +62,7 @@
                                 } else {
                                     $scope.AllTopics = Formated.concat($scope.AllTopics);
                                 }
-
+                                ScrollToLastMessage();
                                 return $scope.AllTopics;
 
                             });
@@ -219,7 +219,7 @@
                         $scope.OnLastThreadLoaded = function (element) {
                             if ($scope.AllThreads.length > 0) {
                                   
-                                $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
+                             //   $scope.SelectedThreadID = $scope.AllThreads[0].ThreadID;
                                // alert("" + $scope.SelectedThreadID);
 
 
@@ -227,10 +227,12 @@
                                  //   alert("" + value);
                                     if (value.Subscribed) {
                                         $scope.SelectedThreadID = value.ThreadID;
+                                          $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
                                         return false;
+
                                     }
                                 });
-                                $scope.ListChat($scope.SelectedThreadID, TopicPageIndex);
+                              
                              //   alert("" + $scope.SelectedThreadID);
                                 RegisterThreadsClick();
                             }

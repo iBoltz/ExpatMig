@@ -64,23 +64,24 @@ function RegisterEmoji() {
 }
 
 function ScrollToLastMessage() {
-    var LastItem = $('#ChatHistory .row').last();
+   var LastItem = $('#ChatHistory .row').last();
     var scroller = $('#ChatHistory');
     var height = scroller[0].scrollHeight - $('#ChatHistory .row').height();
-
+    console.log("LastClickedSearchResultTopicID" + LastClickedSearchResultTopicID);
     if ($('.SearchResults li').length > 0) {
         var FoundItem = $('#pnlSearchResult_' + LastClickedSearchResultTopicID);
         FoundItem.addClass('SelectedTopicSearched');
-        //alert(FoundItem.length);
+    
+       // alert("")
         if (FoundItem.length > 0) {
             height = FoundItem.offset().top;
         }
     }
 
     ////LastItem.offset().top + LastItem.height()
-
+    console.log("height" + height);
     $('#ChatHistory').animate({
         scrollTop: height
-    }, 200);
+    }, 2000);
 }
 
